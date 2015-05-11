@@ -24,6 +24,10 @@ public class Node {
         messageQueue = new PriorityQueue<Message>();
     }
 
+    public void setNeighbours(ArrayList<Node> neighbours) {
+        this.neighbours = neighbours;
+    }
+
     public ArrayList<Node> getNeighbours() {
         return neighbours;
     }
