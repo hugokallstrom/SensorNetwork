@@ -15,14 +15,13 @@ public class Node {
     private boolean isAvailable;
     private boolean isSender;
 
-    public Node(NodeBuilder builder) {
-        myPosition = builder.myPosition;
-        isAvailable = builder.isAvailable;
-        isSender = builder.isSender;
-        neighbours = builder.neighbours;
-        this.routingTable = new RoutingTable();
-        this.messageQueue = new PriorityQueue<Message>();
-
+    public Node(Position position) {
+        myPosition = position;
+        isAvailable = true;
+        isSender = false;
+        neighbours = new ArrayList<Node>();
+        routingTable = new RoutingTable();
+        messageQueue = new PriorityQueue<Message>();
     }
 
     public ArrayList<Node> getNeighbours() {
@@ -39,40 +38,6 @@ public class Node {
 
     public Position getMyPosition() {
         return myPosition;
-    }
-
-    public static class NodeBuilder {
-        private int timeStep;
-        private Position myPosition;
-        private ArrayList<Node> neighbours;
-        private RoutingTable routingTable;
-        private double agentChance = Constants.agentChance;
-        private Queue<Message> messageQueue;
-        private boolean isAvailable;
-        private boolean isSender;
-
-        public NodeBuilder(Position position) {
-            myPosition = position;
-        }
-
-        public NodeBuilder isAvailable(boolean available) {
-            isAvailable = available;
-            return this;
-        }
-
-        public NodeBuilder isSender(boolean sender) {
-            isSender = sender;
-            return this;
-        }
-
-        public NodeBuilder neighbours(ArrayList<Node> neighbours) {
-            this.neighbours = neighbours;
-            return this;
-        }
-
-        public Node build() {
-            return new Node(this);
-        }
     }
 }
 
