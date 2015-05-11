@@ -3,7 +3,7 @@
  */
 import java.util.*;
 
-public class Agent {
+public class Agent implements Message {
 	
 	private Stack<Node> pathTaken;
 	private Hashtable<Integer,Event> events;
@@ -16,5 +16,14 @@ public class Agent {
 		pathTaken = new Stack<Node>();
 		events = new Hashtable<Integer,Event>();
 		events.put(e.getEventId(),e);
+	}
+	public boolean canMove(){
+		return(timeToLive>=steps);
+	}
+	public Stack<Node> getPathTaken(){
+		return pathTaken;
+	}
+	public void addToPath(Node n){
+		pathTaken.push(n);
 	}
 }

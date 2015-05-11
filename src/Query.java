@@ -3,7 +3,8 @@
  */
 import java.util.*;
 
-public class Query {
+public class Query implements Message{
+	
 	private Stack<Node> pathTaken;
 	private Hashtable<Position, Node> visited;
 	private int steps;
@@ -17,5 +18,15 @@ public class Query {
 		visited = new Hashtable<Position,Node>();
 		pathTaken = new Stack<Node>();
 		event = e;
+	}
+	public boolean canMove(){
+			return(timeToLive>=steps);
+	}
+	public Stack<Node> getPathTaken(){
+		return pathTaken;
+	}
+	public void addToPath(Node n){
+		pathTaken.push(n);
+		visited.put(n.getMyPosition(),n);
 	}
 }
