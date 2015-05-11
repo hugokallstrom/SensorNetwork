@@ -6,8 +6,9 @@ public class Position {
 	private int Y;
 	
 	public Position(int x, int y){
-		X=x;
+		X= x;
 		Y=y;
+        int i = 0;
 	}
 	public int getX(){
 		return X;
