@@ -1,9 +1,12 @@
 /**
  * Created by hugo on 5/11/15.
  */
+import java.util.*;
+
 public class Agent {
+	
 	private Stack<Node> pathTaken;
-	private HashTable<Integer,Event> events;
+	private Hashtable<Integer,Event> events;
 	private int timeToLive;
 	private int steps;
 	
@@ -11,7 +14,7 @@ public class Agent {
 		steps = 0;
 		timeToLive = Constants.timeToLiveAgent;
 		pathTaken = new Stack<Node>();
-		events = new HashTable<Integer,Event>();
-		events.put(e.eventsId,e);
+		events = new Hashtable<Integer,Event>();
+		events.put(e.getEventId(),e);
 	}
 }
