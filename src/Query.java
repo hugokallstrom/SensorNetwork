@@ -12,10 +12,10 @@ public class Query {
 
 	public Query(Event e){
 		
-		timeToLive=0;
-		steps=0;
-		visited=new Hashtable<Position,Node>();
+		timeToLive = Constants.timeToLiveQuery;
+		steps = 0;
+		visited = new Hashtable<Position,Node>();
 		pathTaken = new Stack<Node>();
-		event=e;
+		event = e;
 	}
 }

@@ -6,4 +6,7 @@ public class Constants {
     public static double eventChance = 0.001;
     public static int steps = 10000;
     public static double agentChance = 0.5;
+    public static int timeToLiveAgent = 50;
+    public static int timeToLiveQuery = 45;
+
 }
