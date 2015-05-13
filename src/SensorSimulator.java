@@ -10,10 +10,9 @@ public class SensorSimulator {
     private ArrayList<Node> queryNodes = new ArrayList<Node>();
 
     public void initNodes(int nrOfNodes) {
-        double matrixWidth = Math.sqrt(nrOfNodes);
-
-        for(int x = 0; x < nrOfNodes; x++) {
-            for(int y = 0; y < matrixWidth; y++) {
+        double matrixDim = Math.sqrt(nrOfNodes);
+        for(int x = 0; x < matrixDim; x++) {
+            for(int y = 0; y < matrixDim; y++) {
                 Position position = new Position(x, y);
                 Node node = new Node(position);
                 nodes.add(node);
@@ -38,8 +37,10 @@ public class SensorSimulator {
 
     public void startSimulation(int steps) {
         for(int i = 0; i < steps; i++) {
-            // Run time step
-
+            for(Node node : nodes) {
+                System.out.println(node.toString());
+            }
+            break;
         }
     }
 }

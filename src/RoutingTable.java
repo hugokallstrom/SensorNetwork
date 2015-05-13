@@ -2,7 +2,9 @@
  * Created by hugo on 5/11/15.
  */
 import java.util.*;
+
 public class RoutingTable {
+
 	private ArrayList<Event> events;
 	
 	public RoutingTable(){
