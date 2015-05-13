@@ -18,13 +18,26 @@ public class Position {
 		return y;
 	}
 
-    public boolean isNeighbour(Position myPosition) {
-        if(myPosition.getX() - 1 == this.x || myPosition.getX() + 1 == this.x) {
+    public boolean isNeighbour(Position position) {
+        if((position.getX() - 1 == this.x || position.getX() + 1 == this.x) && position.getY() == this.x) {
             return true;
-        } else if (myPosition.getY() - 1 == this.y || myPosition.getY() + 1 == this.y) {
+        } else if ((position.getY() - 1 == this.y || position.getY() + 1 == this.y) && position.getX() == this.y) {
+            return true;
+        } else if (position.getX() - 1 == this.y && position.getY() - 1 == this.y) {
+            return true;
+        } else if (position.getX() - 1 == this.y && position.getY() + 1 == this.y) {
+            return true;
+        } else if (position.getX() + 1 == this.y && position.getY() - 1 == this.y) {
+            return true;
+        } else if (position.getX() + 1 == this.y && position.getY() + 1 == this.y) {
             return true;
         } else {
             return false;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "Position: " + String.valueOf(x) + " " + String.valueOf(y) + "\n";
     }
 }

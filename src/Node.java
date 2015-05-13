@@ -43,5 +43,19 @@ public class Node {
     public Position getMyPosition() {
         return myPosition;
     }
+
+    @Override
+    public String toString() {
+        return "Node info: " + myPosition.toString() +
+               "Neighbours: \n" + printNeighbours();
+    }
+
+    private String printNeighbours() {
+        String neighboursString = " ";
+        for(Node node : neighbours) {
+           neighboursString += String.valueOf(node.getMyPosition()) + " ";
+        }
+        return neighboursString;
+    }
 }
 
