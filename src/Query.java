@@ -3,7 +3,7 @@
  */
 import java.util.*;
 
-public class Query implements Message{
+public class Query implements Message {
 	
 	private Stack<Node> pathTaken;
 	private Hashtable<Position, Node> visited;
@@ -20,6 +20,7 @@ public class Query implements Message{
 		pathTaken = new Stack<Node>();
 		event = e;
 	}
+
 	public boolean canMove(){
 			return(timeToLive>=steps);
 	}

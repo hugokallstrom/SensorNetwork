@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.PriorityQueue;
-import java.util.Queue;
-import java.util.Random;
+import java.util.*;
 
 /**
  * Created by hugo on 5/11/15.
@@ -45,18 +42,52 @@ public class Node {
     public void handleMessage() {
         if(!messageQueue.isEmpty()) {
             Message message = messageQueue.poll();
-            Node node = message.syncEvents(routingTable);
-            if(node.equals(this)) {
-                Node neighbour = message.getPathTaken().pop();
-                if(neighbour.isAvailable) {
-                    neighbour.receiveMessage(message);
+            Position nodePosition = message.handleEvents(routingTable);
+            if(nodePosition.equals(myPosition) && message.canMove()) {
+                Node previousNode = message.getPathTaken().pop();
+                if(previousNode.isAvailable) {
+                    previousNode.receiveMessage(message);
                 }
+            } else if(nodePosition != null) {
+                Node neighbour = getNeighbour(nodePosition);
+                sendMessageToNode(message, neighbour);
+            } else {
+                Node neighbour = selectNextNeighbour(message.getPathTaken());
+                sendMessageToNode(message, neighbour);
             }
         }
     }
 
+    private Node selectNextNeighbour(Stack<Node> pathTaken) {
+        for(Node visitedNode : pathTaken) {
+            for (Node neighbour : neighbours) {
+                if(!visitedNode.equals(neighbour)) {
+                    return neighbour;
+                }
+            }
+        }
+        return neighbours.get(new Random().nextInt(neighbours.size()) + 1);
+    }
+
+    private Node getNeighbour(Position nodePosition) {
+        for(Node neigbour : neighbours) {
+            if(neigbour.getMyPosition().equals(nodePosition)) {
+                return neigbour;
+            }
+        }
+        return null;
+    }
+
+    private void sendMessageToNode(Message message, Node neighbour) {
+        if(neighbour.isAvailable && message.canMove()) {
+            neighbour.receiveMessage(message);
+        }
+    }
+
     private void receiveMessage(Message message) {
-        messageQueue.
+        isAvailable = false;
+        message.addToPath(this);
+        messageQueue.add(message);
     }
 
     public void setNeighbours(ArrayList<Node> neighbours) {
@@ -69,6 +100,10 @@ public class Node {
 
     public boolean isSender() {
         return isSender;
+    }
+
+    public void setAvailable() {
+        isAvailable = true;
     }
 
     public boolean isAvailable() {

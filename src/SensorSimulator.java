@@ -40,6 +40,12 @@ public class SensorSimulator {
                 Event event = createEvent(i, node.getMyPosition());
                 node.receiveEvent(event);
                 node.handleMessage();
+                if(node.isSender()) {
+
+                }
+            }
+            for(Node node : nodes) {
+                node.setAvailable();
             }
             break;
         }
