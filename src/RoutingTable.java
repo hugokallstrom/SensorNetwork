@@ -10,8 +10,9 @@ public class RoutingTable {
 	public RoutingTable(){
 		events = new ArrayList<Event>();
 	}
+
 	public void syncEvents(ArrayList<Event> e){
-		/*Denna metod är inte färdig*/
+		/*Denna metod ï¿½r inte fï¿½rdig*/
 		for(Event event : e ){
 			if(!events.contains(event)){
 				events.add(event);
@@ -24,9 +25,11 @@ public class RoutingTable {
 		}
 			
 	}
+
 	public void addEvent(Event e){
 		events.add(e);
 	}
+
 	public Event getEvent(Event e){
 		if(events.contains(e)){
 				return e;

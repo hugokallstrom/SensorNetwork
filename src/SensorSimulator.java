@@ -1,24 +1,22 @@
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Created by hugo on 5/11/15.
  */
 public class SensorSimulator {
 
-    private double eventChance = Constants.eventChance;
     private ArrayList<Node> nodes = new ArrayList<Node>();
-    private ArrayList<Node> queryNodes = new ArrayList<Node>();
 
     public void initNodes(int nrOfNodes) {
         double matrixDim = Math.sqrt(nrOfNodes);
-        for(int x = 0; x < matrixDim; x++) {
-            for(int y = 0; y < matrixDim; y++) {
+        for(int y = 0; y < matrixDim; y++) {
+            for(int x = 0; x < matrixDim; x++) {
                 Position position = new Position(x, y);
                 Node node = new Node(position);
                 nodes.add(node);
             }
         }
-
         for(Node node : nodes) {
             node.setNeighbours(findNeighbours(node.getMyPosition()));
         }
@@ -36,11 +34,31 @@ public class SensorSimulator {
     }
 
     public void startSimulation(int steps) {
+        findQueryNodes();
         for(int i = 0; i < steps; i++) {
             for(Node node : nodes) {
-                System.out.println(node.toString());
+                Event event = createEvent(i, node.getMyPosition());
+                node.receiveEvent(event);
+                node.handleMessage();
             }
             break;
         }
+    }
+
+    private void findQueryNodes() {
+        for(int i = 0; i < Constants.nrOfQueryNodes; i++) {
+            int random = generateRandom(Constants.nrOfNodes);
+            nodes.get(random).setSender(true);
+        }
+    }
+
+    private Event createEvent(int timeOfEvent, Position position) {
+        int eventId = generateRandom(Constants.eventIdMax);
+        return new Event(eventId, timeOfEvent, position);
+    }
+
+    private int generateRandom(int maxVal) {
+        Random rand = new Random();
+        return rand.nextInt(maxVal);
     }
 }

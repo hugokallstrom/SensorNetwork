@@ -19,17 +19,17 @@ public class Position {
 	}
 
     public boolean isNeighbour(Position position) {
-        if((position.getX() - 1 == this.x || position.getX() + 1 == this.x) && position.getY() == this.x) {
+        if((position.getX() - 1 == this.x || position.getX() + 1 == this.x) && position.getY() == this.y) {
             return true;
-        } else if ((position.getY() - 1 == this.y || position.getY() + 1 == this.y) && position.getX() == this.y) {
+        } else if ((position.getY() - 1 == this.y || position.getY() + 1 == this.y) && position.getX() == this.x) {
             return true;
-        } else if (position.getX() - 1 == this.y && position.getY() - 1 == this.y) {
+        } else if (position.getX() - 1 == this.x && position.getY() - 1 == this.y) {
             return true;
-        } else if (position.getX() - 1 == this.y && position.getY() + 1 == this.y) {
+        } else if (position.getX() - 1 == this.x && position.getY() + 1 == this.y) {
             return true;
-        } else if (position.getX() + 1 == this.y && position.getY() - 1 == this.y) {
+        } else if (position.getX() + 1 == this.x && position.getY() - 1 == this.y) {
             return true;
-        } else if (position.getX() + 1 == this.y && position.getY() + 1 == this.y) {
+        } else if (position.getX() + 1 == this.x && position.getY() + 1 == this.y) {
             return true;
         } else {
             return false;

@@ -9,7 +9,7 @@ public class EventTest {
 	public void test() {
 		Position p = new Position(10,20);
 		Event e = new Event(50, 60, p);
-		assertNotNull(e;
+		assertNotNull(e);
 	}
 
 }
