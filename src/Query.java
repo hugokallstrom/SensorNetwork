@@ -10,6 +10,7 @@ public class Query implements Message{
 	private int steps;
 	private Event event;
 	private int timeToLive;
+	private boolean isReplied=false;
 
 	public Query(Event e){
 		
@@ -26,7 +27,25 @@ public class Query implements Message{
 		return pathTaken;
 	}
 	public void addToPath(Node n){
+		
+		if(isReplied){
+			steps = 0;
+		}
+		else{
+			steps++;
+		}
 		pathTaken.push(n);
 		visited.put(n.getMyPosition(),n);
 	}
+	
+	public Position syncEvents(RoutingTable routingTable){
+		
+		Event eventDirection = routingTable.getEvent(event);
+		if(eventDirection !=null){
+			isReplied = true;
+			return eventDirection.getPosition();
+		}
+		return null;
+	}
 }
+
