@@ -10,13 +10,14 @@ public class Agent implements Message {
 	private int timeToLive;
 	private int steps;
 	
-	public Agent(Event e){
+	public Agent(Event e) {
 		steps = 0;
 		timeToLive = Constants.timeToLiveAgent;
 		pathTaken = new Stack<Node>();
 		events = new Hashtable<Integer,Event>();
 		events.put(e.getEventId(),e);
 	}
+
 	public boolean canMove(){
 		return(timeToLive>=steps);
 	}

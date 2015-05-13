@@ -15,8 +15,8 @@ public class Event {
 		this.position = position;
 		distance = 0;
 	}
-	
-	public int getEventId(){
+
+  	public int getEventId(){
 		return eventId;
 	}
 	
@@ -39,4 +39,8 @@ public class Event {
 	public int getTimeOfEvent(){
 		return timeOfEvent;
 	}
+
+    public void setTimeOfEvent(int timeOfEvent) {
+        this.timeOfEvent = timeOfEvent;
+    }
 }
