@@ -36,9 +36,9 @@ public class SensorSimulator {
 
     public void startSimulation(int steps) throws IOException {
         findQueryNodes();
-        char n = 'v';
         do {
             for(int i = 0; i < steps; i++) {
+                System.out.println("Step " + i);
                 for(Node node : nodes) {
                     Event event = createEvent(i, node.getMyPosition());
                     node.receiveEvent(event);
@@ -47,15 +47,14 @@ public class SensorSimulator {
 
                     }
                 }
-
                 for(Node node : nodes) {
                     System.out.print(node.toString());
                     node.setAvailable();
                 }
-                System.out.println("Continue?");
-                n = (char) System.in.read();
+                System.out.println("Press any button to continue");
+                System.in.read();
             }
-        } while(n != 'q');
+        } while(steps != Constants.steps);
     }
 
     private void findQueryNodes() {

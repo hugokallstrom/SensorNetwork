@@ -22,7 +22,7 @@ public class Agent implements Message {
 		return(timeToLive >= steps);
 	}
 
-	public Stack<Node> getPathTaken(){
+	public Stack<Node> getPathTaken() {
 		return pathTaken;
 	}
 

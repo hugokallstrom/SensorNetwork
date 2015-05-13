@@ -12,8 +12,7 @@ public class Query implements Message {
 	private int timeToLive;
 	private boolean isReplied=false;
 
-	public Query(Event e){
-		
+	public Query(Event e) {
 		timeToLive = Constants.timeToLiveQuery;
 		steps = 0;
 		visited = new Hashtable<Position,Node>();
@@ -21,27 +20,27 @@ public class Query implements Message {
 		event = e;
 	}
 
-	public boolean canMove(){
-			return(timeToLive>=steps);
+	public boolean canMove() {
+		return(timeToLive>=steps);
 	}
-	public Stack<Node> getPathTaken(){
+
+    public Stack<Node> getPathTaken() {
 		return pathTaken;
 	}
-	public void addToPath(Node n){
-		
-		if(isReplied){
+
+	public void addToPath(Node node) {
+		if(isReplied) {
 			steps = 0;
-		}
-		else{
+		} else {
 			steps++;
-		}
-		pathTaken.push(n);
-		visited.put(n.getMyPosition(),n);
+            pathTaken.push(node);
+            visited.put(node.getMyPosition(), node);
+        }
 	}
 	
-	public Position handleEvents(RoutingTable routingTable){
+	public Position handleEvents(RoutingTable routingTable) {
 		Event eventDirection = routingTable.getEvent(event);
-		if(eventDirection !=null){
+		if(eventDirection != null) {
 			isReplied = true;
 			return eventDirection.getPosition();
 		}

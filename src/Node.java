@@ -61,34 +61,31 @@ public class Node {
                 Node previousNode = message.getPathTaken().pop();
                 sendMessageToNode(message, previousNode);
             } else {
-                Node neighbour = getNeighbour(nodePosition);
+                Node neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);
             }
         }
     }
 
     private Node selectNextNeighbour(Stack<Node> pathTaken) {
-        for(Node visitedNode : pathTaken) {
-            Node neighbour = neighbours.get(new Random().nextInt(neighbours.size()));
-            if(!visitedNode.equals(neighbour)) {
+        for(Node neighbour : neighbours) {
+            if(neighbour.isAvailable() && !pathTaken.contains(neighbour)) {
                 return neighbour;
             }
         }
-        return findRandomNeighbour();
-    }
 
-    private Node findRandomNeighbour() {
-        Node randomNeighbour = neighbours.get(new Random().nextInt(neighbours.size()));
-        if(!randomNeighbour.isAvailable()) {
-            findRandomNeighbour();
+        for(Node neighbour : neighbours) {
+            if(neighbour.isAvailable()) {
+                return neighbour;
+            }
         }
-        return randomNeighbour;
+        return neighbours.get(new Random().nextInt(neighbours.size()));
     }
 
-    private Node getNeighbour(Position nodePosition) {
-        for(Node neigbour : neighbours) {
-            if(neigbour.getMyPosition().equals(nodePosition)) {
-                return neigbour;
+    private Node getNeighbourFromPos(Position nodePosition) {
+        for(Node neighbour : neighbours) {
+            if(neighbour.getMyPosition().equals(nodePosition)) {
+                return neighbour;
             }
         }
         return null;
@@ -96,10 +93,11 @@ public class Node {
 
     private void sendMessageToNode(Message message, Node neighbour) {
         if(neighbour.isAvailable()) {
+            availability = false;
             System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
         } else {
-            System.out.println(myPosition + "Putting message in queue, no available neighbour");
+            System.out.println(myPosition + "Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
             nodeStatus = "+";
             messageQueue.add(message);
         }

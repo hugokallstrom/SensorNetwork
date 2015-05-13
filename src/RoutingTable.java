@@ -7,11 +7,11 @@ public class RoutingTable {
 
 	private ArrayList<Event> events;
 	
-	public RoutingTable(){
+	public RoutingTable() {
 		events = new ArrayList<Event>();
 	}
 
-	public void syncEvents(ArrayList<Event> eventList){
+	public void syncEvents(ArrayList<Event> eventList) {
         for(Event event : events) {
             if(!events.contains(event)) {
                 events.add(event);
@@ -23,7 +23,6 @@ public class RoutingTable {
 				eventList.add(event);
 			}
 		}
-
         findShortestPath(eventList);
 	}
 
@@ -38,20 +37,18 @@ public class RoutingTable {
         }
     }
 
-    public void addEvent(Event e){
-		events.add(e);
+    public void addEvent(Event event) {
+		events.add(event);
 	}
 
-	public Event getEvent(Event e){
-		
-		if(events.contains(e)){
-				return e;
+	public Event getEvent(Event event) {
+		if(events.contains(event)) {
+			return event;
 		}
         return null;
 	}
 
 	public ArrayList<Event> getEventList(){
-		
 		return events;
 	}
 }
