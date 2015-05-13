@@ -7,4 +7,5 @@ public interface Message {
 	public boolean canMove();
 	public Stack<Node> getPathTaken();
 	public void addToPath(Node n);
+	public Node syncEvents(RoutingTable routingTable);
 }

@@ -25,13 +25,19 @@ public class RoutingTable {
 			
 	}
 	public void addEvent(Event e){
+		
 		events.add(e);
 	}
 	public Event getEvent(Event e){
+		
 		if(events.contains(e)){
 				return e;
 		}
 		throw new IllegalArgumentException("Event's id was not found! in "
 				+ " routingTable");
+	}
+	public ArrayList<Event> getEventList(){
+		
+		return events;
 	}
 }

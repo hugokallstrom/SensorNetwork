@@ -24,6 +24,12 @@ public class Agent implements Message {
 		return pathTaken;
 	}
 	public void addToPath(Node n){
+		steps++;
 		pathTaken.push(n);
+	}
+	public Node syncEvents(RoutingTable routingTable){
+		
+		routingTable.syncEvents(routingTable.getEventList());
+		
 	}
 }
