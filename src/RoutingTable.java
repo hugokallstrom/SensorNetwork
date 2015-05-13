@@ -12,18 +12,20 @@ public class RoutingTable {
 	}
 
 	public void syncEvents(ArrayList<Event> e){
-		/*Denna metod �r inte f�rdig*/
-		for(Event event : e ){
+
+		
+		
+		for(Event event : events ){
 			if(!events.contains(event)){
 				events.add(event);
 			}
 		}
-		for(Event event : events){
+		for(Event event : e){
+			if(event.getDistance())
 			if(!e.contains(event)){
 				e.add(event);
 			}
 		}
-			
 	}
 
 	public void addEvent(Event e){
@@ -36,8 +38,7 @@ public class RoutingTable {
 		if(events.contains(e)){
 				return e;
 		}
-		throw new IllegalArgumentException("Event's id was not found! in "
-				+ " routingTable");
+		return null;
 	}
 	public ArrayList<Event> getEventList(){
 		
