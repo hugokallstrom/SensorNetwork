@@ -18,18 +18,19 @@ public class Agent implements Message {
 		routingTable.addEvent(event);
 	}
 
-	public boolean canMove(){
-		return(timeToLive>=steps);
+	public boolean canMove() {
+		return(timeToLive >= steps);
 	}
+
 	public Stack<Node> getPathTaken(){
 		return pathTaken;
 	}
-	public void addToPath(Node n){
+
+    public void addToPath(Node n) {
 		steps++;
 		pathTaken.push(n);
 	}
 	public Position handleEvents(RoutingTable routingTable){
-		
 		this.routingTable.syncEvents(routingTable.getEventList());
 		return null;
 	}

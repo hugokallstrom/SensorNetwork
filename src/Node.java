@@ -1,4 +1,5 @@
 import java.util.*;
+import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Created by hugo on 5/11/15.
@@ -9,50 +10,58 @@ public class Node {
     private ArrayList<Node> neighbours;
     private RoutingTable routingTable;
     private Queue<Message> messageQueue;
-    private boolean isAvailable;
+    private boolean availability;
     private boolean isSender;
+    private String nodeStatus;
 
     public Node(Position position) {
         myPosition = position;
-        isAvailable = true;
+        availability = true;
         isSender = false;
         neighbours = new ArrayList<Node>();
         routingTable = new RoutingTable();
-        messageQueue = new PriorityQueue<Message>();
+        messageQueue = new LinkedBlockingQueue<Message>();
     }
 
     public void receiveEvent(Event event) {
         if(calculateChance(Constants.eventChance)) {
             routingTable.addEvent(event);
             createAgent(event);
+            System.out.println("Event detected at: " + myPosition);
+            nodeStatus = "E";
+        } else {
+            if(availability) {
+                nodeStatus = "*";
+            } else {
+                nodeStatus = "U";
+            }
         }
     }
 
     private void createAgent(Event event) {
         if(calculateChance(Constants.agentChance)) {
             Message agent = new Agent(event);
+            agent.addToPath(this);
             messageQueue.add(agent);
         }
     }
 
     private boolean calculateChance(int chance) {
-        return new Random().nextInt(chance - 1) == 0;
+        return new Random().nextInt(chance) == 0;
     }
 
     public void handleMessage() {
         if(!messageQueue.isEmpty()) {
             Message message = messageQueue.poll();
             Position nodePosition = message.handleEvents(routingTable);
-            if(nodePosition.equals(myPosition) && message.canMove()) {
-                Node previousNode = message.getPathTaken().pop();
-                if(previousNode.isAvailable) {
-                    previousNode.receiveMessage(message);
-                }
-            } else if(nodePosition != null) {
-                Node neighbour = getNeighbour(nodePosition);
-                sendMessageToNode(message, neighbour);
-            } else {
+            if(nodePosition == null) {
                 Node neighbour = selectNextNeighbour(message.getPathTaken());
+                sendMessageToNode(message, neighbour);
+            } else if(nodePosition.equals(myPosition)) {
+                Node previousNode = message.getPathTaken().pop();
+                sendMessageToNode(message, previousNode);
+            } else {
+                Node neighbour = getNeighbour(nodePosition);
                 sendMessageToNode(message, neighbour);
             }
         }
@@ -60,13 +69,20 @@ public class Node {
 
     private Node selectNextNeighbour(Stack<Node> pathTaken) {
         for(Node visitedNode : pathTaken) {
-            for (Node neighbour : neighbours) {
-                if(!visitedNode.equals(neighbour)) {
-                    return neighbour;
-                }
+            Node neighbour = neighbours.get(new Random().nextInt(neighbours.size()));
+            if(!visitedNode.equals(neighbour)) {
+                return neighbour;
             }
         }
-        return neighbours.get(new Random().nextInt(neighbours.size()) + 1);
+        return findRandomNeighbour();
+    }
+
+    private Node findRandomNeighbour() {
+        Node randomNeighbour = neighbours.get(new Random().nextInt(neighbours.size()));
+        if(!randomNeighbour.isAvailable()) {
+            findRandomNeighbour();
+        }
+        return randomNeighbour;
     }
 
     private Node getNeighbour(Position nodePosition) {
@@ -79,15 +95,24 @@ public class Node {
     }
 
     private void sendMessageToNode(Message message, Node neighbour) {
-        if(neighbour.isAvailable && message.canMove()) {
+        if(neighbour.isAvailable()) {
+            System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
+        } else {
+            System.out.println(myPosition + "Putting message in queue, no available neighbour");
+            nodeStatus = "+";
+            messageQueue.add(message);
         }
     }
 
     private void receiveMessage(Message message) {
-        isAvailable = false;
-        message.addToPath(this);
-        messageQueue.add(message);
+        availability = false;
+        if(message.canMove()) {
+            System.out.println(myPosition + " Received message");
+            message.addToPath(this);
+            messageQueue.add(message);
+            nodeStatus = "A";
+        }
     }
 
     public void setNeighbours(ArrayList<Node> neighbours) {
@@ -103,11 +128,11 @@ public class Node {
     }
 
     public void setAvailable() {
-        isAvailable = true;
+        availability = true;
     }
 
     public boolean isAvailable() {
-        return isAvailable;
+        return availability;
     }
 
     public Position getMyPosition() {
@@ -116,16 +141,11 @@ public class Node {
 
     @Override
     public String toString() {
-        return "Node info: " + myPosition.toString() +
-               "Neighbours: \n" + printNeighbours();
-    }
-
-    private String printNeighbours() {
-        String neighboursString = " ";
-        for(Node node : neighbours) {
-           neighboursString += String.valueOf(node.getMyPosition()) + " ";
+        if((myPosition.getX() + 1) == Math.sqrt(Constants.nrOfNodes)) {
+            return nodeStatus + "\n";
+        } else {
+            return nodeStatus;
         }
-        return neighboursString;
     }
 }
 

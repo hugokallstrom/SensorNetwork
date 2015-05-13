@@ -39,8 +39,7 @@ public class Query implements Message {
 		visited.put(n.getMyPosition(),n);
 	}
 	
-	public Position syncEvents(RoutingTable routingTable){
-		
+	public Position handleEvents(RoutingTable routingTable){
 		Event eventDirection = routingTable.getEvent(event);
 		if(eventDirection !=null){
 			isReplied = true;

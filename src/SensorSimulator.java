@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -33,22 +34,28 @@ public class SensorSimulator {
         return neighbours;
     }
 
-    public void startSimulation(int steps) {
+    public void startSimulation(int steps) throws IOException {
         findQueryNodes();
-        for(int i = 0; i < steps; i++) {
-            for(Node node : nodes) {
-                Event event = createEvent(i, node.getMyPosition());
-                node.receiveEvent(event);
-                node.handleMessage();
-                if(node.isSender()) {
+        char n = 'v';
+        do {
+            for(int i = 0; i < steps; i++) {
+                for(Node node : nodes) {
+                    Event event = createEvent(i, node.getMyPosition());
+                    node.receiveEvent(event);
+                    node.handleMessage();
+                    if(node.isSender()) {
 
+                    }
                 }
+
+                for(Node node : nodes) {
+                    System.out.print(node.toString());
+                    node.setAvailable();
+                }
+                System.out.println("Continue?");
+                n = (char) System.in.read();
             }
-            for(Node node : nodes) {
-                node.setAvailable();
-            }
-            break;
-        }
+        } while(n != 'q');
     }
 
     private void findQueryNodes() {
