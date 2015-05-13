@@ -37,12 +37,6 @@ public class PositionTest {
 		Position p = new Position(40,2);
 		assertEquals(p.getY(), 2);
 	}
-
-	@Test
-	public void testisNeighbor() {
-		Position p = new Position(40,2);
-		assertEquals(p.getY(), 2);
-	}
 }
 
 
