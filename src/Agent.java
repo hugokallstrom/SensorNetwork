@@ -19,7 +19,7 @@ public class Agent implements Message {
 	}
 
 	public boolean canMove() {
-		return(timeToLive >= steps);
+		return steps < timeToLive;
 	}
 
 	public Stack<Node> getPathTaken() {
@@ -30,8 +30,10 @@ public class Agent implements Message {
 		steps++;
 		pathTaken.push(n);
 	}
-	public Position handleEvents(RoutingTable routingTable){
-		this.routingTable.syncEvents(routingTable.getEventList());
+
+	public Position handleEvents(RoutingTable routingTable) {
+        ArrayList<Event> nodesEventList = routingTable.getEventList();
+		this.routingTable.syncEvents(nodesEventList);
 		return null;
 	}
 }

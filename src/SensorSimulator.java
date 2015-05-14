@@ -1,5 +1,6 @@
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Random;
 
 /**
@@ -8,6 +9,7 @@ import java.util.Random;
 public class SensorSimulator {
 
     private ArrayList<Node> nodes = new ArrayList<Node>();
+    private ArrayList<Event> eventList = new ArrayList<Event>();
 
     public void initNodes(int nrOfNodes) {
         double matrixDim = Math.sqrt(nrOfNodes);
@@ -35,32 +37,56 @@ public class SensorSimulator {
     }
 
     public void startSimulation(int steps) throws IOException {
-        findQueryNodes();
-        do {
-            for(int i = 0; i < steps; i++) {
-                System.out.println("Step " + i);
-                for(Node node : nodes) {
-                    Event event = createEvent(i, node.getMyPosition());
-                    node.receiveEvent(event);
-                    node.handleMessage();
-                    if(node.isSender()) {
-
-                    }
-                }
-                for(Node node : nodes) {
-                    System.out.print(node.toString());
-                    node.setAvailable();
-                }
-                System.out.println("Press any button to continue");
-                System.in.read();
-            }
-        } while(steps != Constants.steps);
+        setQueryNodes();
+        for(int timeStep = 0; timeStep < steps; timeStep++) {
+        //    System.out.println("Step " + timeStep);
+            manageNodes(timeStep);
+        }
     }
 
-    private void findQueryNodes() {
+    private void setQueryNodes() {
         for(int i = 0; i < Constants.nrOfQueryNodes; i++) {
             int random = generateRandom(Constants.nrOfNodes);
             nodes.get(random).setSender(true);
+        }
+    }
+
+    private void manageNodes(int timeStep) throws IOException {
+
+        for(Node node : nodes) {
+            if(calculateChance(Constants.eventChance)) {
+                Event event = createEvent(timeStep, node.getMyPosition());
+                eventList.add(event);
+                node.receiveEvent(event);
+            }
+
+            node.handleMessage();
+
+            if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {
+                sendQueryToNode(node);
+            }
+        }
+
+        setNodesAvailable();
+
+    //    System.out.println("Press any button to continue");
+    //    System.in.read();
+    }
+
+    private boolean calculateChance(int chance) {
+        return new Random().nextInt(chance) == 0;
+    }
+
+    private void sendQueryToNode(Node node) {
+        Collections.shuffle(eventList);
+        Event event = eventList.get(0);
+        node.createQuery(event.getEventId());
+    }
+
+    private void setNodesAvailable() {
+        for(Node node : nodes) {
+            node.setAvailable();
+            System.out.print(node.toString());
         }
     }
 

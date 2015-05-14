@@ -24,18 +24,10 @@ public class Node {
     }
 
     public void receiveEvent(Event event) {
-        if(calculateChance(Constants.eventChance)) {
-            routingTable.addEvent(event);
-            createAgent(event);
-            System.out.println("Event detected at: " + myPosition);
-            nodeStatus = "E";
-        } else {
-            if(availability) {
-                nodeStatus = "*";
-            } else {
-                nodeStatus = "U";
-            }
-        }
+        routingTable.addEvent(event);
+        createAgent(event);
+    //    System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId());
+        nodeStatus = "E";
     }
 
     private void createAgent(Event event) {
@@ -46,11 +38,25 @@ public class Node {
         }
     }
 
+    public void createQuery(int eventId) {
+    //    System.out.println(myPosition + " Creating query with event id " + eventId);
+        Message query = new Query(eventId);
+        query.addToPath(this);
+        messageQueue.add(query);
+    }
+
     private boolean calculateChance(int chance) {
         return new Random().nextInt(chance) == 0;
     }
 
     public void handleMessage() {
+        // Test purposes
+        if(availability) {
+            nodeStatus = "*";
+        } else {
+            nodeStatus = "U";
+        }
+
         if(!messageQueue.isEmpty()) {
             Message message = messageQueue.poll();
             Position nodePosition = message.handleEvents(routingTable);
@@ -60,6 +66,7 @@ public class Node {
             } else if(nodePosition.equals(myPosition)) {
                 Node previousNode = message.getPathTaken().pop();
                 sendMessageToNode(message, previousNode);
+                //    System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
             } else {
                 Node neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);
@@ -68,6 +75,7 @@ public class Node {
     }
 
     private Node selectNextNeighbour(Stack<Node> pathTaken) {
+        Collections.shuffle(neighbours);
         for(Node neighbour : neighbours) {
             if(neighbour.isAvailable() && !pathTaken.contains(neighbour)) {
                 return neighbour;
@@ -94,10 +102,10 @@ public class Node {
     private void sendMessageToNode(Message message, Node neighbour) {
         if(neighbour.isAvailable()) {
             availability = false;
-            System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
+          //  System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
         } else {
-            System.out.println(myPosition + "Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
+          //  System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
             nodeStatus = "+";
             messageQueue.add(message);
         }
@@ -106,7 +114,6 @@ public class Node {
     private void receiveMessage(Message message) {
         availability = false;
         if(message.canMove()) {
-            System.out.println(myPosition + " Received message");
             message.addToPath(this);
             messageQueue.add(message);
             nodeStatus = "A";

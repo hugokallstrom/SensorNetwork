@@ -17,7 +17,6 @@ public class RoutingTable {
                 events.add(event);
             }
         }
-
 		for(Event event : eventList) {
 			if(!eventList.contains(event)) {
 				eventList.add(event);
@@ -41,14 +40,16 @@ public class RoutingTable {
 		events.add(event);
 	}
 
-	public Event getEvent(Event event) {
-		if(events.contains(event)) {
-			return event;
-		}
-        return null;
+	public Event getEvent(int requestedEventId) throws NoSuchElementException {
+        for(Event event : events) {
+            if(event.getEventId() == requestedEventId) {
+                return event;
+            }
+        }
+        throw new NoSuchElementException("Event not found.");
 	}
 
-	public ArrayList<Event> getEventList(){
+    public ArrayList<Event> getEventList(){
 		return events;
 	}
 }
