@@ -6,7 +6,8 @@ import java.util.*;
 public class Agent implements Message {
 	/**
 	 * Class that implements messages. Agent moves around spreading
-	 * information to nodes in the network.  
+	 * information to nodes in the network, while agent hasn't moved
+	 * more than 50 steps.  
 	 * @author ViktorLindblad
 	 */
 	

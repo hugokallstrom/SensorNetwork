@@ -11,7 +11,7 @@ import sun.management.resources.agent;
 public class AgentTest {
 
 	/**
-	 * Junit test for agent
+	 * Unit testing agent
 	 * @author ViktorLindblad
 	 * 
 	 */
