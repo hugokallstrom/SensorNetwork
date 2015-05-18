@@ -4,9 +4,7 @@
 import java.util.*;
 
 /**
- * 
  * @author charlotteristiniemi
- *
  */
 public class Query implements Message {
 	
