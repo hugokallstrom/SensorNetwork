@@ -18,9 +18,9 @@ public class RoutingTable {
                 events.add(event);
             }
         }
-		for(Event event : eventList) {
-            if (!events.contains(event)) {
-                events.add(event);
+		for(Event event : events) {
+            if (!eventList.contains(event)) {
+                eventList.add(event);
             }
         }
         findShortestPath(eventList);
@@ -32,8 +32,7 @@ public class RoutingTable {
                 if(agentEvent.equals(nodeEvent) && agentEvent.getDistance() < nodeEvent.getDistance()) {
                     nodeEvents.remove(nodeEvent);
                     nodeEvents.add(agentEvent);
-                }
-                else if(nodeEvent.equals(agentEvent) && agentEvent.getDistance() > nodeEvent.getDistance()){
+                } else if(nodeEvent.equals(agentEvent) && agentEvent.getDistance() > nodeEvent.getDistance()){
                 	events.remove(agentEvent);
                 	events.add(nodeEvent);
                 }
@@ -57,4 +56,27 @@ public class RoutingTable {
     public ArrayList<Event> getEventList(){
 		return events;
 	}
+
+    public void incrementEventDistances() {
+        for(Event event : events) {
+            event.incrementDistance();
+        }
+    }
+
+    public void changeEventPosition(Position myPosition, ArrayList<Event> eventList) {
+        for(Event event : events) {
+            if(eventList.contains(event)) {
+                event.setPosition(myPosition);
+            }
+        }
+    }
+
+    @Override
+    public String toString() {
+        String out = "";
+        for(Event event : events) {
+            out += event.toString();
+        }
+        return out;
+    }
 }

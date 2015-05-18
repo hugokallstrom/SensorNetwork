@@ -92,4 +92,11 @@ public class Event {
     public void incrementDistance() {
         distance++;
     }
+
+    @Override
+    public String toString() {
+        String out = "";
+        return "Id: " + eventId + "\n" + "Distance: " + distance + "\n" +
+                "Position: " + position.toString() + "\n";
+    }
 }

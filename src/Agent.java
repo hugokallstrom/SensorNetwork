@@ -39,14 +39,21 @@ public class Agent implements Message {
 		return pathTaken;
 	}
 
-    public void addToPath(Node n) {
+    public void addToPath(Node node) {
     	/**
     	 * Adds the given node to the stack.
     	 */
-    	
+        Node previousNode;
 		steps++;
-		pathTaken.push(n);
+        if(pathTaken.size() > 1) {
+            previousNode = pathTaken.peek();
+        } else {
+           previousNode = node;
+        }
+		pathTaken.push(node);
         routingTable.incrementEventDistances();
+        routingTable.changeEventPosition(previousNode.getMyPosition(), node.getRoutingTable().getEventList());
+        System.out.println(routingTable.toString());
 	}
 
 	public Position handleEvents(RoutingTable routingTable){

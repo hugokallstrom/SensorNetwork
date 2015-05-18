@@ -136,6 +136,7 @@ public class Node {
      * @return the neighbour which has the position.
      */
     private Node getNeighbourFromPos(Position nodePosition) {
+        System.out.println(myPosition.toString() + "neighbor: " + nodePosition.toString());
         for(Node neighbour : neighbours) {
             if(neighbour.getMyPosition().equals(nodePosition)) {
                 return neighbour;
