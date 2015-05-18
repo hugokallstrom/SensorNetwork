@@ -7,7 +7,7 @@ import java.util.*;
  * @author charlotteristiniemi
  */
 public class Query implements Message {
-	
+
 	private Stack<Node> pathTaken;
 	private Hashtable<Position, Node> visited;
 	private int steps;
