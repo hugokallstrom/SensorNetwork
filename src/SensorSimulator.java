@@ -40,7 +40,7 @@ public class SensorSimulator {
         setQueryNodes();
         for(int timeStep = 0; timeStep < steps; timeStep++) {
         //    System.out.println("Step " + timeStep);
-            manageNodes(timeStep);
+            executeTimeStep(timeStep);
         }
     }
 
@@ -51,11 +51,10 @@ public class SensorSimulator {
         }
     }
 
-    private void manageNodes(int timeStep) throws IOException {
-
+    private void executeTimeStep(int timeStep) throws IOException {
         for(Node node : nodes) {
             if(calculateChance(Constants.eventChance)) {
-                Event event = new Event(generateRandom(Constants.eventIdMax),timeStep, node.getMyPosition());
+                Event event = new Event(generateRandom(Constants.eventIdMax), timeStep, node.getMyPosition());
                 eventList.add(event);
                 node.receiveEvent(event);
             }
@@ -89,7 +88,7 @@ public class SensorSimulator {
             System.out.print(node.toString());
         }
     }
-    
+
     private int generateRandom(int maxVal) {
         Random rand = new Random();
         return rand.nextInt(maxVal);
