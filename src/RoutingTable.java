@@ -65,8 +65,11 @@ public class RoutingTable {
 
     public void changeEventPosition(Position myPosition, ArrayList<Event> eventList) {
         for(Event event : events) {
-            if(eventList.contains(event)) {
-                event.setPosition(myPosition);
+            for(Event nodeEvent : eventList) {
+                if(event.equals(nodeEvent)) {
+                    event.setPosition(myPosition);
+                    nodeEvent.setPosition(myPosition);
+                }
             }
         }
     }

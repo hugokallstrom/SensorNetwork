@@ -43,17 +43,8 @@ public class Agent implements Message {
     	/**
     	 * Adds the given node to the stack.
     	 */
-        Node previousNode;
 		steps++;
-        if(pathTaken.size() > 1) {
-            previousNode = pathTaken.peek();
-        } else {
-           previousNode = node;
-        }
 		pathTaken.push(node);
-        routingTable.incrementEventDistances();
-        routingTable.changeEventPosition(previousNode.getMyPosition(), node.getRoutingTable().getEventList());
-        System.out.println(routingTable.toString());
 	}
 
 	public Position handleEvents(RoutingTable routingTable){
@@ -62,9 +53,12 @@ public class Agent implements Message {
 		 * events. If node or agent knows a shorter path to an event
 		 * they swap. 
 		 */
-		
+        Node previousNode = pathTaken.peek();
         ArrayList<Event> nodesEventList = routingTable.getEventList();
 		this.routingTable.syncEvents(nodesEventList);
-		return null;
+        this.routingTable.incrementEventDistances();
+        this.routingTable.changeEventPosition(previousNode.getMyPosition(), routingTable.getEventList());
+       // System.out.println(routingTable.toString());
+        return null;
 	}
 }

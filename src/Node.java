@@ -39,7 +39,7 @@ public class Node {
     public void receiveEvent(Event event) {
         routingTable.addEvent(event);
         createAgent(event);
-    //    System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId());
+        System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
         nodeStatus = "E";
     }
 
@@ -61,7 +61,7 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-    //    System.out.println(myPosition + " Creating query with event id " + eventId);
+        System.out.println(myPosition + " Creating query with event id " + eventId);
         Message query = new Query(eventId);
         query.addToPath(this);
         messageQueue.add(query);
@@ -136,7 +136,7 @@ public class Node {
      * @return the neighbour which has the position.
      */
     private Node getNeighbourFromPos(Position nodePosition) {
-        System.out.println(myPosition.toString() + "neighbor: " + nodePosition.toString());
+      //  System.out.println(myPosition.toString() + "neighbor: " + nodePosition.toString());
         for(Node neighbour : neighbours) {
             if(neighbour.getMyPosition().equals(nodePosition)) {
                 return neighbour;
@@ -153,7 +153,7 @@ public class Node {
     private void sendMessageToNode(Message message, Node neighbour) {
         if(neighbour.isAvailable()) {
             availability = false;
-          //  System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
+        //    System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
         } else {
           //  System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
