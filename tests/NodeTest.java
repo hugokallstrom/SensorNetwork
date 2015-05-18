@@ -111,11 +111,11 @@ public class NodeTest {
         assertEquals(1, pos.getX());
         assertEquals(0, pos.getY());
 
+        // sending node pos
         Node node2 = pathTaken.pop();
         pos = node2.getMyPosition();
         assertEquals(1, pos.getX());
         assertEquals(1, pos.getY());
-
     }
 
     @Test

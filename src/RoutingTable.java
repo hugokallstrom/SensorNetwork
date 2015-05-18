@@ -18,12 +18,11 @@ public class RoutingTable {
                 events.add(event);
             }
         }
-		for(Event event : events) {
-			if(!eventList.contains(event)){
-				eventList.add(event);
-			}
-		}
-		
+		for(Event event : eventList) {
+            if (!events.contains(event)) {
+                events.add(event);
+            }
+        }
         findShortestPath(eventList);
 	}
 

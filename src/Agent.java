@@ -46,6 +46,7 @@ public class Agent implements Message {
     	
 		steps++;
 		pathTaken.push(n);
+        routingTable.incrementEventDistances();
 	}
 
 	public Position handleEvents(RoutingTable routingTable){
