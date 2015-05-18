@@ -13,13 +13,13 @@ public class RoutingTable {
 
 	public void syncEvents(ArrayList<Event> eventList) {
 		
-        for(Event event : events) {
-            if(!eventList.contains(event)) {
-                eventList.add(event);
+        for(Event event : eventList) {
+            if(!events.contains(event)) {
+                events.add(event);
             }
         }
-		for(Event event : eventList) {
-			if(!eventList.contains(event)) {
+		for(Event event : events) {
+			if(!eventList.contains(event)){
 				eventList.add(event);
 			}
 		}
@@ -28,11 +28,15 @@ public class RoutingTable {
 	}
 
     private void findShortestPath(ArrayList<Event> nodeEvents) {
-        for(Event agentEvent : events) {
+        for(Event agentEvent : events){
             for (Event nodeEvent : nodeEvents) {
                 if(agentEvent.equals(nodeEvent) && agentEvent.getDistance() < nodeEvent.getDistance()) {
                     nodeEvents.remove(nodeEvent);
                     nodeEvents.add(agentEvent);
+                }
+                else if(nodeEvent.equals(agentEvent) && agentEvent.getDistance() > nodeEvent.getDistance()){
+                	events.remove(agentEvent);
+                	events.add(nodeEvent);
                 }
             }
         }

@@ -4,6 +4,11 @@
 import java.util.*;
 
 public class Agent implements Message {
+	/**
+	 * Class that implements messages. Agent moves around spreading
+	 * information to nodes in the network.  
+	 * @author ViktorLindblad
+	 */
 	
 	private Stack<Node> pathTaken;
 	private RoutingTable routingTable;
@@ -19,19 +24,36 @@ public class Agent implements Message {
 	}
 
 	public boolean canMove() {
+		/**
+		 * Checks if agent can move.
+		 */
 		return steps < timeToLive;
 	}
-
+	
 	public Stack<Node> getPathTaken() {
+		/**
+		 * Returns a stack with the path agent has taken. 
+		 */
+		
 		return pathTaken;
 	}
 
     public void addToPath(Node n) {
+    	/**
+    	 * Adds the given node to the stack.
+    	 */
+    	
 		steps++;
 		pathTaken.push(n);
 	}
 
-	public Position handleEvents(RoutingTable routingTable) {
+	public Position handleEvents(RoutingTable routingTable){
+		/**
+		 * Iterate agents routingtable and nodes routingtable and swaps
+		 * events. If node or agent knows a shorter path to an event
+		 * they swap. 
+		 */
+		
         ArrayList<Event> nodesEventList = routingTable.getEventList();
 		this.routingTable.syncEvents(nodesEventList);
 		return null;
