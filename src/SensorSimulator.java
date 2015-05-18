@@ -55,7 +55,7 @@ public class SensorSimulator {
 
         for(Node node : nodes) {
             if(calculateChance(Constants.eventChance)) {
-                Event event = createEvent(timeStep, node.getMyPosition());
+                Event event = new Event(generateRandom(Constants.eventIdMax),timeStep, node.getMyPosition());
                 eventList.add(event);
                 node.receiveEvent(event);
             }
@@ -69,8 +69,11 @@ public class SensorSimulator {
 
         setNodesAvailable();
 
+        System.out.println("Press any button to continue");
+        System.in.read();
        System.out.println("Press any button to continue");
        System.in.read();
+
     }
 
     private boolean calculateChance(int chance) {
@@ -89,12 +92,7 @@ public class SensorSimulator {
             System.out.print(node.toString());
         }
     }
-
-    private Event createEvent(int timeOfEvent, Position position) {
-        int eventId = generateRandom(Constants.eventIdMax);
-        return new Event(eventId, timeOfEvent, position);
-    }
-
+    
     private int generateRandom(int maxVal) {
         Random rand = new Random();
         return rand.nextInt(maxVal);
