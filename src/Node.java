@@ -66,7 +66,7 @@ public class Node {
             } else if(nodePosition.equals(myPosition)) {
                 Node previousNode = message.getPathTaken().pop();
                 sendMessageToNode(message, previousNode);
-                //    System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
+                   System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
             } else {
                 Node neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);
@@ -102,10 +102,10 @@ public class Node {
     private void sendMessageToNode(Message message, Node neighbour) {
         if(neighbour.isAvailable()) {
             availability = false;
-          //  System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
+           System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
         } else {
-          //  System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
+           System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
             nodeStatus = "+";
             messageQueue.add(message);
         }
