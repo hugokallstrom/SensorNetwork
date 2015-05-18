@@ -56,7 +56,7 @@ public class Query implements Message {
         }
     }
 
-    private boolean repliedDone() {
+    public boolean repliedDone() {
         if(pathTaken.size() == 1 && isReplied) {
             System.out.println("Query replied, event at " + event.getPosition() +
                                " Occurred at time step: " + event.getTimeOfEvent() + "." +
