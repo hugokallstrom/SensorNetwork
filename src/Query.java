@@ -16,7 +16,7 @@ public class Query implements Message {
 	private Event event;
     private int requestedEventId;
 	private int timeToLive = Constants.timeToLiveQuery;
-	private boolean isReplied=false;
+	private boolean isReplied = false;
 
 	public Query(int requestedEventId) {
 		steps = 0;
@@ -45,7 +45,7 @@ public class Query implements Message {
 	
 	public Position handleEvents(RoutingTable routingTable) {
         try {
-            event = routingTable.getEvent(requestedEventId);
+            this.event = routingTable.getEvent(requestedEventId);
             isReplied = true;
             if(repliedDone()) {
                 return null;

@@ -10,6 +10,11 @@ import sun.management.resources.agent;
 
 public class AgentTest {
 
+	/**
+	 * Junit test for agent
+	 * @author ViktorLindblad
+	 * 
+	 */
 	private Agent agent;
 	private Position position;
 	private Event event;
@@ -83,7 +88,7 @@ public class AgentTest {
 	
 	@Test
 	public void TesthandleEventDistance(){
-
+		fail("not yet implemented");
 		event.setDistance(5);
 		
 		Position p = new Position(5,5);
