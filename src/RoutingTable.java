@@ -12,9 +12,10 @@ public class RoutingTable {
 	}
 
 	public void syncEvents(ArrayList<Event> eventList) {
+		
         for(Event event : events) {
-            if(!events.contains(event)) {
-                events.add(event);
+            if(!eventList.contains(event)) {
+                eventList.add(event);
             }
         }
 		for(Event event : eventList) {
@@ -22,6 +23,7 @@ public class RoutingTable {
 				eventList.add(event);
 			}
 		}
+		
         findShortestPath(eventList);
 	}
 

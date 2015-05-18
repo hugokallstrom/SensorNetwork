@@ -68,8 +68,8 @@ public class SensorSimulator {
 
         setNodesAvailable();
 
-        System.out.println("Press any button to continue");
-        System.in.read();
+       System.out.println("Press any button to continue");
+       System.in.read();
     }
 
     private boolean calculateChance(int chance) {
