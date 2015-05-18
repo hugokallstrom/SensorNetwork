@@ -102,10 +102,10 @@ public class Node {
     private void sendMessageToNode(Message message, Node neighbour) {
         if(neighbour.isAvailable()) {
             availability = false;
-          //  System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
+           System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
         } else {
-          //  System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
+           System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
             nodeStatus = "+";
             messageQueue.add(message);
         }

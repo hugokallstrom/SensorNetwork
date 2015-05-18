@@ -38,7 +38,7 @@ public class EventTest {
 	}
 	
 	@Test
-	public void testgetTimeOfEvent(){
+	public void testGetTimeOfEvent(){
 		assertEquals(e.getTimeOfEvent(),60);
 	}
 	
@@ -60,4 +60,16 @@ public class EventTest {
 		e.setDistance(5);
 		assertEquals(e.getDistance(),5);
 	}	
+	
+	@Test
+	public void testSetTimeOfEvent(){
+		Position p = new Position(10,20);
+		Event e = new Event(50, 60, p);
+		e.setTimeOfEvent(25);
+		assertEquals(e.getTimeOfEvent(),25);
+	}	
 }
+
+
+
+

@@ -3,6 +3,11 @@
  */
 import java.util.*;
 
+/**
+ * 
+ * @author charlotteristiniemi
+ *
+ */
 public class Query implements Message {
 	
 	private Stack<Node> pathTaken;
@@ -40,8 +45,7 @@ public class Query implements Message {
 	
 	public Position handleEvents(RoutingTable routingTable) {
         try {
-            Event event = routingTable.getEvent(requestedEventId);
-            this.event = event;
+            event = routingTable.getEvent(requestedEventId);
             isReplied = true;
             if(repliedDone()) {
                 return null;
@@ -52,7 +56,7 @@ public class Query implements Message {
         }
     }
 
-    private boolean repliedDone() {
+    public boolean repliedDone() {
         if(pathTaken.size() == 1 && isReplied) {
             System.out.println("Query replied, event at " + event.getPosition() +
                                " Occurred at time step: " + event.getTimeOfEvent() + "." +
