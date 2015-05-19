@@ -95,13 +95,14 @@ public class Node {
         if(!messageQueue.isEmpty()) {
             Message message = messageQueue.poll();
             Position nodePosition = message.handleEvents(routingTable);
+            System.out.println("My pos: " + myPosition + "received : " + nodePosition);
             if(nodePosition == null) {
                 Node neighbour = selectNextNeighbour(message.getPathTaken());
                 sendMessageToNode(message, neighbour);
             } else if(nodePosition.equals(myPosition)) {
                 Node previousNode = message.getPathTaken().pop();
                 sendMessageToNode(message, previousNode);
-                //    System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
+           //     System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
             } else {
                 Node neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);

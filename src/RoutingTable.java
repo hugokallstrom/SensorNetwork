@@ -29,10 +29,10 @@ public class RoutingTable {
     private void findShortestPath(ArrayList<Event> nodeEvents) {
         for(Event agentEvent : events){
             for (Event nodeEvent : nodeEvents) {
-                if(agentEvent.equals(nodeEvent) && agentEvent.getDistance() < nodeEvent.getDistance()) {
+                if(agentEvent.getEventId() == (nodeEvent.getEventId()) && agentEvent.getDistance() < nodeEvent.getDistance()) {
                     nodeEvents.remove(nodeEvent);
                     nodeEvents.add(agentEvent);
-                } else if(nodeEvent.equals(agentEvent) && agentEvent.getDistance() > nodeEvent.getDistance()){
+                } else if(nodeEvent.getEventId() == (agentEvent.getEventId()) && agentEvent.getDistance() > nodeEvent.getDistance()){
                 	events.remove(agentEvent);
                 	events.add(nodeEvent);
                 }
@@ -44,13 +44,13 @@ public class RoutingTable {
 		events.add(event);
 	}
 
-	public Event getEvent(int requestedEventId) throws NoSuchElementException {
+	public Event getEvent(int requestedEventId) {
         for(Event event : events) {
             if(event.getEventId() == requestedEventId) {
                 return event;
             }
         }
-        throw new NoSuchElementException("Event not found.");
+        return null;
 	}
 
     public ArrayList<Event> getEventList(){
@@ -63,12 +63,12 @@ public class RoutingTable {
         }
     }
 
-    public void changeEventPosition(Position myPosition, ArrayList<Event> eventList) {
+    public void changeEventPosition(Position previousNodePosition, Position currentNodePosition, ArrayList<Event> eventList) {
         for(Event event : events) {
             for(Event nodeEvent : eventList) {
-                if(event.equals(nodeEvent)) {
-                    event.setPosition(myPosition);
-                    nodeEvent.setPosition(myPosition);
+                if(event.equals(nodeEvent) && (nodeEvent.getPosition() != currentNodePosition && event.getDistance() != 0)) {
+                    event.setPosition(previousNodePosition);
+                    nodeEvent.setPosition(previousNodePosition);
                 }
             }
         }

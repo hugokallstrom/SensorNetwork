@@ -20,9 +20,10 @@ public class Query implements Message {
 	private Hashtable<Position, Node> visited;
 	private int steps;
 	private Event event;
+    private Event finalEvent;
     private int requestedEventId;
-	private int timeToLive = Constants.timeToLiveQuery;
-	private boolean isReplied = false;
+    private int timeToLive = Constants.timeToLiveQuery;
+    private boolean isReplied = false;
 
     /**
      * Constructor for Query. Sets variables and creates a stack for path taken
@@ -71,16 +72,16 @@ public class Query implements Message {
 	}
 	
 	public Position handleEvents(RoutingTable routingTable) {
-        try {
-            this.event = routingTable.getEvent(requestedEventId);
+        event = routingTable.getEvent(requestedEventId);
+        if(event != null) {
             isReplied = true;
-            if(repliedDone()) {
-                return null;
+            if (event.getDistance() == 0) {
+                finalEvent = event;
             }
+            repliedDone();
             return event.getPosition();
-        } catch (NoSuchElementException e) {
-            return null;
         }
+        return null;
     }
 
     /**
@@ -94,9 +95,9 @@ public class Query implements Message {
      */
     public boolean repliedDone() {
         if(pathTaken.size() == 1 && isReplied) {
-            System.out.println("Query replied, event at " + event.getPosition() +
-                               "Occurred at time step: " + event.getTimeOfEvent() + "." +
-                               " With ID: " + event.getEventId() + "\n");
+            System.out.println("Query replied, event at " + finalEvent.getPosition() +
+                               " Occurred at time step: " + finalEvent.getTimeOfEvent() + "." +
+                               " With ID: " + finalEvent.getEventId() + "\n");
             steps = timeToLive;
             return true;
         }
