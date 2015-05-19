@@ -41,7 +41,7 @@ public class Node {
     public void receiveEvent(Event event) {
         routingTable.addEvent(event);
         createAgent(event);
-     //   System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
+        System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
         nodeStatus = "E";
     }
 
@@ -108,7 +108,7 @@ public class Node {
             } else if(nodePosition.equals(myPosition)) {
                 Node previousNode = message.getPathTaken().pop();
                 sendMessageToNode(message, previousNode);
-           //     System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
+                System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
             } else {
                 Node neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);
@@ -182,9 +182,9 @@ public class Node {
             messageQueue.add(message);
             nodeStatus = "A";
         }
-        else if(timer.checkQuerySteps()){
+/*        else if(timer.checkQuerySteps()){
         	createQuery(timer.getEventId());
-        }
+        }*/
     }
 
     /**

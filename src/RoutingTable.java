@@ -23,10 +23,10 @@ public class RoutingTable {
         return new ArrayList<T>(set);
     }
 
-    public void findShortestPath(RoutingTable nodeRoutingTable) {
+    public ArrayList<Event> findShortestPath(RoutingTable nodeRoutingTable) {
         ArrayList<Event> nodeEvents = nodeRoutingTable.getEventList();
         ArrayList<Event> shortestList = new ArrayList<Event>();
-        for(Event agentEvent : events){
+        for(Event agentEvent : events) {
             for(Event nodeEvent : nodeEvents) {
                 if(agentEvent.getEventId() == nodeEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
                     shortestList.add(agentEvent);
@@ -37,8 +37,22 @@ public class RoutingTable {
         }
 
         for(Event agentEvent : events) {
-
+            for(Event shortest : shortestList) {
+                if(agentEvent.getEventId() != shortest.getEventId()) {
+                    shortestList.add(agentEvent);
+                }
+            }
         }
+
+        for(Event agentEvent : nodeEvents) {
+            for(Event shortest : shortestList) {
+                if(agentEvent.getEventId() != shortest.getEventId()) {
+                    shortestList.add(agentEvent);
+                }
+            }
+        }
+
+        return shortestList;
     }
 
     public void changeEventPosition(Node previousNode, RoutingTable nodeRoutingTable) {
