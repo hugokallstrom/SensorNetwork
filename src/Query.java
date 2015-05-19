@@ -17,7 +17,7 @@ public class Query implements Message {
 	private boolean isReplied = false;
 
 	public Query(int requestedEventId) {
-		steps = 0;
+
 		visited = new Hashtable<Position,Node>();
 		pathTaken = new Stack<Node>();
 		this.requestedEventId = requestedEventId;
@@ -34,8 +34,10 @@ public class Query implements Message {
 	public void addToPath(Node node) {
 		if(isReplied) {
 			steps = 0;
+			
 		} else {
 			steps++;
+			
             pathTaken.push(node);
             visited.put(node.getMyPosition(), node);
         }
