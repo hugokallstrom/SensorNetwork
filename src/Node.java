@@ -63,13 +63,9 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-<<<<<<< HEAD
     //    System.out.println(myPosition + " Creating query with event id " + eventId);
-        Query query = new Query(eventId);
-=======
         System.out.println(myPosition + " Creating query with event id " + eventId);
         Message query = new Query(eventId);
->>>>>>> branch 'master' of https://github.com/hugokallstrom/SensorNetwork.git
         query.addToPath(this);
         messageQueue.add(query);
         timer = new QueryTimer(eventId);
