@@ -61,7 +61,8 @@ public class Agent implements Message {
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable){
 		ArrayList<Event> syncedEventList = routingTable.syncEvents(nodeRoutingTable);
-        nodeRoutingTable.setEventList(syncedEventList);
+        nodeRoutingTable.setEventList(nodeRoutingTable.copyEventList(syncedEventList));
+        routingTable.setEventList(routingTable.copyEventList(syncedEventList));
         routingTable.findShortestPath(nodeRoutingTable);
         if(pathTaken.size() > 1) {
             this.routingTable.changeEventPosition(previousNode, nodeRoutingTable);

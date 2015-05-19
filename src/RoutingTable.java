@@ -13,10 +13,7 @@ public class RoutingTable {
 
 	public ArrayList<Event> syncEvents(RoutingTable routingTable) {
 		ArrayList<Event> nodeEventList = routingTable.getEventList();
-        ArrayList<Event> syncedList = union(nodeEventList, events);
-        events = (ArrayList<Event>) syncedList.clone();
-        return syncedList;
-
+        return union(nodeEventList, events);
 	}
 
     public <T> ArrayList<T> union(List<T> nodeEventList, List<T> agentEventList) {
@@ -84,6 +81,17 @@ public class RoutingTable {
 
     public void setEventList(ArrayList<Event> eventList){
         this.events = eventList;
+    }
+
+    public ArrayList<Event> copyEventList(ArrayList<Event> eventList) {
+        ArrayList<Event> copiedEventList = new ArrayList<Event>();
+        for (int i = eventList.size() - 1; i >= 0; --i) {
+            Event event = eventList.get(i);
+            if (event != null) {
+                copiedEventList.add(new Event(event));
+            }
+        }
+        return copiedEventList;
     }
 
     @Override
