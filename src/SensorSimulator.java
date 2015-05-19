@@ -60,7 +60,7 @@ public class SensorSimulator {
     public void startSimulation(int steps) throws IOException {
         setQueryNodes();
         for(int timeStep = 0; timeStep < steps; timeStep++) {
-        //    System.out.println("Step " + timeStep);
+        	System.out.println("Step " + timeStep);
             executeTimeStep(timeStep);
         }
     }
@@ -100,8 +100,9 @@ public class SensorSimulator {
 
         setNodesAvailable();
 
-      // System.out.println("Press any button to continue");
-       // System.in.read();
+
+      System.out.println("Press any button to continue");
+       System.in.read();
     }
 
     /**
@@ -131,7 +132,7 @@ public class SensorSimulator {
     private void setNodesAvailable() {
         for(Node node : nodes) {
             node.setAvailable();
-        //    System.out.print(node.toString());
+            System.out.print(node.toString());
         }
     }
 

@@ -17,7 +17,6 @@ import java.util.*;
 public class Query implements Message {
 
 	private Stack<Node> pathTaken;
-	private Hashtable<Position, Node> visited;
 	private int steps;
 	private Event event;
     private Event finalEvent;
@@ -32,8 +31,7 @@ public class Query implements Message {
      * @param requestedEventId
      */
 	public Query(int requestedEventId) {
-
-		visited = new Hashtable<Position,Node>();
+		steps = 0;
 		pathTaken = new Stack<Node>();
 		this.requestedEventId = requestedEventId;
 	}
@@ -64,12 +62,9 @@ public class Query implements Message {
 	public void addToPath(Node node) {
 		if(isReplied) {
 			steps = 0;
-			
 		} else {
 			steps++;
-			
             pathTaken.push(node);
-            visited.put(node.getMyPosition(), node);
         }
 	}
 	
@@ -77,10 +72,10 @@ public class Query implements Message {
 		System.out.println("Im an query");
         event = routingTable.getEvent(requestedEventId);
         if(event != null) {
-            isReplied = true;
             if (event.getDistance() == 0) {
                 finalEvent = event;
             }
+            isReplied = true;
             repliedDone();
             return event.getPosition();
         }
@@ -96,15 +91,13 @@ public class Query implements Message {
      *
      * @return boolean - true if replied, false else
      */
-    public boolean repliedDone() {
-        if(pathTaken.size() == 1 && isReplied) {
+    public void repliedDone() {
+        if(pathTaken.size() == 1 && event.getDistance() == 0) {
             System.out.println("Query replied, event at " + finalEvent.getPosition() +
-                               " Occurred at time step: " + finalEvent.getTimeOfEvent() + "." +
-                               " With ID: " + finalEvent.getEventId() + "\n");
+                    " Occurred at time step: " + finalEvent.getTimeOfEvent() + "." +
+                    " With ID: " + finalEvent.getEventId() + "\n");
             steps = timeToLive;
-            return true;
         }
-        return false;
     }
 }
 

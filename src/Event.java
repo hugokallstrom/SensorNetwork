@@ -96,6 +96,13 @@ public class Event {
         distance++;
     }
 
+    public Event(Event newEvent) {
+        this.distance = newEvent.getDistance();
+        this.eventId = newEvent.getEventId();
+        this.position = newEvent.getPosition();
+        this.timeOfEvent = newEvent.getTimeOfEvent();
+    }
+
     @Override
     public String toString() {
         String out = "";

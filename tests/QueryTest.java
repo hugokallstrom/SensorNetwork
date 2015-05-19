@@ -71,16 +71,6 @@ public class QueryTest {
 	}
 
 	/**
-	 * repliedDone checks if Query found the origin ef the event. Stack have to be size 1
-	 * and boolean isReplied should be true. So in this case when nothing is in the stack,
-	 * repliedDone should return false.
-	 */
-	@Test
-	public void testRepliedDone() {
-		assertFalse(q.repliedDone());
-	}
-
-	/**
 	 * When a Query is replied, handleEvents should return null.
 	 */
 	@Test

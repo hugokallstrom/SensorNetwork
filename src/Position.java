@@ -1,6 +1,12 @@
 /**
  * Created by hugo on 5/11/15.
  */
+/**
+ * @author Viktor Lindbad
+ *	Position objects in 
+ *	the network
+ */
+
 public class Position {
 	private int x;
 	private int y;
