@@ -41,7 +41,7 @@ public class Node {
     public void receiveEvent(Event event) {
         routingTable.addEvent(event);
         createAgent(event);
-        System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
+        System.out.println("Node says: Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
         nodeStatus = "E";
     }
 
@@ -164,10 +164,11 @@ public class Node {
           	
     	if(neighbour.isAvailable()) {
             availability = false;
-        //    System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
+            System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
+            System.out.println("Neighbour");
         } else {
-          //  System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
+        	System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
             nodeStatus = "+";
             messageQueue.add(message);
         }

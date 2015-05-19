@@ -74,6 +74,7 @@ public class Query implements Message {
 	}
 	
 	public Position handleEvents(RoutingTable routingTable) {
+		System.out.println("Im an query");
         event = routingTable.getEvent(requestedEventId);
         if(event != null) {
             isReplied = true;

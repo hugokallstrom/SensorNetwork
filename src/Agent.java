@@ -60,6 +60,7 @@ public class Agent implements Message {
 		 * events. If node or agent knows a shorter path to an event
 		 * they swap. 
 		 */
+		System.out.println("Im an agent");
         Node currentNode = pathTaken.peek();
         ArrayList<Event> nodesEventList = routingTable.getEventList();
 		this.routingTable.syncEvents(nodesEventList);
