@@ -61,10 +61,23 @@ public class Agent implements Message {
 	public Position handleEvents(RoutingTable nodeRoutingTable){
 		System.out.println("Im an agent");
 		
+
 		ArrayList<Event> syncedEventList = routingTable.syncEvents(nodeRoutingTable);
 		nodeRoutingTable.setEventList(syncedEventList);
         routingTable.findShortestPath(nodeRoutingTable);
         
+        nodeRoutingTable.setEventList(nodeRoutingTable.copyEventList(syncedEventList));
+        routingTable.setEventList(routingTable.copyEventList(syncedEventList));
+
+        ArrayList<Event> shortestEventList = new ArrayList<Event>();
+        System.out.println("BEFORE SYNCED LIST :" + shortestEventList);
+        shortestEventList = routingTable.findShortestPath(nodeRoutingTable);
+        System.out.println("SYNCED LIST:::::: " + shortestEventList.size());
+        
+        nodeRoutingTable.setEventList(nodeRoutingTable.copyEventList(shortestEventList));
+        
+        routingTable.setEventList(routingTable.copyEventList(shortestEventList));
+
         if(pathTaken.size() > 1) {
             this.routingTable.changeEventPosition(previousNode, nodeRoutingTable);
         }

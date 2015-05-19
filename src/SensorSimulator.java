@@ -102,7 +102,7 @@ public class SensorSimulator {
 
 
       System.out.println("Press any button to continue");
-       System.in.read();
+      System.in.read();
     }
 
     /**
@@ -132,7 +132,7 @@ public class SensorSimulator {
     private void setNodesAvailable() {
         for(Node node : nodes) {
             node.setAvailable();
-            System.out.print(node.toString());
+           System.out.print(node.toString());
         }
     }
 

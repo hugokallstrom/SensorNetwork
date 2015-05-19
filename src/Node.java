@@ -63,7 +63,7 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-        System.out.println(myPosition + " Creating query with event id " + eventId);
+    //    System.out.println(myPosition + " Creating query with event id " + eventId);
         Message query = new Query(eventId);
         query.addToPath(this);
         messageQueue.add(query);
@@ -108,7 +108,7 @@ public class Node {
             } else if(nodePosition.equals(myPosition)) {
                 Node previousNode = message.getPathTaken().pop();
                 sendMessageToNode(message, previousNode);
-           //     System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
+                System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
             } else {
                 Node neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);
@@ -183,9 +183,9 @@ public class Node {
             messageQueue.add(message);
             nodeStatus = "A";
         }
-        else if(timer.checkQuerySteps()){
+/*        else if(timer.checkQuerySteps()){
         	createQuery(timer.getEventId());
-        }
+        }*/
     }
 
     /**
