@@ -80,7 +80,7 @@ public class SensorSimulator {
      * Executes a time step by first creating an event. Thereafter
      * the current node handles its messages. Finally if the node is a
      * sender, the node sends a query for a random event.
-     * @param timeStep
+     * @param timeStep how many time steps to run the simulation.
      * @throws IOException
      */
     private void executeTimeStep(int timeStep) throws IOException {
@@ -100,7 +100,7 @@ public class SensorSimulator {
 
         setNodesAvailable();
 
-       //System.out.println("Press any button to continue");
+      // System.out.println("Press any button to continue");
        //System.in.read();
     }
 
@@ -131,7 +131,7 @@ public class SensorSimulator {
     private void setNodesAvailable() {
         for(Node node : nodes) {
             node.setAvailable();
-         //   System.out.print(node.toString());
+        //    System.out.print(node.toString());
         }
     }
 

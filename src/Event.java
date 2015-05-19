@@ -89,6 +89,9 @@ public class Event {
         this.timeOfEvent = timeOfEvent;
     }
 
+	/**
+	 *
+	 */
     public void incrementDistance() {
         distance++;
     }

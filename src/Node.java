@@ -41,7 +41,7 @@ public class Node {
     public void receiveEvent(Event event) {
         routingTable.addEvent(event);
         createAgent(event);
-    //    System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId());
+        System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
         nodeStatus = "E";
     }
 
@@ -63,8 +63,13 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
+<<<<<<< HEAD
     //    System.out.println(myPosition + " Creating query with event id " + eventId);
         Query query = new Query(eventId);
+=======
+        System.out.println(myPosition + " Creating query with event id " + eventId);
+        Message query = new Query(eventId);
+>>>>>>> branch 'master' of https://github.com/hugokallstrom/SensorNetwork.git
         query.addToPath(this);
         messageQueue.add(query);
         timer = new QueryTimer(eventId);
@@ -103,13 +108,14 @@ public class Node {
         if(!messageQueue.isEmpty()) {
             Message message = messageQueue.poll();
             Position nodePosition = message.handleEvents(routingTable);
+            System.out.println("My pos: " + myPosition + "received : " + nodePosition);
             if(nodePosition == null) {
                 Node neighbour = selectNextNeighbour(message.getPathTaken());
                 sendMessageToNode(message, neighbour);
             } else if(nodePosition.equals(myPosition)) {
                 Node previousNode = message.getPathTaken().pop();
                 sendMessageToNode(message, previousNode);
-                //    System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
+           //     System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
             } else {
                 Node neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);
@@ -144,7 +150,7 @@ public class Node {
      * @return the neighbour which has the position.
      */
     private Node getNeighbourFromPos(Position nodePosition) {
-        System.out.println(myPosition.toString() + "neighbor: " + nodePosition.toString());
+      //  System.out.println(myPosition.toString() + "neighbor: " + nodePosition.toString());
         for(Node neighbour : neighbours) {
             if(neighbour.getMyPosition().equals(nodePosition)) {
                 return neighbour;
@@ -162,7 +168,7 @@ public class Node {
           	
     	if(neighbour.isAvailable()) {
             availability = false;
-          //  System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
+        //    System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
         } else {
           //  System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
