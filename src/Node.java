@@ -63,14 +63,12 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-    //    System.out.println(myPosition + " Creating query with event id " + eventId);
         System.out.println(myPosition + " Creating query with event id " + eventId);
         Message query = new Query(eventId);
         query.addToPath(this);
         messageQueue.add(query);
         timer = new QueryTimer(eventId);
         }
-
 
     /**
      * Checks if a random generated integer equals zero.
@@ -116,6 +114,8 @@ public class Node {
                 Node neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);
             }
+
+            System.out.println(myPosition + "Routingtable: " + routingTable.toString());
         }
     }
 
@@ -161,8 +161,7 @@ public class Node {
      * @param neighbour the node which receives the message.
      */
     private void sendMessageToNode(Message message, Node neighbour) {
-          	
-    	if(neighbour.isAvailable()) {
+        if(neighbour.isAvailable()) {
             availability = false;
         //    System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
@@ -188,7 +187,8 @@ public class Node {
         	createQuery(timer.getEventId());
         }
     }
-	/**
+
+    /**
      * Sets the nodes neighbours.
      * @param neighbours the nodes neighbours.
      */
@@ -271,6 +271,5 @@ public class Node {
             return nodeStatus;
         }
     }
-    
 }
 

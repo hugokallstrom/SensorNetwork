@@ -11,51 +11,55 @@ public class RoutingTable {
 		events = new ArrayList<Event>();
 	}
 
-	public void syncEvents(ArrayList<Event> eventList) {
-		
+	public void syncEvents(RoutingTable routingTable) {
+		ArrayList<Event> eventList = routingTable.getEventList();
         for(Event event : eventList) {
             if(!events.contains(event)) {
-                events.add(event);
+                Event eventCopy = new Event(event);
+                events.add(eventCopy);
             }
         }
+
 		for(Event event : events) {
             if (!eventList.contains(event)) {
-                eventList.add(event);
+                Event eventCopy = new Event(event);
+                eventList.add(eventCopy);
             }
         }
-        findShortestPath(eventList);
 	}
 
-    private void findShortestPath(ArrayList<Event> nodeEvents) {
+    public void findShortestPath(RoutingTable nodeRoutingTable) {
+        ArrayList<Event> nodeEvents = nodeRoutingTable.getEventList();
         for(Event agentEvent : events){
-            for (Event nodeEvent : nodeEvents) {
-                if(agentEvent.getEventId() == (nodeEvent.getEventId()) && agentEvent.getDistance() < nodeEvent.getDistance()) {
+            for(Event nodeEvent : nodeEvents) {
+
+                if(agentEvent.getEventId() == nodeEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
                     nodeEvents.remove(nodeEvent);
-                    nodeEvents.add(agentEvent);
-                } else if(nodeEvent.getEventId() == (agentEvent.getEventId()) && agentEvent.getDistance() > nodeEvent.getDistance()){
+                    Event agentEventCopy = new Event(agentEvent);
+                    nodeEvents.add(agentEventCopy);
+                }
+
+                if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
                 	events.remove(agentEvent);
-                	events.add(nodeEvent);
+                    Event nodeEventCopy = new Event(nodeEvent);
+                	events.add(nodeEventCopy);
                 }
             }
         }
     }
 
-    public void addEvent(Event event) {
-		events.add(event);
-	}
-
-	public Event getEvent(int requestedEventId) {
-        for(Event event : events) {
-            if(event.getEventId() == requestedEventId) {
-                return event;
+    public void changeEventPosition(Node previousNode, RoutingTable nodeRoutingTable) {
+        ArrayList<Event> nodeEventList = nodeRoutingTable.getEventList();
+        Position previousNodePosition = previousNode.getMyPosition();
+        for(Event agentEvent : events) {
+            for(Event nodeEvent : nodeEventList) {
+                if(agentEvent.getEventId() == nodeEvent.getEventId() && (nodeEvent.getDistance() != 0 && agentEvent.getDistance() != 0)) {
+                    agentEvent.setPosition(previousNodePosition);
+                    nodeEvent.setPosition(previousNodePosition);
+                }
             }
         }
-        return null;
-	}
-
-    public ArrayList<Event> getEventList(){
-		return events;
-	}
+    }
 
     public void incrementEventDistances() {
         for(Event event : events) {
@@ -63,15 +67,21 @@ public class RoutingTable {
         }
     }
 
-    public void changeEventPosition(Position previousNodePosition, Position currentNodePosition, ArrayList<Event> eventList) {
+    public void addEvent(Event event) {
+        events.add(event);
+    }
+
+    public Event getEvent(int requestedEventId) {
         for(Event event : events) {
-            for(Event nodeEvent : eventList) {
-                if(event.equals(nodeEvent) && (nodeEvent.getPosition() != currentNodePosition && event.getDistance() != 0)) {
-                    event.setPosition(previousNodePosition);
-                    nodeEvent.setPosition(previousNodePosition);
-                }
+            if(event.getEventId() == requestedEventId) {
+                return event;
             }
         }
+        return null;
+    }
+
+    public ArrayList<Event> getEventList(){
+        return events;
     }
 
     @Override

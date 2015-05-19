@@ -44,30 +44,34 @@ public class Agent implements Message {
     	/**
     	 * Adds the given node to the stack.
     	 */
-		steps++;
         if(pathTaken.size() > 0) {
             previousNode = pathTaken.peek();
             this.routingTable.incrementEventDistances();
         } else {
             previousNode = node;
         }
-		pathTaken.push(node);
-	}
+        pathTaken.push(node);
+        steps++;
+    }
 
-	public Position handleEvents(RoutingTable routingTable){
-		/**
-		 * Iterate agents routing table and nodes routing table and swaps
-		 * events. If node or agent knows a shorter path to an event
-		 * they swap. 
-		 */
-        Node currentNode = pathTaken.peek();
-        ArrayList<Event> nodesEventList = routingTable.getEventList();
-		this.routingTable.syncEvents(nodesEventList);
-        if(pathTaken.size() != 1) {
-            this.routingTable.changeEventPosition(previousNode.getMyPosition(), currentNode.getMyPosition(), nodesEventList);
+    /**
+     * Iterate agents routing table and nodes routing table and swaps
+     * events. If node or agent knows a shorter path to an event
+     * they swap.
+     */
+	public Position handleEvents(RoutingTable nodeRoutingTable){
+		routingTable.syncEvents(nodeRoutingTable);
+        routingTable.findShortestPath(nodeRoutingTable);
+        if(pathTaken.size() > 1) {
+            this.routingTable.changeEventPosition(previousNode, nodeRoutingTable);
         }
-       // System.out.println("Agent at position: " + currentNode.getMyPosition() + routingTable.toString());
+        testPrint();
         return null;
 	}
+
+    private void testPrint() {
+        Node currentNode = pathTaken.peek();
+        System.out.println("Agent at position: " + currentNode.getMyPosition() + routingTable.toString());
+    }
 
 }
