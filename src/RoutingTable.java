@@ -25,21 +25,19 @@ public class RoutingTable {
 
     public void findShortestPath(RoutingTable nodeRoutingTable) {
         ArrayList<Event> nodeEvents = nodeRoutingTable.getEventList();
+        ArrayList<Event> shortestList = new ArrayList<Event>();
         for(Event agentEvent : events){
             for(Event nodeEvent : nodeEvents) {
-
                 if(agentEvent.getEventId() == nodeEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
-                    nodeEvents.remove(nodeEvent);
-                    Event agentEventCopy = new Event(agentEvent);
-                    nodeEvents.add(agentEventCopy);
-                }
-
-                if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
-                	events.remove(agentEvent);
-                    Event nodeEventCopy = new Event(nodeEvent);
-                	events.add(nodeEventCopy);
+                    shortestList.add(agentEvent);
+                } else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
+                    shortestList.add(nodeEvent);
                 }
             }
+        }
+
+        for(Event agentEvent : events) {
+
         }
     }
 
@@ -116,6 +114,24 @@ public class RoutingTable {
             if (!eventList.contains(event)) {
                 Event eventCopy = new Event(event);
                 eventList.add(eventCopy);
+            }
+        }
+
+
+           for(Event agentEvent : events){
+            for(Event nodeEvent : nodeEvents) {
+
+                if(agentEvent.getEventId() == nodeEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
+                    nodeEvents.remove(nodeEvent);
+                    Event agentEventCopy = new Event(agentEvent);
+                    nodeEvents.add(agentEventCopy);
+                }
+
+                if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
+                	events.remove(agentEvent);
+                    Event nodeEventCopy = new Event(nodeEvent);
+                	events.add(nodeEventCopy);
+                }
             }
         }
      */

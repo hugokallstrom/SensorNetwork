@@ -41,7 +41,7 @@ public class Node {
     public void receiveEvent(Event event) {
         routingTable.addEvent(event);
         createAgent(event);
-        System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
+     //   System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
         nodeStatus = "E";
     }
 
@@ -63,7 +63,7 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-        System.out.println(myPosition + " Creating query with event id " + eventId);
+    //    System.out.println(myPosition + " Creating query with event id " + eventId);
         Message query = new Query(eventId);
         query.addToPath(this);
         messageQueue.add(query);
