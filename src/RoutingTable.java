@@ -35,9 +35,9 @@ public class RoutingTable {
         ArrayList<Event> shortestList = new ArrayList<Event>();
         
         System.out.println("----*****----");
-        System.out.println("Leanght of agentlist: " + events.size());
-        System.out.println("Leangth of nodelist: " +nodeEvents.size());
-        System.out.println("Shortest : " + shortestList.size());
+        System.out.println("Lenght of agentlist: " + events.size());
+        System.out.println("Length of nodelist: " +nodeEvents.size());
+        System.out.println("Lenght of Shortest list: " + shortestList.size());
         
         for(Event agentEvent : events) {
             for(Event nodeEvent : nodeEvents) {
@@ -58,7 +58,7 @@ public class RoutingTable {
                 }
             }
         }
-        System.out.println("After loop: "+shortestList.size());
+        System.out.println("After loop shortest list lenght: "+shortestList.size());
         
             /**
              * det verkar som att man inte får öka på objektet man itererear
@@ -74,7 +74,7 @@ public class RoutingTable {
                 }
             }
         }
-        System.out.println("After loop2: "+shortestList.size());
+        System.out.println("After loop 2 shortest list length: "+shortestList.size());
 
         for(Event agentEve : nodeEvents) {
             for(Event shortest2 : shortestList) {
@@ -86,7 +86,7 @@ public class RoutingTable {
                 }
             }
         }
-        System.out.println("After loop3: "+shortestList.size());
+        System.out.println("After loop 3 shortest list lenght: "+shortestList.size());
 
         return shortestList ;
     }
