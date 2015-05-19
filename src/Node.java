@@ -68,7 +68,7 @@ public class Node {
         query.addToPath(this);
         messageQueue.add(query);
         timer = new QueryTimer(eventId);
-        }
+    }
 
     /**
      * Checks if a random generated integer equals zero.
@@ -102,7 +102,6 @@ public class Node {
         if(!messageQueue.isEmpty()) {
             Message message = messageQueue.poll();
             Position nodePosition = message.handleEvents(routingTable);
-            System.out.println("My pos: " + myPosition + "received : " + nodePosition);
             if(nodePosition == null) {
                 Node neighbour = selectNextNeighbour(message.getPathTaken());
                 sendMessageToNode(message, neighbour);

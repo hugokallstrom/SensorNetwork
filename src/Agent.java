@@ -60,7 +60,8 @@ public class Agent implements Message {
      * they swap.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable){
-		routingTable.syncEvents(nodeRoutingTable);
+		ArrayList<Event> syncedEventList = routingTable.syncEvents(nodeRoutingTable);
+        nodeRoutingTable.setEventList(syncedEventList);
         routingTable.findShortestPath(nodeRoutingTable);
         if(pathTaken.size() > 1) {
             this.routingTable.changeEventPosition(previousNode, nodeRoutingTable);

@@ -11,22 +11,20 @@ public class RoutingTable {
 		events = new ArrayList<Event>();
 	}
 
-	public void syncEvents(RoutingTable routingTable) {
-		ArrayList<Event> eventList = routingTable.getEventList();
-        for(Event event : eventList) {
-            if(!events.contains(event)) {
-                Event eventCopy = new Event(event);
-                events.add(eventCopy);
-            }
-        }
+	public ArrayList<Event> syncEvents(RoutingTable routingTable) {
+		ArrayList<Event> nodeEventList = routingTable.getEventList();
+        ArrayList<Event> syncedList = union(nodeEventList, events);
+        events = (ArrayList<Event>) syncedList.clone();
+        return syncedList;
 
-		for(Event event : events) {
-            if (!eventList.contains(event)) {
-                Event eventCopy = new Event(event);
-                eventList.add(eventCopy);
-            }
-        }
 	}
+
+    public <T> ArrayList<T> union(List<T> nodeEventList, List<T> agentEventList) {
+        Set<T> set = new HashSet<T>();
+        set.addAll(nodeEventList);
+        set.addAll(agentEventList);
+        return new ArrayList<T>(set);
+    }
 
     public void findShortestPath(RoutingTable nodeRoutingTable) {
         ArrayList<Event> nodeEvents = nodeRoutingTable.getEventList();
@@ -84,6 +82,10 @@ public class RoutingTable {
         return events;
     }
 
+    public void setEventList(ArrayList<Event> eventList){
+        this.events = eventList;
+    }
+
     @Override
     public String toString() {
         String out = "";
@@ -92,4 +94,21 @@ public class RoutingTable {
         }
         return out;
     }
+
+    /*
+     for(Event event : eventList) {
+            if(!events.contains(event)) {
+                Event eventCopy = new Event(event);
+                events.add(eventCopy);
+            }
+        }
+
+
+		for(Event event : events) {
+            if (!eventList.contains(event)) {
+                Event eventCopy = new Event(event);
+                eventList.add(eventCopy);
+            }
+        }
+     */
 }
