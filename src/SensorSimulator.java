@@ -59,7 +59,6 @@ public class SensorSimulator {
      */
     public void startSimulation(int steps) throws IOException {
         for(int timeStep = 0; timeStep < steps; timeStep++) {
-            System.out.println(timeStep);
             executeTimeStep(timeStep);
         }
     }
@@ -94,7 +93,6 @@ public class SensorSimulator {
 
             if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {
                 sendQueryToNode(node);
-                System.out.println(node.getRoutingTable().toString());
             }
         }
 

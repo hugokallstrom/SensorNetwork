@@ -63,7 +63,7 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-        System.out.println(myPosition + " Creating query with event id " + eventId);
+      //  System.out.println(myPosition + " Creating query with event id " + eventId);
         Message query = new Query(eventId);
         query.addToPath(this);
         messageQueue.add(query);
