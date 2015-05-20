@@ -40,13 +40,13 @@ public class RoutingTableTest {
 	@Test
 	public void testGetEventList(){
 		
-		assertEquals(rout.getEventList().size(),1);
+		assertEquals(rout.getEventTable().size(),1);
 		
 		Position pos = new Position(2,2);
 		Event e = new Event(2,3,pos);
 		rout.addEvent(e);
 		
-		assertEquals(rout.getEventList().size(),2);
+		assertEquals(rout.getEventTable().size(),2);
 	}
 	
 	@Test
@@ -65,8 +65,9 @@ public class RoutingTableTest {
 		
 		rout.findShortestPath(rt);
 		
-		System.out.println(rt.getEvent(1).getEventId());
-		assertEquals(2,rt.getEventList().size());
+		System.out.println(rt.getEvent(1).getDistance());
+		
+		assertEquals(rt.getEvent(1).getDistance(),2);
 	}
 	
 	@Test
@@ -74,12 +75,27 @@ public class RoutingTableTest {
 		
 		RoutingTable testrout = new RoutingTable();
 		
-		assertTrue(testrout.getEventList().isEmpty());
-		assertFalse(rout.getEventList().isEmpty());
+		assertTrue(testrout.getEventTable().isEmpty());
 		
 		rout.syncEvents(testrout);
-		System.out.println(testrout.getEventList().size());
 		
-		//assertFalse(testrout.getEventList().isEmpty());
+		assertFalse(testrout.getEventTable().isEmpty());
+	}
+	
+	@Test
+	public void testSyncEventsMooreEvents(){
+		RoutingTable testrout = new RoutingTable();
+		
+		Position pos = new Position(3,3);
+		Event e = new Event(15,100,pos);
+		Position p = new Position(5,5);
+		Event ev = new Event(22,100,p);
+		
+		testrout.addEvent(ev);
+		testrout.addEvent(e);
+		
+		rout.syncEvents(testrout);
+		
+		assertEquals(rout.getEventTable().size(),3);
 	}
 }

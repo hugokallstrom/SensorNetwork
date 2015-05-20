@@ -99,17 +99,16 @@ public class RoutingTable {
         this.events = eventList;
     }*/
 
-	public Hashtable<Integer, Event> deepCopy(Hashtable<Integer, Event> original) {
+	public void deepCopy() {
 	    
-		Hashtable<Integer, Event> copy = new Hashtable<Integer, Event>(original.size());
+		Hashtable<Integer, Event> copy = new Hashtable<Integer, Event>(hashTable.size());
 	    
-	    for(int originalKey : original.keySet()) {
+	    for(int originalKey : hashTable.keySet()) {
 	    	
-	    	Event copyEvent = new Event(original.get(originalKey));
+	    	Event copyEvent = new Event(hashTable.get(originalKey));
 	    	copy.put(originalKey, copyEvent);
 	    }
-	
-	    return copy;
+	    hashTable=copy;
 	}
     
 

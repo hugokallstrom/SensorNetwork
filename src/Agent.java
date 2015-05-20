@@ -62,25 +62,18 @@ public class Agent implements Message {
 		System.out.println("Im an agent");
 		
 
-		ArrayList<Event> syncedEventList = routingTable.syncEvents(nodeRoutingTable);
-		nodeRoutingTable.setEventList(syncedEventList);
+		routingTable.syncEvents(nodeRoutingTable);
         routingTable.findShortestPath(nodeRoutingTable);
         
-        nodeRoutingTable.setEventList(nodeRoutingTable.copyEventList(syncedEventList));
-        routingTable.setEventList(routingTable.copyEventList(syncedEventList));
-        /*
-        ArrayList<Event> shortestEventList = new ArrayList<Event>();
-        System.out.println("BEFORE SYNCED LIST :" + shortestEventList.size());
-        shortestEventList = routingTable.findShortestPath(nodeRoutingTable);
-        System.out.println("SYNCED LIST:::::: " + shortestEventList.size());
         
-        nodeRoutingTable.setEventList(nodeRoutingTable.copyEventList(shortestEventList));
+        System.out.println("node routing table:::::: " + nodeRoutingTable.getEventTable().size());
+        System.out.println("Agent routing table:::::: "+ routingTable.getEventTable().size());
         
-        routingTable.setEventList(routingTable.copyEventList(shortestEventList));
-        */
         if(pathTaken.size() > 1) {
             this.routingTable.changeEventPosition(previousNode, nodeRoutingTable);
         }
+        routingTable.deepCopy();
+
 
         testPrint();
         return null;
