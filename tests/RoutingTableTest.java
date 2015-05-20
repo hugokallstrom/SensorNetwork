@@ -36,50 +36,7 @@ public class RoutingTableTest {
 		
 		assertEquals(rout.getEvent(2),e);
 	}
-	
-	@Test
-	public void testGetEventList(){
-		
-		assertEquals(rout.getEventList().size(),1);
-		
-		Position pos = new Position(2,2);
-		Event e = new Event(2,3,pos);
-		rout.addEvent(e);
-		
-		assertEquals(rout.getEventList().size(),2);
-	}
-	
-	@Test
-	public void testShortestPath(){
-		
-		RoutingTable rt = new RoutingTable();
-		Position pos = new Position(3,3);
-		Event e = new Event(1,100,pos);
-		
-		Position po = new Position(3,5);
-		Event testEvent = new Event(5,4,po);
-		
-		rout.addEvent(testEvent);
-		e.setDistance(5);
-		rt.addEvent(e);
-		
-		rout.findShortestPath(rt);
-		
-		System.out.println(rt.getEvent(1).getEventId());
-		assertEquals(2,rt.getEventList().size());
-	}
-	
-	@Test
-	public void testsyncEvents(){
-		
-		RoutingTable testrout = new RoutingTable();
-		
-		assertTrue(testrout.getEventList().isEmpty());
-		assertFalse(rout.getEventList().isEmpty());
-		
-		rout.syncEvents(testrout);
-		System.out.println(testrout.getEventList().size());
-		
-		//assertFalse(testrout.getEventList().isEmpty());
-	}
+
+
+
 }

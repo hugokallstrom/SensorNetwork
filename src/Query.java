@@ -20,9 +20,10 @@ public class Query implements Message {
 	private int steps;
 	private Event event;
     private Event finalEvent;
+    private Node currentNode;
     private int requestedEventId;
     private int timeToLive = Constants.timeToLiveQuery;
-    private boolean isReplied = false;
+    private boolean hasFoundPath = false;
 
     /**
      * Constructor for Query. Sets variables and creates a stack for path taken
@@ -60,30 +61,30 @@ public class Query implements Message {
      * to 0.
      */
 	public void addToPath(Node node) {
-		if(isReplied) {
+		if(hasFoundPath) {
 			steps = 0;
 		} else {
+            currentNode = node;
 			steps++;
             pathTaken.push(node);
         }
 	}
 	
 	public Position handleEvents(RoutingTable routingTable) {
-		System.out.println("Im an query");
         event = routingTable.getEvent(requestedEventId);
-        if(event != null) {
+        if(event != null && event.getPosition().isNeighbour(currentNode.getMyPosition())) {
+            hasFoundPath = true;
             if (event.getDistance() == 0) {
                 finalEvent = event;
             }
-            isReplied = true;
-            repliedDone();
+            checkRepliedDone();
             return event.getPosition();
         }
         return null;
     }
 
     /**
-     * Checks if Query-stack has one node and if boolean "isReplied" is true.
+     * Checks if Query-stack has one node and if boolean "hasFoundPath" is true.
      * If both are true it means that Query has found the destination of the event
      * and travelled all the way back from where the creation of the Query.
      * It will print information about the event (event ID, time of the event and
@@ -91,8 +92,8 @@ public class Query implements Message {
      *
      * @return boolean - true if replied, false else
      */
-    public void repliedDone() {
-        if(pathTaken.size() == 1 && event.getDistance() == 0) {
+    public void checkRepliedDone() {
+        if(pathTaken.size() == 1 && finalEvent != null) {
             System.out.println("Query replied, event at " + finalEvent.getPosition() +
                     " Occurred at time step: " + finalEvent.getTimeOfEvent() + "." +
                     " With ID: " + finalEvent.getEventId() + "\n");

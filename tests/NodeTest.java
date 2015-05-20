@@ -34,11 +34,6 @@ public class NodeTest {
         routingTable = node.getRoutingTable();
     }
 
-    @After
-    public void tearDown() throws Exception {
-        node.getRoutingTable().getEventList().clear();
-    }
-
     @Test
     public void testSender() throws Exception {
         node.setSender(true);
@@ -58,19 +53,6 @@ public class NodeTest {
         assertEquals(0, pos.getY());
     }
 
-    @Test
-    public void testReceiveOneEvent() throws Exception {
-        ArrayList<Event> events = routingTable.getEventList();
-        assertEquals(1, events.size());
-    }
-
-    @Test
-    public void testEventDistance() throws Exception {
-        ArrayList<Event> events = routingTable.getEventList();
-        Event nodeEvent = events.get(0);
-        int eventDistance = nodeEvent.getDistance();
-        assertEquals(0, eventDistance);
-    }
 
     @Test
     public void testCreateQuery() throws Exception {
