@@ -1,17 +1,14 @@
 import static org.junit.Assert.*;
 
-import java.util.ArrayList;
 import java.util.Stack;
 
 import org.junit.Test;
 import org.junit.Before;
 
-import sun.management.resources.agent;
-
 public class AgentTest {
 
 	/**
-	 * Unit testing agent
+	 * Unit testing agents methods.
 	 * @author ViktorLindblad
 	 * 
 	 */
@@ -21,18 +18,19 @@ public class AgentTest {
 	private Node node;
 	private RoutingTable rout;
 	
+	/**
+	 * Runs before every test.
+	 */
 	@Before
 	public void startingTest(){
-		/**
-		 * Runs before every test.
-		 */
+	
 		position = new Position(3,3);
 		event = new Event(1,2,position);
 		agent = new Agent(event);
 		node = new Node(position);
 		rout = new RoutingTable();
 	}
-
+	
 	/**
 	 * Confirms that agent is not null.
 	 */
@@ -42,8 +40,8 @@ public class AgentTest {
 	}
 	
 	/**
-	 * Testing agents method add to path with a given node and 
-	 * a different stack.  
+	 * Testing agents method add to path and get path taken
+	 * with a given node and a different stack.  
 	 */
 	@Test
 	public void TestAgentAddToPath(){
@@ -85,38 +83,38 @@ public class AgentTest {
 
 	/**
 	 * Testing if agents handle events contains the same event,
-	 * as a given event and routingtable. 
+	 * as a given event and routingtable.
+	 *  
 	 */
 	@Test
 	public void TesthandleEvents(){
 		
 		RoutingTable r = new RoutingTable();
-		r.addEvent(event);
 		
-		agent.handleEvents(rout);
+		agent.handleEvents(r);
 		
 		Event e = r.getEvent(1);
 		
-		Event ev = rout.getEvent(1);
-
-		assertEquals(e,ev);
+		assertEquals(e.getEventId(),event.getEventId());
 	}
 	
+	/**
+	 * Test if distance is changed when running handle events, with a 
+	 * given event with given distance.
+	 */
 	@Test
 	public void TesthandleEventDistance(){
-		fail("not yet implemented");
+		Position p = new Position(2,4);
+		Event ev = new Event(1,4,p);
+		event.setDistance(3);
 		
-		Position p = new Position(5,5);
-		Event even = new Event(5,5,p);
+		ev.setDistance(1);
+		rout.addEvent(ev);
 		
-		Agent newagent = new Agent(even);
-		event.setDistance(5);
+		agent.handleEvents(rout);	
 		
-		even.setDistance(3);
+		Event e = rout.getEvent(1);
 		
-		agent.handleEvents(rout);		
-		Event ev = rout.getEvent(1);
-
-		//assertEquals(ev);
+		assertEquals(ev.getDistance(),1);
 	}
 }
