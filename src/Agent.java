@@ -68,20 +68,19 @@ public class Agent implements Message {
         
         nodeRoutingTable.setEventList(nodeRoutingTable.copyEventList(syncedEventList));
         routingTable.setEventList(routingTable.copyEventList(syncedEventList));
-
+        /*
         ArrayList<Event> shortestEventList = new ArrayList<Event>();
-        System.out.println("BEFORE SYNCED LIST :" + shortestEventList);
+        System.out.println("BEFORE SYNCED LIST :" + shortestEventList.size());
         shortestEventList = routingTable.findShortestPath(nodeRoutingTable);
         System.out.println("SYNCED LIST:::::: " + shortestEventList.size());
         
         nodeRoutingTable.setEventList(nodeRoutingTable.copyEventList(shortestEventList));
         
         routingTable.setEventList(routingTable.copyEventList(shortestEventList));
-
+        */
         if(pathTaken.size() > 1) {
             this.routingTable.changeEventPosition(previousNode, nodeRoutingTable);
         }
-        
         testPrint();
         return null;
 	}

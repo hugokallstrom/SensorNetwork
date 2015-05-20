@@ -11,6 +11,7 @@ public class RoutingTable {
 		events = new ArrayList<Event>();
 	}
 
+	@SuppressWarnings("unchecked")
 	public ArrayList<Event> syncEvents(RoutingTable routingTable) {
 		ArrayList<Event> nodeEventList = routingTable.getEventList();
         ArrayList<Event> syncedList = union(nodeEventList, events);
@@ -23,7 +24,8 @@ public class RoutingTable {
 	}
 
     public <T> ArrayList<T> union(List<T> nodeEventList, List<T> agentEventList) {
-        Set<T> set = new HashSet<T>();
+        
+    	Set<T> set = new HashSet<T>();
         set.addAll(nodeEventList);
         set.addAll(agentEventList);
         return new ArrayList<T>(set);
@@ -33,37 +35,66 @@ public class RoutingTable {
     	
         ArrayList<Event> nodeEvents = nodeRoutingTable.getEventList();
         ArrayList<Event> shortestList = new ArrayList<Event>();
+        ArrayList<Event> bufferList = new ArrayList<Event>();
         
-        System.out.println("----*****----");
+        System.out.println("----*****----This is a Method in routingTable ----*****----");
         System.out.println("Lenght of agentlist: " + events.size());
         System.out.println("Length of nodelist: " +nodeEvents.size());
         System.out.println("Lenght of Shortest list: " + shortestList.size());
         
+        /**
+         * added används bara så att man kan lägga till element som finns i
+         * agentevents men inte 
+         * finns i nodeEvent, -> shortest.
+         */
+        boolean added = false;
+        
         for(Event agentEvent : events) {
             for(Event nodeEvent : nodeEvents) {
+            	
                 if(agentEvent.getEventId() == nodeEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
-
+                	added = true;
                     shortestList.add(agentEvent);
                 }
                 else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
-                	
+                	added = true;
                     shortestList.add(nodeEvent);
                 }
                 /**
                  * om de har samma distance.
                  */
                 else if(nodeEvent.getEventId() == agentEvent.getEventId()) {
-                	
+                	added = true;
                 	shortestList.add(agentEvent);
                 }
             }
+            if(!added){
+            	shortestList.add(agentEvent);
+            }
         }
-        System.out.println("After loop shortest list lenght: "+shortestList.size());
+        
+        boolean add=false;
+        for(Event nodeEvent : nodeEvents) {
+        	for(Event agentEvent : shortestList) {
+        		if(nodeEvent.getEventId() == agentEvent.getEventId()){
+        			add = true;
+        		}
+        	}
+        	if(!add){
+        		bufferList.add(nodeEvent);
+        	}
+        }
+        int index=0;
+        
+        while(!bufferList.isEmpty()){
+        	Event event = bufferList.remove(index);
+        	shortestList.add(event);
+        }
         
             /**
              * det verkar som att man inte får öka på objektet man itererear
              * igenom
-             */
+             *//*
         for(Event agent : events) {
             for(Event shortest : shortestList) {
              	System.out.println("shortest id " + shortest.getEventId() );
@@ -85,7 +116,7 @@ public class RoutingTable {
                     shortestList.add(agentEve);
                 }
             }
-        }
+        }*/
         System.out.println("After loop 3 shortest list lenght: "+shortestList.size());
 
         return shortestList ;
