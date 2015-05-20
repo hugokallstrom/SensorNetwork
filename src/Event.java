@@ -12,10 +12,10 @@
 public class Event {
 
 	private int eventId;
-	private int distance;
-	private Position position;
+    private int distance;
+    private Position position;
 	private int timeOfEvent;
-	
+
 	/**
 	 * Constructor that will create an Event.
 	 * @param eventId
@@ -28,6 +28,13 @@ public class Event {
 		this.position = position;
 		distance = 0;
 	}
+
+    public Event(Event newEvent) {
+        this.distance = newEvent.getDistance();
+        this.eventId = newEvent.getEventId();
+        this.position = newEvent.getPosition();
+        this.timeOfEvent = newEvent.getTimeOfEvent();
+    }
 
 	/**
 	 * Returns the event ID
@@ -44,7 +51,7 @@ public class Event {
 	public int getDistance(){
 		return distance;
 	}
-	
+
 	/**
 	 * Method to set distance
 	 * @param distance
@@ -52,18 +59,18 @@ public class Event {
 	public void setDistance(int distance){
 		this.distance = distance;
 	}
-	
+
 	/**
-	 * Returns position. When an event is created, position will work as the 
-	 * root of the event. Position will work as a direction to go to if 
+	 * Returns position. When an event is created, position will work as the
+	 * root of the event. Position will work as a direction to go to if
 	 * query/agent is not standing at the root of the event.
-	 * 
+	 *
 	 * @return position
 	 */
 	public Position getPosition(){
 		return position;
 	}
-	
+
 	/**
 	 * Method to set a position
 	 * @param position
@@ -71,9 +78,9 @@ public class Event {
 	public void setPosition(Position position){
 		this.position = position;
 	}
-	
+
 	/**
-	 * Returns the time that the event was created. Time is represented by 
+	 * Returns the time that the event was created. Time is represented by
 	 * time steps.
 	 * @return timeOfEvent
 	 */
@@ -94,13 +101,6 @@ public class Event {
 	 */
     public void incrementDistance() {
         distance++;
-    }
-
-    public Event(Event newEvent) {
-        this.distance = newEvent.getDistance();
-        this.eventId = newEvent.getEventId();
-        this.position = newEvent.getPosition();
-        this.timeOfEvent = newEvent.getTimeOfEvent();
     }
 
     @Override

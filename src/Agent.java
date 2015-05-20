@@ -58,24 +58,18 @@ public class Agent implements Message {
      * events. If node or agent knows a shorter path to an event
      * they swap.
      */
-	public Position handleEvents(RoutingTable nodeRoutingTable){
-		System.out.println("Im an agent");
-		
+	public Position handleEvents(RoutingTable nodeRoutingTable){		
 
 		routingTable.syncEvents(nodeRoutingTable);
         routingTable.findShortestPath(nodeRoutingTable);
         
-        
-        System.out.println("node routing table:::::: " + nodeRoutingTable.getEventTable().size());
-        System.out.println("Agent routing table:::::: "+ routingTable.getEventTable().size());
-        
         if(pathTaken.size() > 1) {
             this.routingTable.changeEventPosition(previousNode, nodeRoutingTable);
         }
-        routingTable.deepCopy();
 
+        routingTable.deepCopyHashtable();
 
-        testPrint();
+        //testPrint();
         return null;
 	}
 

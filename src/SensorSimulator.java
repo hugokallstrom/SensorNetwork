@@ -58,9 +58,8 @@ public class SensorSimulator {
      * @throws IOException
      */
     public void startSimulation(int steps) throws IOException {
-        setQueryNodes();
         for(int timeStep = 0; timeStep < steps; timeStep++) {
-        	System.out.println("Step " + timeStep);
+        //    System.out.println("Step " + timeStep);
             executeTimeStep(timeStep);
         }
     }
@@ -69,7 +68,7 @@ public class SensorSimulator {
      * Sets a number of nodes senders, which means the nodes
      * can create queries for events.
      */
-    private void setQueryNodes() {
+    public void setQueryNodes() {
         for(int i = 0; i < Constants.nrOfQueryNodes; i++) {
             int random = generateRandom(Constants.nrOfNodes);
             nodes.get(random).setSender(true);
@@ -87,7 +86,7 @@ public class SensorSimulator {
         for(Node node : nodes) {
             if(calculateChance(Constants.eventChance)) {
                 Event event = new Event(generateRandom(Constants.eventIdMax), timeStep, node.getMyPosition());
-                eventList.add(event);
+                eventList.add(new Event(event));
                 node.receiveEvent(event);
             }
 
@@ -100,9 +99,7 @@ public class SensorSimulator {
 
         setNodesAvailable();
 
-
-      System.out.println("Press any button to continue");
-      System.in.read();
+       System.in.read();
     }
 
     /**

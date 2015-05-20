@@ -8,16 +8,20 @@ public class QueryTimer {
 		this.eventId = eventId;
 		querySteps=1;
 	}
-	
+
+    public int getEventId(){
+        return eventId;
+    }
+
+    public int getQuerySteps() {
+        return querySteps;
+    }
+
 	public void countQuerySteps(){
 		querySteps++;
 	}
-	
-	public int getEventId(){
-		return eventId;
-	}
-	
+
 	public boolean checkQuerySteps(){
-		return (querySteps<Constants.timeToLiveQuery);
+		return (querySteps >= 8*Constants.timeToLiveQuery);
 	}
 }

@@ -41,7 +41,7 @@ public class Node {
     public void receiveEvent(Event event) {
         routingTable.addEvent(event);
         createAgent(event);
-        System.out.println("Node says: Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
+        System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
         nodeStatus = "E";
     }
 
@@ -63,7 +63,7 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-    //    System.out.println(myPosition + " Creating query with event id " + eventId);
+        System.out.println(myPosition + " Creating query with event id " + eventId);
         Message query = new Query(eventId);
         query.addToPath(this);
         messageQueue.add(query);
@@ -89,10 +89,13 @@ public class Node {
      */
     public void handleMessage() {
         // Test purposes
-    	if(timer!=null){
-    		timer.countQuerySteps();
-    	}
-    	
+        if(timer != null) {
+            timer.countQuerySteps();
+            if(timer.checkQuerySteps()) {
+                createQuery(timer.getEventId());
+            }
+        }
+
         if(availability) {
             nodeStatus = "*";
         } else {
@@ -102,17 +105,15 @@ public class Node {
         if(!messageQueue.isEmpty()) {
             Message message = messageQueue.poll();
             Position nodePosition = message.handleEvents(routingTable);
+            Node neighbour;
             if(nodePosition == null) {
-                Node neighbour = selectNextNeighbour(message.getPathTaken());
-                sendMessageToNode(message, neighbour);
+                neighbour = selectNextNeighbour(message.getPathTaken());
             } else if(nodePosition.equals(myPosition)) {
-                Node previousNode = message.getPathTaken().pop();
-                sendMessageToNode(message, previousNode);
-                System.out.println("Found event at " + myPosition + " Sending back to: " + previousNode.getMyPosition());
+                neighbour = message.getPathTaken().pop();
             } else {
-                Node neighbour = getNeighbourFromPos(nodePosition);
-                sendMessageToNode(message, neighbour);
+                neighbour = getNeighbourFromPos(nodePosition);
             }
+            sendMessageToNode(message, neighbour);
 
             System.out.println(myPosition + "Routingtable: " + routingTable.toString());
         }
@@ -145,7 +146,6 @@ public class Node {
      * @return the neighbour which has the position.
      */
     private Node getNeighbourFromPos(Position nodePosition) {
-      //  System.out.println(myPosition.toString() + "neighbor: " + nodePosition.toString());
         for(Node neighbour : neighbours) {
             if(neighbour.getMyPosition().equals(nodePosition)) {
                 return neighbour;
@@ -160,13 +160,10 @@ public class Node {
      * @param neighbour the node which receives the message.
      */
     private void sendMessageToNode(Message message, Node neighbour) {
-        if(neighbour.isAvailable()) {
+        if(neighbour.isAvailable() && isAvailable()) {
             availability = false;
-            System.out.println(myPosition + " Sending message to neighbour: " + neighbour.getMyPosition());
             neighbour.receiveMessage(message);
-            System.out.println("Neighbour");
         } else {
-        	System.out.println(myPosition + " Putting message in queue, neighbour at " + neighbour.getMyPosition() + " not available.");
             nodeStatus = "+";
             messageQueue.add(message);
         }
@@ -183,9 +180,6 @@ public class Node {
             messageQueue.add(message);
             nodeStatus = "A";
         }
-/*        else if(timer.checkQuerySteps()){
-        	createQuery(timer.getEventId());
-        }*/
     }
 
     /**
