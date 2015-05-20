@@ -74,5 +74,4 @@ public class Agent implements Message {
         Node currentNode = pathTaken.peek();
         System.out.println("Agent at position: " + currentNode.getMyPosition() + routingTable.toString());
     }
-
 }

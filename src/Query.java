@@ -69,10 +69,19 @@ public class Query implements Message {
             pathTaken.push(node);
         }
 	}
-	
+
+    /**
+     * Method handleEvents looks for a requested event ID in node's routingTable.
+     * If the event value is null, node doesn't know the way to the event so method returns null.
+     * If event isn't null, node knows the way to the event and checks if replied is done,
+     * then returns the current position in the routingTable.
+     *
+     * @param routingTable
+     * @return Position
+     */
 	public Position handleEvents(RoutingTable routingTable) {
         event = routingTable.getEvent(requestedEventId);
-        if(event != null && event.getPosition().isNeighbour(currentNode.getMyPosition())) {
+        if(event != null) {
             hasFoundPath = true;
             if (event.getDistance() == 0) {
                 finalEvent = event;
@@ -86,7 +95,7 @@ public class Query implements Message {
     /**
      * Checks if Query-stack has one node and if boolean "hasFoundPath" is true.
      * If both are true it means that Query has found the destination of the event
-     * and travelled all the way back from where the creation of the Query.
+     * and travelled all the way back from where the Query was created.
      * It will print information about the event (event ID, time of the event and
      * the position of the event). If false, Query hasn't found its requested event.
      *
