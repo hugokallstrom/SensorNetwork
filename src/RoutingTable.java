@@ -5,129 +5,68 @@ import java.util.*;
 
 public class RoutingTable {
 
-	private ArrayList<Event> events;
+	//private ArrayList<Event> events;
+	private Hashtable<Integer, Event> hashTable;
 	
 	public RoutingTable() {
-		events = new ArrayList<Event>();
+		//events = new ArrayList<Event>();
+		hashTable = new	Hashtable<Integer, Event>();
 	}
-
-	@SuppressWarnings("unchecked")
-	public ArrayList<Event> syncEvents(RoutingTable routingTable) {
-		ArrayList<Event> nodeEventList = routingTable.getEventList();
-        ArrayList<Event> syncedList = union(nodeEventList, events);
-        
-        events = (ArrayList<Event>) syncedList.clone();
-        
-        return syncedList;
-
-        //return union(nodeEventList, events);
+	
+	public void syncEvents(RoutingTable nodeRoutingTable){
+		
+		if(nodeRoutingTable.hashTable.isEmpty()){
+			nodeRoutingTable.hashTable = new Hashtable<Integer, Event> (hashTable );
+		}
+		
+		for (int agentKey : hashTable.keySet()){
+			for (int nodeKey : nodeRoutingTable.hashTable.keySet()){
+				Event agentEvent = hashTable.get(agentKey);
+        		Event nodeEvent = nodeRoutingTable.hashTable.get(nodeKey);
+				
+				if(!hashTable.containsKey(nodeKey)){
+					hashTable.put(nodeKey, nodeEvent);
+				}
+				else if(!nodeRoutingTable.hashTable.containsKey(agentKey)){
+					nodeRoutingTable.hashTable.put(agentKey, agentEvent);
+				}
+			}
+			
+		}
 	}
-
-    public <T> ArrayList<T> union(List<T> nodeEventList, List<T> agentEventList) {
-        
-    	Set<T> set = new HashSet<T>();
-        set.addAll(nodeEventList);
-        set.addAll(agentEventList);
-        return new ArrayList<T>(set);
-    }
-
-    public ArrayList<Event> findShortestPath(RoutingTable nodeRoutingTable) {
-    	
-        ArrayList<Event> nodeEvents = nodeRoutingTable.getEventList();
-        ArrayList<Event> shortestList = new ArrayList<Event>();
-        ArrayList<Event> bufferList = new ArrayList<Event>();
-        
-        System.out.println("----*****----This is a Method in routingTable ----*****----");
-        System.out.println("Lenght of agentlist: " + events.size());
-        System.out.println("Length of nodelist: " +nodeEvents.size());
-        System.out.println("Lenght of Shortest list: " + shortestList.size());
-        
-        /**
-         * added används bara så att man kan lägga till element som finns i
-         * agentevents men inte 
-         * finns i nodeEvent, -> shortest.
-         */
-        boolean added = false;
-        
-        for(Event agentEvent : events) {
-            for(Event nodeEvent : nodeEvents) {
-            	
-                if(agentEvent.getEventId() == nodeEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
-                	added = true;
-                    shortestList.add(agentEvent);
-                }
-                else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
-                	added = true;
-                    shortestList.add(nodeEvent);
-                }
-                /**
-                 * om de har samma distance.
-                 */
-                else if(nodeEvent.getEventId() == agentEvent.getEventId()) {
-                	added = true;
-                	shortestList.add(agentEvent);
-                }
-            }
-            if(!added){
-            	shortestList.add(agentEvent);
-            }
-        }
-        
-        boolean add=false;
-        for(Event nodeEvent : nodeEvents) {
-        	for(Event agentEvent : shortestList) {
-        		if(nodeEvent.getEventId() == agentEvent.getEventId()){
-        			add = true;
+	
+    public void findShortestPath(RoutingTable nodeRoutingTable) {
+      
+        for(int agentKey : hashTable.keySet()){
+        	for(int nodeKey : nodeRoutingTable.hashTable.keySet()){
+        		
+        		Event agentEvent = hashTable.get(agentKey);
+        		Event nodeEvent = nodeRoutingTable.hashTable.get(nodeKey);
+        	
+        		if(nodeEvent.getEventId()==agentEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()){
+        			Event copyAgentEvent = new Event(agentEvent);
+        			nodeRoutingTable.hashTable.put(nodeKey, copyAgentEvent);
+        		}
+        		else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()){
+        			Event copyNodeEvent = new Event(nodeEvent);
+        			hashTable.put(agentKey, copyNodeEvent);
         		}
         	}
-        	if(!add){
-        		bufferList.add(nodeEvent);
-        	}
         }
-        int index=0;
-        
-        while(!bufferList.isEmpty()){
-        	Event event = bufferList.remove(index);
-        	shortestList.add(event);
-        }
-        
-            /**
-             * det verkar som att man inte får öka på objektet man itererear
-             * igenom
-             *//*
-        for(Event agent : events) {
-            for(Event shortest : shortestList) {
-             	System.out.println("shortest id " + shortest.getEventId() );
-                System.out.println("agent id "+agent.getEventId());
-            	if(agent.getEventId() != shortest.getEventId()) {
-               
-                    shortestList.add(agent);
-                }
-            }
-        }
-        System.out.println("After loop 2 shortest list length: "+shortestList.size());
-
-        for(Event agentEve : nodeEvents) {
-            for(Event shortest2 : shortestList) {
-            	System.out.println("shortest id " + shortest2.getEventId() );
-                System.out.println("agent id "+agentEve.getEventId());
-            	if(agentEve.getEventId() != shortest2.getEventId()) {
-                	
-                    shortestList.add(agentEve);
-                }
-            }
-        }*/
-        System.out.println("After loop 3 shortest list lenght: "+shortestList.size());
-
-        return shortestList ;
     }
 
     public void changeEventPosition(Node previousNode, RoutingTable nodeRoutingTable) {
-        ArrayList<Event> nodeEventList = nodeRoutingTable.getEventList();
+        
+    	Hashtable<Integer, Event> nodeEventTable = nodeRoutingTable.getEventTable();
         Position previousNodePosition = previousNode.getMyPosition();
-        for(Event agentEvent : events) {
-            for(Event nodeEvent : nodeEventList) {
-                if(agentEvent.getEventId() == nodeEvent.getEventId() && (nodeEvent.getDistance() != 0 && agentEvent.getDistance() != 0)) {
+        
+        for(int  agentKey : hashTable.keySet()) {
+            for(int nodeKey : nodeRoutingTable.hashTable.keySet()) {
+            	
+            	Event agentEvent = hashTable.get(agentKey);
+        		Event nodeEvent = nodeEventTable.get(nodeKey);
+            	
+                if(agentKey == nodeKey && (nodeEvent.getDistance() != 0 && agentEvent.getDistance() != 0)) {
                     agentEvent.setPosition(previousNodePosition);
                     nodeEvent.setPosition(previousNodePosition);
                 }
@@ -136,84 +75,53 @@ public class RoutingTable {
     }
 
     public void incrementEventDistances() {
-        for(Event event : events) {
-            event.incrementDistance();
+        for(int eventKey : hashTable.keySet()) {
+        	Event agentEvent = hashTable.get(eventKey);
+    		
+        	agentEvent.incrementDistance();
         }
     }
 
     public void addEvent(Event event) {
-        events.add(event);
+        hashTable.put(event.getEventId(),event);
     }
 
     public Event getEvent(int requestedEventId) {
-        for(Event event : events) {
-            if(event.getEventId() == requestedEventId) {
-                return event;
-            }
-        }
-        return null;
+    	return hashTable.get(requestedEventId);
+        
     }
 
-    public ArrayList<Event> getEventList(){
-        return events;
+    public Hashtable<Integer,Event> getEventTable(){
+        return hashTable;
     }
-
+    /*
     public void setEventList(ArrayList<Event> eventList){
         this.events = eventList;
-    }
+    }*/
 
-    public ArrayList<Event> copyEventList(ArrayList<Event> eventList) {
-        ArrayList<Event> copiedEventList = new ArrayList<Event>();
-        for (int i = eventList.size() - 1; i >= 0; --i) {
-            Event event = eventList.get(i);
-            if (event != null) {
-                copiedEventList.add(new Event(event));
-            }
-        }
-        return copiedEventList;
-    }
+	public Hashtable<Integer, Event> deepCopy(Hashtable<Integer, Event> original) {
+	    
+		Hashtable<Integer, Event> copy = new Hashtable<Integer, Event>(original.size());
+	    
+	    for(int originalKey : original.keySet()) {
+	    	
+	    	Event copyEvent = new Event(original.get(originalKey));
+	    	copy.put(originalKey, copyEvent);
+	    }
+	
+	    return copy;
+	}
+    
 
     @Override
     public String toString() {
         String out = "";
-        for(Event event : events) {
-            out += event.toString();
+        for(int eventKey : hashTable.keySet()) {
+            
+        	Event event = hashTable.get(eventKey);
+        	
+        	out += event.toString();
         }
         return out;
     }
-
-    /*
-     for(Event event : eventList) {
-            if(!events.contains(event)) {
-                Event eventCopy = new Event(event);
-                events.add(eventCopy);
-            }
-        }
-
-
-		for(Event event : events) {
-            if (!eventList.contains(event)) {
-                Event eventCopy = new Event(event);
-                eventList.add(eventCopy);
-            }
-        }
-
-
-           for(Event agentEvent : events){
-            for(Event nodeEvent : nodeEvents) {
-
-                if(agentEvent.getEventId() == nodeEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
-                    nodeEvents.remove(nodeEvent);
-                    Event agentEventCopy = new Event(agentEvent);
-                    nodeEvents.add(agentEventCopy);
-                }
-
-                if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
-                	events.remove(agentEvent);
-                    Event nodeEventCopy = new Event(nodeEvent);
-                	events.add(nodeEventCopy);
-                }
-            }
-        }
-     */
 }

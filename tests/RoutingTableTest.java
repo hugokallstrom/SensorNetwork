@@ -10,6 +10,8 @@ public class RoutingTableTest {
 	private RoutingTable rout;
 	private Event event;
 	private Position p;
+	
+	
 	@Before
 	public void startingTest(){
 		p = new Position(1,1);
@@ -49,6 +51,7 @@ public class RoutingTableTest {
 	
 	@Test
 	public void testShortestPath(){
+		
 		RoutingTable rt = new RoutingTable();
 		Position pos = new Position(3,3);
 		Event e = new Event(1,100,pos);

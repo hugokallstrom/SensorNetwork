@@ -81,6 +81,7 @@ public class Agent implements Message {
         if(pathTaken.size() > 1) {
             this.routingTable.changeEventPosition(previousNode, nodeRoutingTable);
         }
+
         testPrint();
         return null;
 	}
