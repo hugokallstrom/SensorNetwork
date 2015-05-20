@@ -99,7 +99,7 @@ public class SensorSimulator {
 
         setNodesAvailable();
 
-       System.in.read();
+       //System.in.read();
     }
 
     /**

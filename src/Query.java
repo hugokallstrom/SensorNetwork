@@ -71,15 +71,21 @@ public class Query implements Message {
 	}
 	
 	public Position handleEvents(RoutingTable routingTable) {
-        event = routingTable.getEvent(requestedEventId);
-        if(event != null && event.getPosition().isNeighbour(currentNode.getMyPosition())) {
-            hasFoundPath = true;
-            if (event.getDistance() == 0) {
+      
+		event = routingTable.getEvent(requestedEventId);
+      
+		if(event != null && event.getPosition().isNeighbour(currentNode.getMyPosition())) {
+            
+			hasFoundPath = true;
+            
+			if (event.getDistance() == 0) {
                 finalEvent = event;
             }
             checkRepliedDone();
+            
             return event.getPosition();
-        }
+        
+		}
         return null;
     }
 
