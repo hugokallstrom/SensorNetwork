@@ -41,7 +41,7 @@ public class Node {
     public void receiveEvent(Event event) {
         routingTable.addEvent(event);
         createAgent(event);
-        System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
+       // System.out.println("Event detected at: " + myPosition + "With id: " + event.getEventId() + " At timestep: " + event.getTimeOfEvent());
         nodeStatus = "E";
     }
 
@@ -108,14 +108,17 @@ public class Node {
             Node neighbour;
             if(nodePosition == null) {
                 neighbour = selectNextNeighbour(message.getPathTaken());
+                sendMessageToNode(message, neighbour);
             } else if(nodePosition.equals(myPosition)) {
-                neighbour = message.getPathTaken().pop();
+                neighbour = getNeighbourFromPos(nodePosition);
+                sendMessageToNode(message, neighbour);
             } else {
                 neighbour = getNeighbourFromPos(nodePosition);
+         //       System.out.println(getMyPosition() + " sending to " + neighbour.getMyPosition());
+                sendMessageToNode(message, neighbour);
             }
-            sendMessageToNode(message, neighbour);
 
-            System.out.println(myPosition + "Routingtable: " + routingTable.toString());
+        //    System.out.println(myPosition + "Node Routing table: " + routingTable.toString());
         }
     }
 
@@ -131,7 +134,6 @@ public class Node {
                 return neighbour;
             }
         }
-
         for(Node neighbour : neighbours) {
             if(neighbour.isAvailable()) {
                 return neighbour;
@@ -151,7 +153,7 @@ public class Node {
                 return neighbour;
             }
         }
-        return null;
+        return this;
     }
 
     /**
@@ -160,10 +162,10 @@ public class Node {
      * @param neighbour the node which receives the message.
      */
     private void sendMessageToNode(Message message, Node neighbour) {
-        if(neighbour.isAvailable() && isAvailable()) {
+        if(neighbour.isAvailable() && message.canMove()) {
             availability = false;
             neighbour.receiveMessage(message);
-        } else {
+        } else if(message.canMove()){
             nodeStatus = "+";
             messageQueue.add(message);
         }

@@ -60,10 +60,12 @@ public class RoutingTable {
         		
         		if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
                     Event copyAgentEvent = new Event(agentEvent);
+                   // nodeEvent.setPosition(agentEvent.getPosition());
                     nodeRoutingTable.hashTable.put(nodeKey, copyAgentEvent);
                 
         		} else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
         			Event copyNodeEvent = new Event(nodeEvent);
+                  //  agentEvent.setPosition(nodeEvent.getPosition());
         			hashTable.put(agentKey, copyNodeEvent);
         		}
         	}

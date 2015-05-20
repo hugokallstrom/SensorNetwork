@@ -24,6 +24,7 @@ public class Query implements Message {
     private int requestedEventId;
     private int timeToLive = Constants.timeToLiveQuery;
     private boolean hasFoundPath = false;
+    private boolean foundFinalNode = false;
 
     /**
      * Constructor for Query. Sets variables and creates a stack for path taken
@@ -61,8 +62,11 @@ public class Query implements Message {
      * to 0.
      */
 	public void addToPath(Node node) {
-		if(hasFoundPath) {
+		if(foundFinalNode) {
+            steps = 0;
+        } else if(hasFoundPath) {
 			steps = 0;
+            pathTaken.add(node);
 		} else {
             currentNode = node;
 			steps++;
@@ -80,16 +84,34 @@ public class Query implements Message {
      * @return Position
      */
 	public Position handleEvents(RoutingTable routingTable) {
+        if(foundFinalNode) {
+            if(checkRepliedDone()) {
+                return null;
+            }
+            return pathTaken.pop().getMyPosition();
+        }
+
         event = routingTable.getEvent(requestedEventId);
         if(event != null) {
             hasFoundPath = true;
+            //System.out.println("found path for query at " + currentNode.getMyPosition() + " with id " + requestedEventId + " path taken " + printPathtaken());
             if (event.getDistance() == 0) {
-                finalEvent = event;
+                foundFinalNode = true;
+            //    System.out.println("found final node, " + currentNode.getMyPosition() + " sending to " + pathTaken.peek().getMyPosition());
+                return pathTaken.pop().getMyPosition();
             }
-            checkRepliedDone();
+            //System.out.println("returning position: "+ event.getPosition());
             return event.getPosition();
         }
         return null;
+    }
+
+    private String printPathtaken() {
+        String out = "";
+        for(int i = 0; i < pathTaken.size(); i++) {
+            out += pathTaken.get(i).getMyPosition();
+        }
+        return out;
     }
 
     /**
@@ -101,13 +123,15 @@ public class Query implements Message {
      *
      * @return boolean - true if replied, false else
      */
-    public void checkRepliedDone() {
-        if(pathTaken.size() == 1 && finalEvent != null) {
-            System.out.println("Query replied, event at " + finalEvent.getPosition() +
-                    " Occurred at time step: " + finalEvent.getTimeOfEvent() + "." +
-                    " With ID: " + finalEvent.getEventId() + "\n");
+    public boolean checkRepliedDone() {
+        if(pathTaken.size() == 0 && event != null) {
+            System.out.println("Query replied, event at " + event.getPosition() +
+                    " Occurred at time step: " + event.getTimeOfEvent() + "." +
+                    " With ID: " + event.getEventId() + "\n");
             steps = timeToLive;
+            return true;
         }
+        return false;
     }
 }
 
