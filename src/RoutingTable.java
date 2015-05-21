@@ -30,9 +30,7 @@ public class RoutingTable {
 		for(int agentKey : hashTable.keySet()) {
             if(!nodeHashTable.containsKey(agentKey)) {
                 Event copyAgentEvent = new Event(hashTable.get(agentKey));
-                if(copyAgentEvent.getDistance() != 0) {
-                    hashTable.get(agentKey).setPosition(currentNode.getMyPosition());
-                }
+                hashTable.get(agentKey).setPosition(currentNode.getMyPosition());
                 nodeRoutingTable.getEventTable().put(agentKey, copyAgentEvent);
             }
         }
@@ -40,9 +38,7 @@ public class RoutingTable {
         for(int nodeKey : nodeHashTable.keySet()) {
             if(!hashTable.containsKey(nodeKey)) {
                 Event copyNodeEvent = new Event(nodeHashTable.get(nodeKey));
-                if(copyNodeEvent.getDistance() != 0) {
-                    copyNodeEvent.setPosition(currentNode.getMyPosition());
-                }
+                copyNodeEvent.setPosition(currentNode.getMyPosition());
                 hashTable.put(nodeKey, copyNodeEvent);
             }
         }
@@ -62,15 +58,11 @@ public class RoutingTable {
 
                 if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
                     Event copyAgentEvent = new Event(agentEvent);
-                    if(copyAgentEvent.getDistance() != 0) {
-                        hashTable.get(agentKey).setPosition(currentNode.getMyPosition());
-                    }
+                    hashTable.get(agentKey).setPosition(currentNode.getMyPosition());
                     nodeRoutingTable.getEventTable().put(nodeKey, copyAgentEvent);
         		} else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
         			Event copyNodeEvent = new Event(nodeEvent);
-                    if(copyNodeEvent.getDistance() != 0) {
-                        copyNodeEvent.setPosition(currentNode.getMyPosition());
-                    }
+                    copyNodeEvent.setPosition(currentNode.getMyPosition());
                     hashTable.put(agentKey, copyNodeEvent);
                 }
         	}

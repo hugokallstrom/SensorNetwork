@@ -93,9 +93,11 @@ public class Query implements Message {
                             + ", Path taken: " + printPathtaken());
                     return pathTaken.pop().getMyPosition();
                 }
-               System.out.println("Found event " + requestedEventId + " at " + currentNode.getMyPosition()
+                System.out.println("Found event " + requestedEventId + " at " + currentNode.getMyPosition()
                         + ", next node: " + event.getPosition()
-                        + ", Path taken: " + printPathtaken());
+                        + ", Path taken: " + printPathtaken() + " Distance: " + event.getDistance()
+
+                );
                 return event.getPosition();
             }
         } else {

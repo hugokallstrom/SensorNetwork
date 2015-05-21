@@ -95,6 +95,9 @@ public class Node {
                 neighbour = selectNextNeighbour(message.getPathTaken());
             } else {
                 neighbour = getNeighbourFromPos(nodePosition);
+                if(neighbour.getMyPosition().equals(getMyPosition())) {
+                    neighbour = selectNextNeighbour(message.getPathTaken());
+                }
             }
             sendMessageToNode(message, neighbour);
         }
