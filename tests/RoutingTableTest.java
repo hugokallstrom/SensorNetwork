@@ -110,7 +110,7 @@ public class RoutingTableTest {
 		e.setDistance(5);
 		rt.addEvent(e);
 		
-		rout.findShortestPath(rt);
+	//	rout.findShortestPath(rt, previousNode);
 		
 		System.out.println(rt.getEvent(1).getDistance());
 		
@@ -152,7 +152,7 @@ public class RoutingTableTest {
 		
 		assertTrue(testrout.getEventTable().isEmpty());
 		
-		rout.syncEvents(testrout);
+		//rout.syncEvents(testrout, pathTaken.peek());
 		
 		assertFalse(testrout.getEventTable().isEmpty());
 	}
@@ -173,7 +173,7 @@ public class RoutingTableTest {
 		testrout.addEvent(ev);
 		testrout.addEvent(e);
 		
-		rout.syncEvents(testrout);
+		//rout.syncEvents(testrout, pathTaken.peek());
 		
 		assertEquals(rout.getEventTable().size(),3);
 	}
@@ -202,9 +202,9 @@ public class RoutingTableTest {
 		Node node = new Node(p);
 		node.getRoutingTable().addEvent(e);
 		
-		rout.syncEvents(node.getRoutingTable());
+		//rout.syncEvents(node.getRoutingTable());
 		
-		rout.findShortestPath(node.getRoutingTable());
+	//	rout.findShortestPath(node.getRoutingTable());
 		
 		rout.deepCopyHashtable();
 		Event even = node.getRoutingTable().getEvent(1);
