@@ -59,7 +59,6 @@ public class SensorSimulator {
      */
     public void startSimulation(int steps) throws IOException {
         for(int timeStep = 0; timeStep < steps; timeStep++) {
-            System.out.println(timeStep);
             executeTimeStep(timeStep);
         }
     }
@@ -102,7 +101,7 @@ public class SensorSimulator {
 
         setNodesAvailable();
 
-        System.in.read();
+        //System.in.read();
         System.out.println("--------------------------------" + timeStep + "------------------------------------");
     }
 

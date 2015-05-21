@@ -95,6 +95,9 @@ public class Node {
                 neighbour = selectNextNeighbour(message.getPathTaken());
             } else {
                 neighbour = getNeighbourFromPos(nodePosition);
+                if(neighbour.getMyPosition().equals(getMyPosition())) {
+                    neighbour = selectNextNeighbour(message.getPathTaken());
+                }
             }
             sendMessageToNode(message, neighbour);
         }
@@ -115,18 +118,9 @@ public class Node {
         }
         this.getQueue();
         if(!messageQueue.isEmpty()) {
-        	//System.out.println("--------------------------------------");
-        	//System.out.println("Queue not empty! Try to send a message");
-        	//System.out.println("--------------------------------------");
-        	
         	
             Message message = messageQueue.poll();
             Position nodePosition = message.handleEvents(routingTable);
-            //System.out.println("Message is: "+ message.toString());
-            //System.out.println("--------------------------------");
-            //System.out.println("Nodes routing table before sent");
-            
-            //routingTable.printInfornmationRouting();
             
             Node neighbour;
             /**
@@ -136,33 +130,17 @@ public class Node {
             
             	neighbour = selectNextNeighbour(message.getPathTaken());
                 sendMessageToNode(message, neighbour);
-                
-               // System.out.println("This is neighbours routing table");
-                //neighbour.getRoutingTable().printInfornmationRouting();
-               // System.out.println("Nodes routing table after sent");
-                //routingTable.printInfornmationRouting();
             
             } else if(nodePosition.equals(myPosition)) {
             	
                 neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);
-              //  System.out.println("This is neighbours routing table");
-                //neighbour.getRoutingTable().printInfornmationRouting();
-                //System.out.println("Nodes routing table after sent");
-                //routingTable.printInfornmationRouting();
+
             } else {
                 neighbour = getNeighbourFromPos(nodePosition);
-                //System.out.println(getMyPosition() + " sending to " + neighbour.getMyPosition());
-                sendMessageToNode(message, neighbour);
-                //System.out.println("This is neighbours routing table");
-                //neighbour.getRoutingTable().printInfornmationRouting();
-                //System.out.println("Nodes routing tableafter sent");
-                //routingTable.printInfornmationRouting();
-                
+
+                sendMessageToNode(message, neighbour);   
             }
-
-            //System.out.println(myPosition + "Node Routing table: " + routingTable.toString());
-
         }
     }
 
@@ -196,6 +174,7 @@ public class Node {
             if(neighbour.getMyPosition().equals(nodePosition)) {
                 return neighbour;
             }
+            else 
         }
         return this;
     }

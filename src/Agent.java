@@ -66,7 +66,7 @@ public class Agent implements Message {
      * they swap.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
-       // System.out.println("Position: " + pathTaken.peek().getMyPosition());
+        //System.out.println("Position: " + pathTaken.peek().getMyPosition());
         routingTable.syncEvents(nodeRoutingTable, pathTaken.peek(), previousNode);
         routingTable.findShortestPath(nodeRoutingTable, pathTaken.peek(), previousNode);
         //routingTable.changeEventPosition(pathTaken.peek(), nodeRoutingTable);
