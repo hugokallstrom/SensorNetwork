@@ -29,7 +29,9 @@ public class RoutingTable {
         Hashtable<Integer, Event> nodeHashTable = nodeRoutingTable.getEventTable();
 
 		if(nodeHashTable.isEmpty()) {
+			
             nodeRoutingTable.setEventTable(new Hashtable<Integer, Event>(hashTable));
+            
             return;
 		}
 		
@@ -57,37 +59,51 @@ public class RoutingTable {
         	for(int nodeKey : nodeRoutingTable.hashTable.keySet()) {
         		
         		Event agentEvent = hashTable.get(agentKey);
-        		Event nodeEvent = nodeRoutingTable.hashTable.get(nodeKey);
+        		Event nodeEvent = nodeRoutingTable.getEventTable().get(nodeKey);
         		
         		if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
-                    //System.out.println("Copied event");
-                    //System.out.println("node had this distance"+nodeEvent.getDistance());
-                    //System.out.println("Agent had this distance"+agentEvent.getDistance());
-                    //System.out.println("node ID: "+ nodeKey);
-                    //System.out.println("Agent ID: "+ agentKey);
+                   /* System.out.println("Copied event");
+                    System.out.println("node had this distance"+nodeEvent.getDistance());
+                    System.out.println("Agent had this distance"+agentEvent.getDistance());
+                    System.out.println("node ID: "+ nodeKey);
+                    System.out.println("Agent ID: "+ agentKey);
+        			System.out.println("Node event position :"+nodeEvent.getPosition().toString());
+        			System.out.println("Agent event position :"+agentEvent.getPosition().toString());*/
+
         			Event copyAgentEvent = new Event(agentEvent);
-        			//System.out.println("node ID: "+ nodeKey);
-                    //System.out.println("Agent ID: "+ agentKey);
-                   // nodeEvent.setPosition(agentEvent.getPosition());
-                    nodeRoutingTable.hashTable.put(nodeKey, copyAgentEvent);
-                    //System.out.println("node now have this distance"+copyAgentEvent.getDistance());
-                    //System.out.println("Agent now have this distance"+agentEvent.getDistance());
-                    //System.out.println("node ID: "+ nodeKey);
-                    //System.out.println("Agent ID: "+ agentKey);
+        			/*
+        			System.out.println("node ID: "+ nodeKey);
+                    System.out.println("Agent ID: "+ agentKey);*/
+                    //nodeEvent.setPosition(agentEvent.getPosition());
+                    nodeRoutingTable.getEventTable().put(nodeKey, copyAgentEvent);
+                    
+                   /* System.out.println("Node event have position: "+nodeEvent.getPosition().toString());
+        			System.out.println("agent event have position: "+agentEvent.getPosition().toString());
+        			System.out.println("copied event have position: "+copyAgentEvent.getPosition().toString());
+        			System.out.println("node now have this distance"+copyAgentEvent.getDistance());
+                    System.out.println("Agent now have this distance"+agentEvent.getDistance());
+                    System.out.println("node ID: "+ nodeKey);
+                    System.out.println("Agent ID: "+ agentKey);*/
                 
         		} else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
-        			//System.out.println("Copied event");
-                    //System.out.println("node had this distance"+nodeEvent.getDistance());
-                    //System.out.println("Agent had this distance"+agentEvent.getDistance());
-                    //System.out.println("node ID: "+ nodeKey);
-                    //System.out.println("Agent ID: "+ agentKey);
-        			Event copyNodeEvent = new Event(nodeEvent);
-                  //  agentEvent.setPosition(nodeEvent.getPosition());
+        			/*System.out.println("Copied event");
+        			System.out.println("node had this distance"+nodeEvent.getDistance());
+                    System.out.println("Agent had this distance"+agentEvent.getDistance());
+                    System.out.println("node ID: "+ nodeKey);
+                    System.out.println("Agent ID: "+ agentKey);
+                    System.out.println("Node event position :"+nodeEvent.getPosition().toString());
+        			System.out.println("Agent event position :"+agentEvent.getPosition().toString());*/
+                    
+                    Event copyNodeEvent = new Event(nodeEvent);
+                    //agentEvent.setPosition(nodeEvent.getPosition());
         			hashTable.put(agentKey, copyNodeEvent);
-                    //System.out.println("node now have this distance"+nodeEvent.getDistance());
-                    //System.out.println("Agent now have this distance"+copyNodeEvent.getDistance());
-                    //System.out.println("node ID: "+ nodeKey);
-                    //System.out.println("Agent ID: "+ agentKey);
+                    /*System.out.println("node now have this distance"+nodeEvent.getDistance());
+                    System.out.println("Agent now have this distance"+copyNodeEvent.getDistance());
+                    System.out.println("node ID: "+ nodeKey);
+                    System.out.println("Agent ID: "+ agentKey);
+        			System.out.println("Node event have position: "+nodeEvent.getPosition().toString());
+        			System.out.println("agent event have position: "+agentEvent.getPosition().toString());
+        			System.out.println("copied event have position: "+copyNodeEvent.getPosition().toString());*/
         		}
         	}
         }

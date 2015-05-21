@@ -29,10 +29,10 @@ public class Agent implements Message {
 		/**
 		 * Checks if agent can move.
 		 */
-		System.out.println("-----------------------");
-		System.out.println("Can agent move?" + steps);
-		System.out.println("-----------------------");
-		testPrintPath();
+		//System.out.println("-----------------------");
+		//System.out.println("Can agent move?" + steps);
+		//System.out.println("-----------------------");
+		//testPrintPath();
 		return steps < timeToLive;
 	}
 	
@@ -72,8 +72,9 @@ public class Agent implements Message {
         }
 
         routingTable.deepCopyHashtable();
-        //System.out.println("Agent has this in routing table:");
+       // System.out.println("Agent has this in routing table: at position" + pathTaken.peek());
         //routingTable.printInfornmationRouting();
+        
         //testPrint();
         return null;
 	}
@@ -82,7 +83,7 @@ public class Agent implements Message {
         Node currentNode = pathTaken.peek();
         System.out.println("Agent at position: " + currentNode.getMyPosition().toString() + routingTable.toString());
     }
-    
+    /*
     private void testPrintPath(){
     	Stack<Node> testPrint = pathTaken;
     	
@@ -93,5 +94,5 @@ public class Agent implements Message {
     		System.out.println("Position "+testPrint.peek().getMyPosition().toString());
     		testPrint.pop();
     	}
-    }
+    }*/
 }

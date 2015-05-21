@@ -98,7 +98,7 @@ public class SensorSimulator {
            //     System.out.println(node.getRoutingTable().toString());
             }
         }
-        printnodes();
+        //printnodes();
         setNodesAvailable();
         
         
@@ -147,7 +147,7 @@ public class SensorSimulator {
         Random rand = new Random();
         return rand.nextInt(maxVal);
     }
-    
+    /*
     private void printnodes(){
 
     	System.out.println("All nodes routingtable");
@@ -161,5 +161,5 @@ public class SensorSimulator {
 	            node.getRoutingTable().printInfornmationRouting();
             }
 	 	}
-    }
+    }*/
 }

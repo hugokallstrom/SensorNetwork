@@ -45,9 +45,9 @@ public class Query implements Message {
      */
 	public boolean canMove() {
 	
-		System.out.println("------------------------");
-		System.out.println("can query move? "+ steps);
-		System.out.println("------------------------");
+		//System.out.println("------------------------");
+		//System.out.println("can query move? "+ steps);
+		//System.out.println("------------------------");
         return steps < timeToLive;
 	}
 

@@ -128,14 +128,12 @@ public class Node {
                 sendMessageToNode(message, neighbour);
                 
                // System.out.println("This is neighbours routing table");
-                
                 //neighbour.getRoutingTable().printInfornmationRouting();
                // System.out.println("Nodes routing table after sent");
                 //routingTable.printInfornmationRouting();
             
             } else if(nodePosition.equals(myPosition)) {
             	
-                
                 neighbour = getNeighbourFromPos(nodePosition);
                 sendMessageToNode(message, neighbour);
               //  System.out.println("This is neighbours routing table");
@@ -212,11 +210,11 @@ public class Node {
      */
     private void receiveMessage(Message message) {
         availability = false;
-        //if(message.canMove()) {
+        if(message.canMove()) {
             message.addToPath(this);
             messageQueue.add(message);
             nodeStatus = "A";
-        //}
+        }
     }
 
     /**
