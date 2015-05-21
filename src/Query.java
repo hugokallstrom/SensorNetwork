@@ -97,7 +97,7 @@ public class Query implements Message {
             //System.out.println("found path for query at " + currentNode.getMyPosition() + " with id " + requestedEventId + " path taken " + printPathtaken());
             if (event.getDistance() == 0) {
                 foundFinalNode = true;
-                System.out.println(printPathtaken() + " found final node, " + currentNode.getMyPosition() + " sending to " + pathTaken.peek().getMyPosition());
+            //    System.out.println("found final node, " + currentNode.getMyPosition() + " sending to " + pathTaken.peek().getMyPosition());
                 return pathTaken.pop().getMyPosition();
             }
             //System.out.println("returning position: "+ event.getPosition());

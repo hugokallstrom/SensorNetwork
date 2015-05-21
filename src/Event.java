@@ -27,13 +27,18 @@ public class Event {
 		this.timeOfEvent = timeOfEvent;
 		this.position = position;
 		distance = 0;
+		//System.out.println("created a event: "+ eventId);
+		//System.out.println("Position is:" +"X: "+position.getX()+"Y: "+ position.getY());
 	}
 
     public Event(Event newEvent) {
+    	
         this.distance = newEvent.getDistance();
         this.eventId = newEvent.getEventId();
         this.position = newEvent.getPosition();
         this.timeOfEvent = newEvent.getTimeOfEvent();
+       // System.out.println("Created a new event: " + newEvent.eventId);
+		//System.out.println("Position is: " +"X: "+position.getX()+" Y: "+ position.getY());
     }
 
 	/**

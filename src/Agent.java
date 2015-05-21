@@ -29,6 +29,10 @@ public class Agent implements Message {
 		/**
 		 * Checks if agent can move.
 		 */
+		System.out.println("-----------------------");
+		System.out.println("Can agent move?" + steps);
+		System.out.println("-----------------------");
+		testPrintPath();
 		return steps < timeToLive;
 	}
 	
@@ -39,14 +43,14 @@ public class Agent implements Message {
 		
 		return pathTaken;
 	}
-
+	/**
+     * Adds the given node to the stack.
+     */
     public void addToPath(Node node) {
-    	/**
-    	 * Adds the given node to the stack.
-    	 */
+    	
         if(pathTaken.size() > 0) {
             previousNode = pathTaken.peek();
-            this.routingTable.incrementEventDistances();
+           this.routingTable.incrementEventDistances();
         } else {
             previousNode = node;
         }
@@ -68,13 +72,26 @@ public class Agent implements Message {
         }
 
         routingTable.deepCopyHashtable();
-
+        //System.out.println("Agent has this in routing table:");
+        //routingTable.printInfornmationRouting();
         //testPrint();
         return null;
 	}
 
     private void testPrint() {
         Node currentNode = pathTaken.peek();
-        System.out.println("Agent at position: " + currentNode.getMyPosition() + routingTable.toString());
+        System.out.println("Agent at position: " + currentNode.getMyPosition().toString() + routingTable.toString());
+    }
+    
+    private void testPrintPath(){
+    	Stack<Node> testPrint = pathTaken;
+    	
+    	System.out.println("--------------");
+    	System.out.println("Agen have taken this path");
+    	System.out.println("--------------");
+    	while(!testPrint.isEmpty()){
+    		System.out.println("Position "+testPrint.peek().getMyPosition().toString());
+    		testPrint.pop();
+    	}
     }
 }

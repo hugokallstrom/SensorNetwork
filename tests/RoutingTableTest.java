@@ -188,6 +188,29 @@ public class RoutingTableTest {
 		Event ev = rout.getEvent(1);
 		
 		assertEquals(ev.getEventId(),event.getEventId());
+		assertEquals(ev.getDistance(),event.getDistance());
+		
+		
+	}
+	@Test
+	public void testHandleMessage(){
+		Position pos = new Position(3,3);
+		Event e = new Event(1,100,pos);
+		e.setDistance(10);
+		Position p = new Position(5,5);
+		
+		Node node = new Node(p);
+		node.getRoutingTable().addEvent(e);
+		
+		rout.syncEvents(node.getRoutingTable());
+		
+		rout.findShortestPath(node.getRoutingTable());
+		
+		rout.deepCopyHashtable();
+		Event even = node.getRoutingTable().getEvent(1);
+		
+		assertEquals(event.getEventId(),even.getEventId());
+		assertEquals(event.getDistance(),even.getDistance());
 		
 	}
 }
