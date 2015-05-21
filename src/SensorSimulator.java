@@ -90,11 +90,15 @@ public class SensorSimulator {
             }
 
             node.checkTimer();
-            node.handleMessage();
+            Message message = node.getMessageInQueue();
+            if(message != null) {
+                Node nextNode = node.handleMessage(message);
+                node.sendMessageToNode(nextNode);
+            }
 
             if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {
                 sendQueryToNode(node);
-                System.out.println(node.getRoutingTable().toString());
+               // System.out.println(node.getRoutingTable().toString());
             }
         }
         //printnodes();

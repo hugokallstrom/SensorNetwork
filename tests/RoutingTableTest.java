@@ -1,5 +1,6 @@
 import static org.junit.Assert.*;
 
+import java.util.HashMap;
 import java.util.Hashtable;
 
 import org.junit.Test;
@@ -68,7 +69,7 @@ public class RoutingTableTest {
 	 */
 	@Test
 	public void testGetEventTable(){
-		Hashtable<Integer, Event> rt = new Hashtable<Integer, Event>();
+        HashMap<Integer, Event> rt = new HashMap<Integer, Event>();
 		
 		rt = rout.getEventTable();
 		
@@ -81,7 +82,7 @@ public class RoutingTableTest {
 	 */
 	@Test
 	public void testSetEventTable(){
-		Hashtable<Integer, Event> rt = new Hashtable<Integer, Event>();
+        HashMap<Integer, Event> rt = new HashMap<Integer, Event>();
 		Position pos = new Position(2,2);
 		Event e = new Event(2,3,pos);
 		rt.put(e.getEventId(), e);
@@ -213,7 +214,7 @@ public class RoutingTableTest {
 		int i=0;
 		
 		while(i!=4){
-			
+/*
 		node1.handleMessage();
 		node2.handleMessage();
 		node3.handleMessage();
@@ -223,7 +224,7 @@ public class RoutingTableTest {
 		node2.getRoutingTable().printInfo(node2);
 		node3.getRoutingTable().printInfo(node3);
 		node4.getRoutingTable().printInfo(node4);
-		
+	*/
 		i++;
 		}
 		

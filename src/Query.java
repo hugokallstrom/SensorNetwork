@@ -93,14 +93,14 @@ public class Query implements Message {
             if(event != null) {
                 if (event.getDistance() == 0) {
                     foundFinalNode = true;
-                    System.out.println("Sending back event " + requestedEventId + " at " + currentNode.getMyPosition()
+                   /* System.out.println("Sending back event " + requestedEventId + " at " + currentNode.getMyPosition()
                             + ", next node: " + event.getPosition()
-                            + ", Path taken: " + printPathtaken());
+                            + ", Path taken: " + printPathtaken());*/
                     return pathTaken.pop().getMyPosition();
                 }
-               System.out.println("Found event " + requestedEventId + " at " + currentNode.getMyPosition()
+            /*   System.out.println("Found event " + requestedEventId + " at " + currentNode.getMyPosition()
                         + ", next node: " + event.getPosition()
-                        + ", Path taken: " + printPathtaken() + " Distance: " + event.getDistance());
+                        + ", Path taken: " + printPathtaken() + " Distance: " + event.getDistance());*/
                 return event.getPosition();
             }
         } else {

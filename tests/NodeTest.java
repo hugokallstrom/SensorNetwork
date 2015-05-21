@@ -64,7 +64,7 @@ public class NodeTest {
     @Test
     public void testAvailabilityAfterReceive() throws Exception {
         neighbour.createQuery(event.getEventId());
-        neighbour.handleMessage();
+       // neighbour.handleMessage();
         assertEquals(false, node.isAvailable());
 
     }
@@ -73,14 +73,14 @@ public class NodeTest {
     public void testMessageReceived() throws Exception {
         assertEquals(1, node.getQueue().size());
         neighbour.createQuery(event.getEventId());
-        neighbour.handleMessage();
+      //  neighbour.handleMessage();
         assertEquals(2, node.getQueue().size());
     }
 
     @Test
     public void testQueryPathTaken() throws Exception {
         neighbour.createQuery(event.getEventId());
-        neighbour.handleMessage();
+     //   neighbour.handleMessage();
         // Remove agent from queue
         node.getQueue().remove();
         Message query = (Message) node.getQueue().poll();
@@ -103,17 +103,17 @@ public class NodeTest {
     @Test
     public void testQueryReply() throws Exception {
         neighbour.createQuery(event.getEventId());
-        neighbour.handleMessage();
+     //   neighbour.handleMessage();
         neighbour.setAvailable();
         node.setAvailable();
 
         // Remove agent from queue
         node.getQueue().remove();
         assertEquals(1, node.getQueue().size());
-        node.handleMessage();
-        node.handleMessage();
+        //node.handleMessage();
+      //  node.handleMessage();
         assertEquals(0, node.getQueue().size());
-        neighbour.handleMessage();
+      //  neighbour.handleMessage();
     }
 
 }

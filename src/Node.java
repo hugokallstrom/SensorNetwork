@@ -15,9 +15,9 @@ public class Node {
     private Queue<Message> messageQueue;
     private boolean availability;
     private boolean isSender;
-    private String nodeStatus;
     private int agentChance = Constants.agentChance;
     private QueryTimer timer;
+    private Message message;
 
     /**
      * Creates a new Node based on a position.
@@ -41,7 +41,7 @@ public class Node {
     public void receiveEvent(Event event) {
        // System.out.println(myPosition + "Event received with id: " + event.getEventId());
         routingTable.addEvent(event);
-      //  createAgent(event);
+        createAgent(event);
     }
 
     /**
@@ -80,29 +80,32 @@ public class Node {
         return new Random().nextInt(chance) == 0;
     }
 
+
+    public Message getMessageInQueue() {
+        if(!messageQueue.isEmpty()) {
+            return messageQueue.poll();
+        }
+        return null;
+    }
     /**
      * If there are messages in the message queue, retrieve
      * the first message and depending on the type of
      * message, either sync events with an agent or try to answer
      * a query. The message is then sent to a suitable neighbour.
      */
-    public void handleMessage() {
-        if(!messageQueue.isEmpty()) {
-        	
-            Message message = messageQueue.poll();
-            Position nodePosition = message.handleEvents(routingTable);
-            Node neighbour;
-            
-            if(nodePosition == null || nodePosition.equals(myPosition)) {
+    public Node handleMessage(Message message) {
+        this.message = message;
+        Position nodePosition = message.handleEvents(routingTable);
+        Node neighbour;
+        if(nodePosition == null || nodePosition.equals(myPosition)) {
+            neighbour = selectNextNeighbour(message.getPathTaken());
+        } else {
+            neighbour = getNeighbourFromPos(nodePosition);
+            if(neighbour.getMyPosition().equals(myPosition)) {
                 neighbour = selectNextNeighbour(message.getPathTaken());
-            } else {
-                neighbour = getNeighbourFromPos(nodePosition);
-                if(neighbour.getMyPosition().equals(myPosition)) {
-                    neighbour = selectNextNeighbour(message.getPathTaken());
-                }
             }
-            sendMessageToNode(message, neighbour);
         }
+        return neighbour;
     }
 
     public void checkTimer() {
@@ -110,38 +113,6 @@ public class Node {
             timer.countQuerySteps();
             if(timer.checkQuerySteps()) {
                 createQuery(timer.getEventId());
-            }
-        }
-        
-        if(availability) {
-            nodeStatus = "*";
-        } else {
-            nodeStatus = "U";
-        }
-        this.getQueue();
-        if(!messageQueue.isEmpty()) {
-        	
-            Message message = messageQueue.poll();
-            Position nodePosition = message.handleEvents(routingTable);
-            
-            Node neighbour;
-            /**
-             * If nodePosition is null its an agent.
-             */
-            if(nodePosition == null) {
-            
-            	neighbour = selectNextNeighbour(message.getPathTaken());
-                sendMessageToNode(message, neighbour);
-            
-            } else if(nodePosition.equals(myPosition)) {
-            	
-                neighbour = getNeighbourFromPos(nodePosition);
-                sendMessageToNode(message, neighbour);
-
-            } else {
-                neighbour = getNeighbourFromPos(nodePosition);
-
-                sendMessageToNode(message, neighbour);   
             }
         }
     }
@@ -182,10 +153,9 @@ public class Node {
 
     /**
      * Sends a message to a node (neighbour) if it is available.
-     * @param message the message to be sent.
      * @param neighbour the node which receives the message.
      */
-    private void sendMessageToNode(Message message, Node neighbour) {
+    public void sendMessageToNode(Node neighbour) {
         if(neighbour.isAvailable() && message.canMove() && isAvailable()) {
             availability = false;
             neighbour.receiveMessage(message);
@@ -203,8 +173,6 @@ public class Node {
         if(message.canMove()) {
             message.addToPath(this);
             messageQueue.add(message);
-            nodeStatus = "A";
-
         }
     }
 
@@ -278,21 +246,6 @@ public class Node {
     public void setAgentChance(int agentChance) {
         this.agentChance = agentChance;
     }
-    
-    public void setManualNeighbour(Node node){
-    }
 
-    /**
-     * Prints the nodes status.
-     * @return a string representation of the nodes status.
-     */
-    @Override
-    public String toString() {
-        if((myPosition.getX() + 1) == Math.sqrt(Constants.nrOfNodes)) {
-            return nodeStatus + "\n";
-        } else {
-            return nodeStatus;
-        }
-    }
 }
 

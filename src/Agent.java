@@ -15,7 +15,7 @@ public class Agent implements Message {
 	private int timeToLive;
 	private int steps;
     private Node previousNode;
-	
+
 	public Agent(Event event) {
 		steps = 0;
 		timeToLive = Constants.timeToLiveAgent;
@@ -66,8 +66,8 @@ public class Agent implements Message {
      * they swap.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
-        routingTable.syncEvents(nodeRoutingTable, pathTaken.peek(), previousNode);
-        routingTable.findShortestPath(nodeRoutingTable, pathTaken.peek(), previousNode);
+        routingTable.syncEvents(nodeRoutingTable, pathTaken.peek());
+        routingTable.findShortestPath(nodeRoutingTable, pathTaken.peek());
         //routingTable.changeEventPosition(pathTaken.peek(), nodeRoutingTable);
         routingTable.deepCopyHashtable();
 
@@ -76,7 +76,7 @@ public class Agent implements Message {
         
 
         //nodeRoutingTable.deepCopyHashtable();
-        //System.out.println("Agent routing table : " + routingTable.toString());
+       //System.out.println("Agent routing table : " + routingTable.toString());
        // System.out.println("Position: " + pathTaken.peek().getMyPosition());
         //System.out.println("Node routing table : " + nodeRoutingTable.getEventTable().size());
 
