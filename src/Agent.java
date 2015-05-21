@@ -59,14 +59,14 @@ public class Agent implements Message {
      * they swap.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
-        //System.out.println("Position: " + pathTaken.peek().getMyPosition());
         routingTable.syncEvents(nodeRoutingTable, pathTaken.peek(), previousNode);
         routingTable.findShortestPath(nodeRoutingTable, pathTaken.peek(), previousNode);
         //routingTable.changeEventPosition(pathTaken.peek(), nodeRoutingTable);
         routingTable.deepCopyHashtable();
-        nodeRoutingTable.deepCopyHashtable();
+        //nodeRoutingTable.deepCopyHashtable();
         //System.out.println("Agent routing table : " + routingTable.toString());
-        //System.out.println("Node routing table : " + nodeRoutingTable.toString());
+       // System.out.println("Position: " + pathTaken.peek().getMyPosition());
+        //System.out.println("Node routing table : " + nodeRoutingTable.getEventTable().size());
         return null;
 	}
 }
