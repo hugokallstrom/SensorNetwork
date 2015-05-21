@@ -39,9 +39,9 @@ public class Node {
      * @param event the received event.
      */
     public void receiveEvent(Event event) {
-        System.out.println(myPosition + "Event received with id: " + event.getEventId());
+       // System.out.println(myPosition + "Event received with id: " + event.getEventId());
         routingTable.addEvent(event);
-        createAgent(event);
+      //  createAgent(event);
     }
 
     /**
@@ -62,7 +62,7 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-        System.out.println(myPosition + "Created query with id: " + eventId);
+     //   System.out.println(myPosition + "Created query with id: " + eventId);
         Message query = new Query(eventId);
         query.addToPath(this);
         messageQueue.add(query);
@@ -88,14 +88,16 @@ public class Node {
      */
     public void handleMessage() {
         if(!messageQueue.isEmpty()) {
+        	
             Message message = messageQueue.poll();
             Position nodePosition = message.handleEvents(routingTable);
             Node neighbour;
-            if(nodePosition == null) {
+            
+            if(nodePosition == null || nodePosition.equals(myPosition)) {
                 neighbour = selectNextNeighbour(message.getPathTaken());
             } else {
                 neighbour = getNeighbourFromPos(nodePosition);
-                if(neighbour.getMyPosition().equals(getMyPosition())) {
+                if(neighbour.getMyPosition().equals(myPosition)) {
                     neighbour = selectNextNeighbour(message.getPathTaken());
                 }
             }
@@ -174,7 +176,6 @@ public class Node {
             if(neighbour.getMyPosition().equals(nodePosition)) {
                 return neighbour;
             }
-            else 
         }
         return this;
     }
@@ -276,6 +277,9 @@ public class Node {
      */
     public void setAgentChance(int agentChance) {
         this.agentChance = agentChance;
+    }
+    
+    public void setManualNeighbour(Node node){
     }
 
     /**

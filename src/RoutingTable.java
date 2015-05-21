@@ -67,28 +67,30 @@ public class RoutingTable {
      * @param previousNode
      */
     public void findShortestPath(RoutingTable nodeRoutingTable, Node currentNode, Node previousNode) {
+
+
         for(int agentKey : hashTable.keySet()) {
-        	for(int nodeKey : nodeRoutingTable.getEventTable().keySet()) {
-        		Event agentEvent = hashTable.get(agentKey);
-        		Event nodeEvent = nodeRoutingTable.getEventTable().get(nodeKey);
-        		
-        		
-                if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
+        	
+            Event agentEvent = hashTable.get(agentKey);
+            Event nodeEvent = nodeRoutingTable.getEventTable().get(agentKey);
+            
+            if(nodeRoutingTable.getEventTable().contains(agentKey)) {
+
+            	if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
                     Event copyAgentEvent = new Event(agentEvent);
                     hashTable.get(agentKey).setPosition(currentNode.getMyPosition());
-                    nodeRoutingTable.getEventTable().put(nodeKey, copyAgentEvent);
-        		} 
-                else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
-        			Event copyNodeEvent = new Event(nodeEvent);
-        			copyNodeEvent.setPosition(currentNode.getMyPosition());
+
+                    nodeRoutingTable.getEventTable().put(agentKey, copyAgentEvent);
+                    
+                } else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
+                    Event copyNodeEvent = new Event(nodeEvent);
+                    copyNodeEvent.setPosition(currentNode.getMyPosition());
+
                     hashTable.put(agentKey, copyNodeEvent);
-
         		}
-
-                  
-                }
-        	}
+            }
         }
+    }
     
 
     /**
@@ -171,7 +173,17 @@ public class RoutingTable {
 	    }
 	    hashTable = copy;
 	}
-    
+    public void printInfo(Node node){
+		System.out.println("Node have this position "+node.getMyPosition().toString());
+
+    	for(int i : hashTable.keySet()){
+    		Event e = hashTable.get(i);
+    		System.out.println("I point at this position -> "+e.getPosition());
+    		System.out.println("Event id is " + e.getEventId());
+    		System.out.println("Event distance is: " + e.getDistance());
+    	}
+    	
+    }
 
     @Override
     public String toString() {

@@ -102,7 +102,8 @@ public class SensorSimulator {
         setNodesAvailable();
 
         //System.in.read();
-        System.out.println("--------------------------------" + timeStep + "------------------------------------");
+
+		System.out.println("--------------------------------" + timeStep + "------------------------------------");
     }
 
     /**
@@ -132,7 +133,6 @@ public class SensorSimulator {
     private void setNodesAvailable() {
         for(Node node : nodes) {
             node.setAvailable();
-        //   System.out.print(node.toString());
         }
     }
 
@@ -145,19 +145,4 @@ public class SensorSimulator {
         Random rand = new Random();
         return rand.nextInt(maxVal);
     }
-    /*
-    private void printnodes(){
-
-    	System.out.println("All nodes routingtable");
-	 	
-    	for(Node node : nodes){
-	 		Position p;
-            if(!node.getRoutingTable().getEventTable().isEmpty()){
-	            System.out.println("New node");
-	            p=node.getMyPosition();
-	            System.out.println("X: "+p.getX()+" Y: " +p.getY());
-	            node.getRoutingTable().printInfornmationRouting();
-            }
-	 	}
-    }*/
 }

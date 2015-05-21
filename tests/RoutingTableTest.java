@@ -193,24 +193,39 @@ public class RoutingTableTest {
 		
 	}
 	@Test
-	public void testHandleMessage(){
+	public void testAdvancedAddToPathMessage(){
 		Position pos = new Position(3,3);
+
+		Node node1 = new Node(pos);//Event is on this position
+		
 		Event e = new Event(1,100,pos);
-		e.setDistance(10);
-		Position p = new Position(5,5);
+		Constants.agentChance=1;
 		
-		Node node = new Node(p);
-		node.getRoutingTable().addEvent(e);
+		node1.receiveEvent(e);
+		Position p = new Position(3,4);
+		Position po = new Position(4,3);
+		Position posi = new Position(4,4);
 		
-		//rout.syncEvents(node.getRoutingTable());
+		Node node2 = new Node(p);
+		Node node3 = new Node(po);
+		Node node4 = new Node(posi);
 		
-	//	rout.findShortestPath(node.getRoutingTable());
+		int i=0;
 		
-		rout.deepCopyHashtable();
-		Event even = node.getRoutingTable().getEvent(1);
+		while(i!=4){
+			
+		node1.handleMessage();
+		node2.handleMessage();
+		node3.handleMessage();
+		node4.handleMessage();
+
+		node1.getRoutingTable().printInfo(node1);
+		node2.getRoutingTable().printInfo(node2);
+		node3.getRoutingTable().printInfo(node3);
+		node4.getRoutingTable().printInfo(node4);
 		
-		assertEquals(event.getEventId(),even.getEventId());
-		assertEquals(event.getDistance(),even.getDistance());
+		i++;
+		}
 		
 	}
 }

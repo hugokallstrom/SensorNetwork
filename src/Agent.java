@@ -66,23 +66,22 @@ public class Agent implements Message {
      * they swap.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
-        //System.out.println("Position: " + pathTaken.peek().getMyPosition());
         routingTable.syncEvents(nodeRoutingTable, pathTaken.peek(), previousNode);
         routingTable.findShortestPath(nodeRoutingTable, pathTaken.peek(), previousNode);
         //routingTable.changeEventPosition(pathTaken.peek(), nodeRoutingTable);
         routingTable.deepCopyHashtable();
-       // System.out.println("Agent has this in routing table: at position" + pathTaken.peek());
+
+        // System.out.println("Agent has this in routing table: at position" + pathTaken.peek());
         //routingTable.printInfornmationRouting();
         
 
+        //nodeRoutingTable.deepCopyHashtable();
+        //System.out.println("Agent routing table : " + routingTable.toString());
+       // System.out.println("Position: " + pathTaken.peek().getMyPosition());
+        //System.out.println("Node routing table : " + nodeRoutingTable.getEventTable().size());
+
         return null;
 	}
-
-    private void testPrint(){
-        Node currentNode = pathTaken.peek();
-        System.out.println("Agent at position: " + currentNode.getMyPosition().toString() + routingTable.toString());
-    
-    }
     
     /*
     private void testPrintPath(){
