@@ -21,6 +21,7 @@ public class SyncronizeTest {
 
     @Before
     public void setUp() {
+        Constants.agentChance = 1;
         node1 = new Node(new Position(0,0));
         node2 = new Node(new Position(0,1));
         node3 = new Node(new Position(1,0));
@@ -38,7 +39,6 @@ public class SyncronizeTest {
         node4.setNeighbours(findNeighbours(node4.getMyPosition()));
 
         event = new Event(100, 1, new Position(0,0));
-        node1.setAgentChance(1);
         node1.receiveEvent(event);
     }
 
@@ -68,17 +68,13 @@ public class SyncronizeTest {
         handleAndSendMessage(node3, node4);
 
         Event event = new Event(101, 2, new Position(1,0));
-        node3.setAgentChance(1);
         node3.receiveEvent(event);
         handleAndSendMessage(node3, node1);
-        System.out.println("Node3 routing table: " + node3.getRoutingTable().toString());
         handleAndSendMessage(node1, node4);
-        System.out.println("Node1 routing table: " + node1.getRoutingTable().toString());
 
+        node4.getMessageInQueue();
         Message message = node4.getMessageInQueue();
-        message = node4.getMessageInQueue();
         node4.handleMessage(message);
-        System.out.println("Node4 routing table: " + node4.getRoutingTable().toString());
 
 
         assertEquals(node4.getRoutingTable().getEvent(100).getPosition(), node1.getMyPosition());

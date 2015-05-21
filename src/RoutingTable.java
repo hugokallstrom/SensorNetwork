@@ -68,28 +68,6 @@ public class RoutingTable {
     }
 
     /**
-     * Change the previous position that the event had.
-     * @param previousNode
-     * @param nodeRoutingTable
-     */
-    public void changeEventPosition(Node previousNode, RoutingTable nodeRoutingTable) {
-        HashMap<Integer, Event> nodeEventTable = nodeRoutingTable.getEventTable();
-        Position previousNodePosition = previousNode.getMyPosition();
-
-        for(int  agentKey : hashTable.keySet()) {
-            for(int nodeKey : nodeRoutingTable.getEventTable().keySet()) {
-            	Event agentEvent = hashTable.get(agentKey);
-        		Event nodeEvent = nodeEventTable.get(nodeKey);
-
-        		if(agentKey == nodeKey && (nodeEvent.getDistance() != 0 && agentEvent.getDistance() != 0)) {
-                    agentEvent.setPosition(previousNodePosition);
-                    nodeEvent.setPosition(previousNodePosition);
-                }
-            }
-        }
-    }
-
-    /**
      * Increment the distance to an event as a messages moves.
      */
     public void incrementEventDistances() {
@@ -114,7 +92,6 @@ public class RoutingTable {
      */
     public Event getEvent(int requestedEventId) {
     	return hashTable.get(requestedEventId);
-        
     }
 
     /**

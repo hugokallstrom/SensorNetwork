@@ -15,7 +15,6 @@ public class Node {
     private Queue<Message> messageQueue;
     private boolean availability;
     private boolean isSender;
-    private int agentChance = Constants.agentChance;
     private QueryTimer timer;
     private Message message;
 
@@ -39,9 +38,7 @@ public class Node {
      * @param event the received event.
      */
     public void receiveEvent(Event event) {
-       // System.out.println(myPosition + "Event received with id: " + event.getEventId());
         routingTable.addEvent(event);
-        createAgent(event);
     }
 
     /**
@@ -49,12 +46,10 @@ public class Node {
      * and adds it to the message queue.
      * @param event the received event.
      */
-    private void createAgent(Event event) {
-        if(calculateChance(agentChance)) {
-            Message agent = new Agent(event);
-            agent.addToPath(this);
-            messageQueue.add(agent);
-        }
+    public void createAgent(Event event) {
+        Message agent = new Agent(event);
+        agent.addToPath(this);
+        messageQueue.add(agent);
     }
 
     /**
@@ -62,30 +57,18 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-     //   System.out.println(myPosition + "Created query with id: " + eventId);
         Message query = new Query(eventId);
         query.addToPath(this);
         messageQueue.add(query);
         timer = new QueryTimer(eventId);
     }
 
-    /**
-     * Checks if a random generated integer equals zero.
-     * The bigger the supplied value, the smaller the chance
-     * to return true.
-     * @param chance the value to generate a random integer from.
-     * @return if the generated value equals zero, return true.
-     */
-    private boolean calculateChance(int chance) {
-        return new Random().nextInt(chance) == 0;
-    }
-
-
     public Message getMessageInQueue() {
         if(!messageQueue.isEmpty()) {
             return messageQueue.poll();
+        } else {
+            return null;
         }
-        return null;
     }
     /**
      * If there are messages in the message queue, retrieve
@@ -113,6 +96,7 @@ public class Node {
             timer.countQuerySteps();
             if(timer.checkQuerySteps()) {
                 createQuery(timer.getEventId());
+                timer = null;
             }
         }
     }
@@ -237,14 +221,6 @@ public class Node {
      */
     public Queue getQueue() {
         return messageQueue;
-    }
-
-    /**
-     * Set the chance to create an agent.
-     * @param agentChance the chance to create an agent.
-     */
-    public void setAgentChance(int agentChance) {
-        this.agentChance = agentChance;
     }
 
 }
