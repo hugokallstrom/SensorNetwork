@@ -19,7 +19,6 @@ public class Query implements Message {
 	private Stack<Node> pathTaken;
 	private int steps;
 	private Event event;
-    private Event finalEvent;
     private Node currentNode;
     private int requestedEventId;
     private int timeToLive = Constants.timeToLiveQuery;
@@ -62,13 +61,13 @@ public class Query implements Message {
      * to 0.
      */
 	public void addToPath(Node node) {
-		if(foundFinalNode) {
+        currentNode = node;
+        if(foundFinalNode) {
             steps = 0;
         } else if(hasFoundPath) {
-			steps = 0;
-            pathTaken.add(node);
-		} else {
-            currentNode = node;
+            steps = 0;
+            pathTaken.push(node);
+        } else {
 			steps++;
             pathTaken.push(node);
         }
@@ -84,34 +83,29 @@ public class Query implements Message {
      * @return Position
      */
 	public Position handleEvents(RoutingTable routingTable) {
-        if(foundFinalNode) {
-            if(checkRepliedDone()) {
-                return null;
+        if(!foundFinalNode) {
+            event = routingTable.getEvent(requestedEventId);
+            if(event != null) {
+                if (event.getDistance() == 0) {
+                    foundFinalNode = true;
+                    System.out.println("Sending back event " + requestedEventId + " at " + currentNode.getMyPosition()
+                            + ", next node: " + event.getPosition()
+                            + ", Path taken: " + printPathtaken());
+                    return pathTaken.pop().getMyPosition();
+                }
+               System.out.println("Found event " + requestedEventId + " at " + currentNode.getMyPosition()
+                        + ", next node: " + event.getPosition()
+                        + ", Path taken: " + printPathtaken());
+                return event.getPosition();
             }
-            return pathTaken.pop().getMyPosition();
-        }
-
-        event = routingTable.getEvent(requestedEventId);
-        if(event != null) {
-            hasFoundPath = true;
-            //System.out.println("found path for query at " + currentNode.getMyPosition() + " with id " + requestedEventId + " path taken " + printPathtaken());
-            if (event.getDistance() == 0) {
-                foundFinalNode = true;
-            //    System.out.println("found final node, " + currentNode.getMyPosition() + " sending to " + pathTaken.peek().getMyPosition());
+        } else {
+            if(replied()) {
+                return null;
+            } else {
                 return pathTaken.pop().getMyPosition();
             }
-            //System.out.println("returning position: "+ event.getPosition());
-            return event.getPosition();
         }
         return null;
-    }
-
-    private String printPathtaken() {
-        String out = "";
-        for(int i = 0; i < pathTaken.size(); i++) {
-            out += pathTaken.get(i).getMyPosition();
-        }
-        return out;
     }
 
     /**
@@ -123,7 +117,7 @@ public class Query implements Message {
      *
      * @return boolean - true if replied, false else
      */
-    public boolean checkRepliedDone() {
+    public boolean replied() {
         if(pathTaken.size() == 0 && event != null) {
             System.out.println("Query replied, event at " + event.getPosition() +
                     " Occurred at time step: " + event.getTimeOfEvent() + "." +
@@ -132,6 +126,14 @@ public class Query implements Message {
             return true;
         }
         return false;
+    }
+
+    private String printPathtaken() {
+        String out = "";
+        for(int i = 0; i < pathTaken.size(); i++) {
+            out += pathTaken.get(i).getMyPosition();
+        }
+        return out;
     }
 }
 

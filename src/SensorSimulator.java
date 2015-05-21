@@ -90,6 +90,7 @@ public class SensorSimulator {
                 node.receiveEvent(event);
             }
 
+            node.checkTimer();
             node.handleMessage();
 
             if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {
@@ -100,7 +101,8 @@ public class SensorSimulator {
 
         setNodesAvailable();
 
-       // System.in.read();
+        System.in.read();
+        System.out.println("--------------------------------" + timeStep + "------------------------------------");
     }
 
     /**
