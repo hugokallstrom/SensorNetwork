@@ -44,6 +44,6 @@ public class Position {
 
     @Override
     public String toString() {
-        return "Position: " + String.valueOf(x) + " " + String.valueOf(y) + "\n";
+        return "Position: " + String.valueOf(x) + " " + String.valueOf(y);
     }
 }

@@ -71,31 +71,43 @@ public class QueryTest {
 	}
 
 	/**
-	 * When a Query is replied, handleEvents should return null.
+	 * When a Query is replied with distance 0, handleEvents should print information and
+	 * return same position as the query is standing on.
 	 */
 	@Test
 	public void testHandleEvents() {
-		q.addToPath(n);
-		rT.addEvent(e);
-		assertNull(q.handleEvents(rT));
+		Position goalEventPos = new Position(1,1);
+		Node goalEventNode = new Node(goalEventPos);
+		q.addToPath(goalEventNode);
+
+		Event goalEvent = new Event(50,60,goalEventPos);
+		rT.addEvent(goalEvent);
+
+		assertEquals(q.handleEvents(rT),goalEventPos);
 	}
 
 	/**
-	 * When a Query found the requested event in a node's RoutingTable.
-	 * It should return the position to the next neighbor to go to.
+	 * When a Query found the event ID in the routingTable but distance is greater than
+	 * 0, it should return the next position to go to.
 	 */
 	@Test
-	public void testHandleEvents2() {
-		q.addToPath(n);
-		q.addToPath(n);
-		rT.addEvent(e);
-		assertEquals(q.handleEvents(rT),p);
+	public void testHandleEvents1() {
+		Position neighborPos = new Position(1,1);
+		Node neighborNode = new Node(neighborPos);
+		q.addToPath(neighborNode);
+
+		Event findEvent = new Event(50,60,neighborPos);
+		findEvent.setDistance(3);
+		rT.addEvent(findEvent);
+
+		assertEquals(q.handleEvents(rT),neighborPos);
 	}
 
-	/*
+	/**
+	 * If there is no events in routingTable, handleEvents should return null.
+	 */
 	@Test
 	public void testHandleEvents3() {
 		assertNull(q.handleEvents(rT));
 	}
-	*/
 }

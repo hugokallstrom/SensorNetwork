@@ -59,7 +59,7 @@ public class SensorSimulator {
      */
     public void startSimulation(int steps) throws IOException {
         for(int timeStep = 0; timeStep < steps; timeStep++) {
-        //    System.out.println("Step " + timeStep);
+            System.out.println("Time step: "+timeStep);
             executeTimeStep(timeStep);
         }
     }
@@ -83,6 +83,7 @@ public class SensorSimulator {
      * @throws IOException
      */
     private void executeTimeStep(int timeStep) throws IOException {
+    	
         for(Node node : nodes) {
             if(calculateChance(Constants.eventChance)) {
                 Event event = new Event(generateRandom(Constants.eventIdMax), timeStep, node.getMyPosition());
@@ -94,12 +95,14 @@ public class SensorSimulator {
 
             if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {
                 sendQueryToNode(node);
+           //     System.out.println(node.getRoutingTable().toString());
             }
         }
-
+        printnodes();
         setNodesAvailable();
-
-       //System.in.read();
+        
+        
+       System.in.read();
     }
 
     /**
@@ -128,8 +131,10 @@ public class SensorSimulator {
      */
     private void setNodesAvailable() {
         for(Node node : nodes) {
+        	
             node.setAvailable();
-           System.out.print(node.toString());
+            
+           //System.out.print(node.toString());
         }
     }
 
@@ -141,5 +146,20 @@ public class SensorSimulator {
     private int generateRandom(int maxVal) {
         Random rand = new Random();
         return rand.nextInt(maxVal);
+    }
+    
+    private void printnodes(){
+
+    	System.out.println("All nodes routingtable");
+	 	
+    	for(Node node : nodes){
+	 		Position p;
+            if(!node.getRoutingTable().getEventTable().isEmpty()){
+	            System.out.println("New node");
+	            p=node.getMyPosition();
+	            System.out.println("X: "+p.getX()+" Y: " +p.getY());
+	            node.getRoutingTable().printInfornmationRouting();
+            }
+	 	}
     }
 }
