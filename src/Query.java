@@ -87,6 +87,7 @@ public class Query implements Message {
         if(!foundFinalNode) {
             event = routingTable.getEvent(requestedEventId);
             if(event != null) {
+            	hasFoundPath=true;
                 if (event.getDistance() == 0) {
                     foundFinalNode = true;
                   /*  System.out.println("Sending back event " + requestedEventId + " at " + currentNode.getMyPosition()
