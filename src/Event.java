@@ -1,14 +1,15 @@
-/**
- * Created by hugo on 5/11/15.
- */
 
 /**
  * Class that will represent the event. An event consists an ID, a distance to
- * the root, position working as a direction to the root of the event and 
+ * the root, position working as a direction to the root of the event and
  * the time showing when the event was created.
- * 
- * @author charlotteristiniemi
+ *
+ * File:        Event.java
+ * @author      Charlotte Ristiniemi
+ * Contact:     charlotte.ristiniemi@hotmail.com
+ * Date:        2015-05-22
  */
+
 public class Event {
 
 	private int eventId;
@@ -27,18 +28,19 @@ public class Event {
 		this.timeOfEvent = timeOfEvent;
 		this.position = position;
 		distance = 0;
-		//System.out.println("created a event: "+ eventId);
-		//System.out.println("Position is:" +"X: "+position.getX()+"Y: "+ position.getY());
 	}
 
+	/**
+	 * Constructor that creates a new event. This constructor is used when
+	 * a deep copy is being made from an event.
+	 * @param newEvent
+	 */
     public Event(Event newEvent) {
     	
         this.distance = newEvent.getDistance();
         this.eventId = newEvent.getEventId();
         this.position = newEvent.getPosition();
         this.timeOfEvent = newEvent.getTimeOfEvent();
-       // System.out.println("Created a new event: " + newEvent.eventId);
-		//System.out.println("Position is: " +"X: "+position.getX()+" Y: "+ position.getY());
     }
 
 	/**
@@ -50,7 +52,7 @@ public class Event {
 	}
 
   	/**
-  	 * Returns the distance to the root of the event in steps.
+  	 * Returns the distance to the origin of the event in steps.
   	 * @return distance
   	 */
 	public int getDistance(){
@@ -58,7 +60,7 @@ public class Event {
 	}
 
 	/**
-	 * Method to set distance
+	 * Method to set distance.
 	 * @param distance
 	 */
 	public void setDistance(int distance){
@@ -67,8 +69,8 @@ public class Event {
 
 	/**
 	 * Returns position. When an event is created, position will work as the
-	 * root of the event. Position will work as a direction to go to if
-	 * query/agent is not standing at the root of the event.
+	 * origin of the event. Position will work as a direction to go to if
+	 * query/agent is not standing at the origin of the event.
 	 *
 	 * @return position
 	 */
@@ -77,7 +79,7 @@ public class Event {
 	}
 
 	/**
-	 * Method to set a position
+	 * Method to set a position.
 	 * @param position
 	 */
 	public void setPosition(Position position){
@@ -102,7 +104,7 @@ public class Event {
     }
 
 	/**
-	 *
+	 * Increases the distance with 1.
 	 */
     public void incrementDistance() {
         distance++;

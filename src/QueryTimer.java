@@ -13,9 +13,9 @@ public class QueryTimer {
         return eventId;
     }
 
-    public int getQuerySteps() {
-        return querySteps;
-    }
+	public int getQuerySteps(){
+		return querySteps;
+	}
 
 	public void countQuerySteps(){
 		querySteps++;
