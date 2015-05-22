@@ -1,9 +1,7 @@
 import static org.junit.Assert.*;
 
 import java.util.ArrayList;
-import java.util.Hashtable;
 
-import org.junit.After;
 import org.junit.Test;
 import org.junit.Before;
 
@@ -33,13 +31,14 @@ public class SyncronizeTest {
         nodes.add(node3);
         nodes.add(node4);
 
-        node1.setNeighbours(findNeighbours(node1.getMyPosition()));
-        node2.setNeighbours(findNeighbours(node2.getMyPosition()));
-        node3.setNeighbours(findNeighbours(node3.getMyPosition()));
-        node4.setNeighbours(findNeighbours(node4.getMyPosition()));
+        node1.setNeighbors(findNeighbours(node1.getMyPosition()));
+        node2.setNeighbors(findNeighbours(node2.getMyPosition()));
+        node3.setNeighbors(findNeighbours(node3.getMyPosition()));
+        node4.setNeighbors(findNeighbours(node4.getMyPosition()));
 
         event = new Event(100, 1, new Position(0,0));
         node1.receiveEvent(event);
+        node1.createAgent(event);
     }
 
     @Test
@@ -69,13 +68,13 @@ public class SyncronizeTest {
 
         Event event = new Event(101, 2, new Position(1,0));
         node3.receiveEvent(event);
+        node3.createAgent(event);
         handleAndSendMessage(node3, node1);
         handleAndSendMessage(node1, node4);
 
         node4.getMessageInQueue();
         Message message = node4.getMessageInQueue();
         node4.handleMessage(message);
-
 
         assertEquals(node4.getRoutingTable().getEvent(100).getPosition(), node1.getMyPosition());
         assertEquals(node4.getRoutingTable().getEvent(100).getDistance(), 1);

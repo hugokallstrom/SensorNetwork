@@ -15,11 +15,10 @@ import java.util.*;
  *
  */
 public class Query implements Message {
-	
+
 	private Stack<Node> pathTaken;
 	private int steps;
 	private Event event;
-    //private Node currentNode;
     private int requestedEventId;
     private int timeToLive = Constants.timeToLiveQuery;
     private boolean hasFoundPath = false;
@@ -29,7 +28,7 @@ public class Query implements Message {
      * Constructor for Query. Sets variables and creates a stack for path taken
      * and a hashtable for the visited nodes
      *
-     * @param requestedEventId
+     * @param requestedEventId the requested event.
      */
 	public Query(int requestedEventId) {
 		steps = 0;
@@ -52,17 +51,15 @@ public class Query implements Message {
      * @return pathTaken
      */
     public Stack<Node> getPathTaken() {
-    	printPathtaken();
 		return pathTaken;
 	}
 
     /**
-     * Adds a node into hashtable and a position into hashtable. Also increses
+     * Adds a node into hash table and a position into hash table. Also increases
      * Query's steps with one. If Query's request is replied, steps will be set
      * to 0.
      */
 	public void addToPath(Node node) {
-        //currentNode = node;
         if(foundFinalNode) {
             steps = 0;
         } else if(hasFoundPath) {
@@ -76,27 +73,24 @@ public class Query implements Message {
 
     /**
      * Method handleEvents looks for a requested event ID in node's routingTable.
-     * If the event value is null, node doesn't know the way to the event so method returns null.
-     * If event isn't null, node knows the way to the event and checks if replied is done,
-     * then returns the current position in the routingTable.
+     * If the event value is null, the node doesn't know the way to the event so method returns null.
+     * If event isn't null, the node knows the way to the event and checks if replied is done,
+     * then returns the position to the neighbour who knows the way to the event.
+     * If the node has found the node who has the event, the method returns the position
+     * to the previous node in path taken.
      *
-     * @param routingTable
+     * @param routingTable the nodes routing table.
      * @return Position
      */
 	public Position handleEvents(RoutingTable routingTable) {
         if(!foundFinalNode) {
             event = routingTable.getEvent(requestedEventId);
             if(event != null) {
+                hasFoundPath = true;
                 if (event.getDistance() == 0) {
                     foundFinalNode = true;
-                  /*  System.out.println("Sending back event " + requestedEventId + " at " + currentNode.getMyPosition()
-                            + ", next node: " + event.getPosition()
-                            + ", Path taken: " + printPathtaken());*/
                     return pathTaken.pop().getMyPosition();
                 }
-               /* System.out.println("Found event " + requestedEventId + " at " + currentNode.getMyPosition()
-                        + ", next node: " + event.getPosition()
-                        + ", Path taken: " + printPathtaken() + " Distance: " + event.getDistance());*/
                 return event.getPosition();
             }
         } else {
@@ -120,11 +114,8 @@ public class Query implements Message {
      */
     public boolean replied() {
         if(pathTaken.size() == 0 && event != null) {
-        	/*
-            System.out.println("Query replied, event at " + event.getPosition() +
-                    " Occurred at time step: " + event.getTimeOfEvent() + "." +
-                    " With ID: " + event.getEventId() + "\n");*/
             steps = timeToLive;
+            printEventInfo();
             if(Constants.numberOfReplies.containsKey(event.getEventId())) {
                 Constants.numberOfReplies.put(event.getEventId(), 2);
             } else {
@@ -135,12 +126,13 @@ public class Query implements Message {
         return false;
     }
 
-	private String printPathtaken() {
-        String out = "";
-        for(int i = 0; i < pathTaken.size(); i++) {
-            out += pathTaken.get(i).getMyPosition();
-        }
-        return out;
+    /**
+     * Prints info about the event when the query is replied.
+     */
+    private void printEventInfo() {
+        System.out.println("Query replied. Id: " + event.getEventId() + "\n"
+                           + " Occurred at time step: " + event.getTimeOfEvent() + "\n"
+                           + " At position: " + event.getPosition());
     }
 }
 
