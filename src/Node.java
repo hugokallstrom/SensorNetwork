@@ -39,7 +39,6 @@ public class Node {
      * @param event the received event.
      */
     public void receiveEvent(Event event) {
-       // System.out.println(myPosition + "Event received with id: " + event.getEventId());
         routingTable.addEvent(event);
         createAgent(event);
     }
@@ -62,7 +61,6 @@ public class Node {
      * @param eventId the event id to search for.
      */
     public void createQuery(int eventId) {
-     //   System.out.println(myPosition + "Created query with id: " + eventId);
         Message query = new Query(eventId);
         query.addToPath(this);
         messageQueue.add(query);
@@ -80,13 +78,13 @@ public class Node {
         return new Random().nextInt(chance) == 0;
     }
 
-
     public Message getMessageInQueue() {
         if(!messageQueue.isEmpty()) {
             return messageQueue.poll();
         }
         return null;
     }
+    
     /**
      * If there are messages in the message queue, retrieve
      * the first message and depending on the type of
@@ -95,16 +93,15 @@ public class Node {
      */
     public Node handleMessage(Message message) {
         this.message = message;
+        
         Position nodePosition = message.handleEvents(routingTable);
-        Node neighbour;
+        Node neighbour = getNeighbourFromPos(nodePosition);
+        
         if(nodePosition == null || nodePosition.equals(myPosition)) {
             neighbour = selectNextNeighbour(message.getPathTaken());
-        } else {
-            neighbour = getNeighbourFromPos(nodePosition);
-            if(neighbour.getMyPosition().equals(myPosition)) {
+        } else if(neighbour.getMyPosition().equals(myPosition)) {
                 neighbour = selectNextNeighbour(message.getPathTaken());
-            }
-        }
+            }   
         return neighbour;
     }
 
@@ -113,6 +110,7 @@ public class Node {
             timer.countQuerySteps();
             if(timer.checkQuerySteps()) {
                 createQuery(timer.getEventId());
+                timer=null;
             }
         }
     }
@@ -235,7 +233,7 @@ public class Node {
      * Gets the nodes queue.
      * @return the nodes queue.
      */
-    public Queue getQueue() {
+    public Queue<Message> getQueue() {
         return messageQueue;
     }
 

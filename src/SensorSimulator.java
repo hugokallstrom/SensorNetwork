@@ -98,14 +98,11 @@ public class SensorSimulator {
 
             if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {
                 sendQueryToNode(node);
-               // System.out.println(node.getRoutingTable().toString());
             }
         }
-        //printnodes();
 
         setNodesAvailable();
 
-        //System.in.read();
 
 		System.out.println("--------------------------------" + timeStep + "------------------------------------");
     }

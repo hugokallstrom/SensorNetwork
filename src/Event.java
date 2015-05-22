@@ -27,8 +27,6 @@ public class Event {
 		this.timeOfEvent = timeOfEvent;
 		this.position = position;
 		distance = 0;
-		//System.out.println("created a event: "+ eventId);
-		//System.out.println("Position is:" +"X: "+position.getX()+"Y: "+ position.getY());
 	}
 
     public Event(Event newEvent) {
@@ -37,8 +35,6 @@ public class Event {
         this.eventId = newEvent.getEventId();
         this.position = newEvent.getPosition();
         this.timeOfEvent = newEvent.getTimeOfEvent();
-       // System.out.println("Created a new event: " + newEvent.eventId);
-		//System.out.println("Position is: " +"X: "+position.getX()+" Y: "+ position.getY());
     }
 
 	/**
@@ -106,12 +102,5 @@ public class Event {
 	 */
     public void incrementDistance() {
         distance++;
-    }
-
-    @Override
-    public String toString() {
-        String out = "";
-        return "Id: " + eventId + "\n" + "Distance: " + distance + "\n" +
-                "Position: " + position.toString() + "\n";
     }
 }

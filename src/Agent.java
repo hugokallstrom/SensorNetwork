@@ -14,8 +14,7 @@ public class Agent implements Message {
 	private RoutingTable routingTable;
 	private int timeToLive;
 	private int steps;
-    private Node previousNode;
-
+	
 	public Agent(Event event) {
 		steps = 0;
 		timeToLive = Constants.timeToLiveAgent;
@@ -29,13 +28,6 @@ public class Agent implements Message {
      * Checks if agent can move.
      */
 	public boolean canMove() {
-		/**
-		 * Checks if agent can move.
-		 */
-		//System.out.println("-----------------------");
-		//System.out.println("Can agent move?" + steps);
-		//System.out.println("-----------------------");
-		//testPrintPath();
 		return steps < timeToLive;
 	}
 
@@ -51,15 +43,13 @@ public class Agent implements Message {
      */
     public void addToPath(Node node) {
         if(pathTaken.size() > 0) {
-            previousNode = pathTaken.peek();
             routingTable.incrementEventDistances();
-        } else {
-            previousNode = node;
         }
-
+        
         pathTaken.push(node);
         steps++;
     }
+    
     /**
      * Iterate agents routing table and nodes routing table and swaps
      * events. If node or agent knows a shorter path to an event
@@ -68,31 +58,8 @@ public class Agent implements Message {
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
         routingTable.syncEvents(nodeRoutingTable, pathTaken.peek());
         routingTable.findShortestPath(nodeRoutingTable, pathTaken.peek());
-        //routingTable.changeEventPosition(pathTaken.peek(), nodeRoutingTable);
         routingTable.deepCopyHashtable();
-
-        // System.out.println("Agent has this in routing table: at position" + pathTaken.peek());
-        //routingTable.printInfornmationRouting();
         
-
-        //nodeRoutingTable.deepCopyHashtable();
-       //System.out.println("Agent routing table : " + routingTable.toString());
-       // System.out.println("Position: " + pathTaken.peek().getMyPosition());
-        //System.out.println("Node routing table : " + nodeRoutingTable.getEventTable().size());
-
         return null;
 	}
-    
-    /*
-    private void testPrintPath(){
-    	Stack<Node> testPrint = pathTaken;
-    	
-    	System.out.println("--------------");
-    	System.out.println("Agen have taken this path");
-    	System.out.println("--------------");
-    	while(!testPrint.isEmpty()){
-    		System.out.println("Position "+testPrint.peek().getMyPosition().toString());
-    		testPrint.pop();
-    	}
-    }*/
 }

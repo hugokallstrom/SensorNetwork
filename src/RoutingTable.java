@@ -26,7 +26,7 @@ public class RoutingTable {
      */
 	public void syncEvents(RoutingTable nodeRoutingTable, Node currentNode) {
         HashMap<Integer, Event> nodeHashTable = nodeRoutingTable.getEventTable();
-
+        
 		for(int agentKey : hashTable.keySet()) {
             if(!nodeHashTable.containsKey(agentKey)) {
                 Event copyAgentEvent = new Event(hashTable.get(agentKey));
@@ -66,29 +66,6 @@ public class RoutingTable {
             }
         }
     }
-
-    /**
-     * Change the previous position that the event had.
-     * @param previousNode
-     * @param nodeRoutingTable
-     */
-    public void changeEventPosition(Node previousNode, RoutingTable nodeRoutingTable) {
-        HashMap<Integer, Event> nodeEventTable = nodeRoutingTable.getEventTable();
-        Position previousNodePosition = previousNode.getMyPosition();
-
-        for(int  agentKey : hashTable.keySet()) {
-            for(int nodeKey : nodeRoutingTable.getEventTable().keySet()) {
-            	Event agentEvent = hashTable.get(agentKey);
-        		Event nodeEvent = nodeEventTable.get(nodeKey);
-
-        		if(agentKey == nodeKey && (nodeEvent.getDistance() != 0 && agentEvent.getDistance() != 0)) {
-                    agentEvent.setPosition(previousNodePosition);
-                    nodeEvent.setPosition(previousNodePosition);
-                }
-            }
-        }
-    }
-
     /**
      * Increment the distance to an event as a messages moves.
      */
