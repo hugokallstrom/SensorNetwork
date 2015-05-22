@@ -108,13 +108,14 @@ public class AgentTest {
 		Event ev = new Event(1,4,p);
 		event.setDistance(3);
 		
-		ev.setDistance(1);
+		ev.setDistance(5);
+		
 		rout.addEvent(ev);
 		
 		agent.handleEvents(rout);	
 		
 		Event e = rout.getEvent(1);
 		
-		assertEquals(ev.getDistance(),1);
+		assertEquals(ev.getDistance(),3);
 	}
 }

@@ -62,7 +62,7 @@ public class SensorSimulator {
             executeTimeStep(timeStep);
             setNodesAvailable();
             //System.in.read();
-//		System.out.println("--------------------------------" + timeStep + "------------------------------------");
+	System.out.println("--------------------------------" + timeStep + "------------------------------------");
         }
     }
 
@@ -95,8 +95,10 @@ public class SensorSimulator {
             }
             sendQuery(node, timeStep);
         }
+
     }
 
+            
     private void createEvent(Node node, int timeStep) {
         if(calculateChance(Constants.eventChance)) {
             Event event = new Event(generateRandom(Constants.eventIdMax), timeStep, node.getMyPosition());
@@ -106,7 +108,10 @@ public class SensorSimulator {
                 node.createAgent(event);
             }
         }
+
     }
+
+
 
     private void sendQuery(Node node, int timeStep) {
         if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {

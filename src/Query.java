@@ -15,11 +15,11 @@ import java.util.*;
  *
  */
 public class Query implements Message {
-
+	
 	private Stack<Node> pathTaken;
 	private int steps;
 	private Event event;
-    private Node currentNode;
+    //private Node currentNode;
     private int requestedEventId;
     private int timeToLive = Constants.timeToLiveQuery;
     private boolean hasFoundPath = false;
@@ -43,10 +43,6 @@ public class Query implements Message {
      * @return boolean - true if Query can move. False else.
      */
 	public boolean canMove() {
-	
-		//System.out.println("------------------------");
-		//System.out.println("can query move? "+ steps);
-		//System.out.println("------------------------");
         return steps < timeToLive;
 	}
 
@@ -66,7 +62,7 @@ public class Query implements Message {
      * to 0.
      */
 	public void addToPath(Node node) {
-        currentNode = node;
+        //currentNode = node;
         if(foundFinalNode) {
             steps = 0;
         } else if(hasFoundPath) {
@@ -124,9 +120,10 @@ public class Query implements Message {
      */
     public boolean replied() {
         if(pathTaken.size() == 0 && event != null) {
+        	/*
             System.out.println("Query replied, event at " + event.getPosition() +
                     " Occurred at time step: " + event.getTimeOfEvent() + "." +
-                    " With ID: " + event.getEventId() + "\n");
+                    " With ID: " + event.getEventId() + "\n");*/
             steps = timeToLive;
             if(Constants.numberOfReplies.containsKey(event.getEventId())) {
                 Constants.numberOfReplies.put(event.getEventId(), 2);
@@ -138,7 +135,7 @@ public class Query implements Message {
         return false;
     }
 
-    private String printPathtaken() {
+	private String printPathtaken() {
         String out = "";
         for(int i = 0; i < pathTaken.size(); i++) {
             out += pathTaken.get(i).getMyPosition();

@@ -14,7 +14,14 @@ public class Agent implements Message {
 	private RoutingTable routingTable;
 	private int timeToLive;
 	private int steps;
-    private Node currentNode;
+	private Node currentNode;
+	
+	
+	/**
+	 * Creates a new agent and put the given event in 
+	 * his routingtable.
+	 * @param event
+	 */
 
     public Agent(Event event) {
 		steps = 0;
@@ -46,19 +53,22 @@ public class Agent implements Message {
         if(pathTaken.size() > 0) {
             routingTable.incrementEventDistances();
         }
+        
         currentNode = node;
         pathTaken.push(node);
         steps++;
     }
+    
     /**
      * Iterate agents routing table and nodes routing table and swaps
      * events. If node or agent knows a shorter path to an event
      * they swap.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
+
         routingTable.syncEvents(nodeRoutingTable, currentNode);
-        routingTable.findShortestPath(nodeRoutingTable, currentNode);
-        routingTable.deepCopyHashtable();
+        routingTable.findShortestPath(nodeRoutingTable, currentNode);        
+
         return null;
 	}
 
