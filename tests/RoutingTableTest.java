@@ -178,21 +178,7 @@ public class RoutingTableTest {
 		
 		assertEquals(rout.getEventTable().size(),3);
 	}
-	
-	/**
-	 * Testing copying one hashtable with one event to see that it dont 
-	 * changes. 
-	 */
-	@Test
-	public void testDeepCopyHashtable(){
-		rout.deepCopyHashtable();
-		Event ev = rout.getEvent(1);
-		
-		assertEquals(ev.getEventId(),event.getEventId());
-		assertEquals(ev.getDistance(),event.getDistance());
-		
-		
-	}
+
 	@Test
 	public void testAdvancedAddToPathMessage(){
 		Position pos = new Position(3,3);

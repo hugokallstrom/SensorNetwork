@@ -1,23 +1,19 @@
-/**
- * Created by hugo on 5/11/15.
- */
 import java.util.*;
 
 /**
+ * @author Viktor Lindblad
  * Routingtable uses by node and messages to remember information about
  * different events.
- * @author Viktor Lindblad
  */
-
 public class RoutingTable {
 
-	private HashMap<Integer, Event> hashTable;
+	private HashMap<Integer, Event> eventTable;
 
 	/**
 	 * Creates a new routingTable and initiates a empty hashtable.
 	 */
 	public RoutingTable() {
-		hashTable = new	HashMap<Integer, Event>();
+		eventTable = new	HashMap<Integer, Event>();
 	}
 	
 	/**
@@ -25,27 +21,22 @@ public class RoutingTable {
      * @param nodeRoutingTable
      */
 	public void syncEvents(RoutingTable nodeRoutingTable, Node currentNode) {
-        HashMap<Integer, Event> nodeHashTable = nodeRoutingTable.getEventTable();
-        
-		for(int agentKey : hashTable.keySet()) {
-            if(!nodeHashTable.containsKey(agentKey)) {
-            
-            	Event copyAgentEvent = new Event(hashTable.get(agentKey));
-                hashTable.get(agentKey).setPosition(currentNode.getMyPosition());
+        HashMap<Integer, Event> nodeEventTable = nodeRoutingTable.getEventTable();
+
+		for(int agentKey : eventTable.keySet()) {
+            if(!nodeEventTable.containsKey(agentKey)) {
+                Event copyAgentEvent = new Event(eventTable.get(agentKey));
+                eventTable.get(agentKey).setPosition(currentNode.getMyPosition());
                 nodeRoutingTable.getEventTable().put(agentKey, copyAgentEvent);
-            
             }
         }
 
-        for(int nodeKey : nodeHashTable.keySet()) {
-            
-        	if(!hashTable.containsKey(nodeKey)) {
-            
-        		Event copyNodeEvent = new Event(nodeHashTable.get(nodeKey));
+        for(int nodeKey : nodeEventTable.keySet()) {
+            if(!eventTable.containsKey(nodeKey)) {
+                Event copyNodeEvent = new Event(nodeEventTable.get(nodeKey));
                 copyNodeEvent.setPosition(currentNode.getMyPosition());
-                hashTable.put(nodeKey, copyNodeEvent);
-            
-        	}
+                eventTable.put(nodeKey, copyNodeEvent);
+            }
         }
 	}
 	
@@ -55,27 +46,21 @@ public class RoutingTable {
      * @param nodeRoutingTable
      */
     public void findShortestPath(RoutingTable nodeRoutingTable, Node currentNode) {
-       
-    	for(int agentKey : hashTable.keySet()) {
-            
-    		Event agentEvent = hashTable.get(agentKey);
+        for(int agentKey : eventTable.keySet()) {
+            Event agentEvent = eventTable.get(agentKey);
             Event nodeEvent = nodeRoutingTable.getEventTable().get(agentKey);
-        
             if(nodeRoutingTable.getEventTable().containsKey(agentKey)) {
-            
-            	if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
-                
-            		Event copyAgentEvent = new Event(agentEvent);
-                    hashTable.get(agentKey).setPosition(currentNode.getMyPosition());
+
+                if(agentEvent.getDistance() < nodeEvent.getDistance()) {
+                    Event copyAgentEvent = new Event(agentEvent);
+                    eventTable.get(agentKey).setPosition(currentNode.getMyPosition());
                     nodeRoutingTable.getEventTable().put(agentKey, copyAgentEvent);
-                
-            	} else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
-                    
-            		Event copyNodeEvent = new Event(nodeEvent);
+
+                } else if(agentEvent.getDistance() > nodeEvent.getDistance()) {
+                    Event copyNodeEvent = new Event(nodeEvent);
                     copyNodeEvent.setPosition(currentNode.getMyPosition());
-                    hashTable.put(agentKey, copyNodeEvent);
-                
-            	}
+                    eventTable.put(agentKey, copyNodeEvent);
+                }
             }
         }
     }
@@ -84,8 +69,8 @@ public class RoutingTable {
      * Increment the distance to an event as a messages moves.
      */
     public void incrementEventDistances() {
-        for(int eventKey : hashTable.keySet()) {
-        	Event agentEvent = hashTable.get(eventKey);
+        for(int eventKey : eventTable.keySet()) {
+        	Event agentEvent = eventTable.get(eventKey);
         	agentEvent.incrementDistance();
         }
     }
@@ -95,7 +80,7 @@ public class RoutingTable {
      * @param event
      */
     public void addEvent(Event event) {
-        hashTable.put(event.getEventId(),event);
+        eventTable.put(event.getEventId(), event);
     }
 
     /**
@@ -104,7 +89,7 @@ public class RoutingTable {
      * @return Event.
      */
     public Event getEvent(int requestedEventId) {
-    	return hashTable.get(requestedEventId);
+    	return eventTable.get(requestedEventId);
     }
 
     /**
@@ -113,7 +98,7 @@ public class RoutingTable {
      * @return Hashtable
      */
     public HashMap<Integer,Event> getEventTable(){
-        return hashTable;
+        return eventTable;
     }
 
     /**
@@ -121,26 +106,14 @@ public class RoutingTable {
      * @param hashTable
      */
     public void setEventTable(HashMap<Integer, Event> hashTable) {
-        this.hashTable = hashTable;
+        this.eventTable = hashTable;
     }
 
-    /**
-     * Copies the given hashtables objects into new objects.
-     */
-	public void deepCopyHashtable() {
-        HashMap<Integer, Event> copy = new HashMap<Integer, Event>(hashTable.size());
-		for(int originalKey : hashTable.keySet()) {
-	    	Event copyEvent = new Event(hashTable.get(originalKey));
-	    	copy.put(originalKey, copyEvent);
-	    }
-	    hashTable = copy;
-	}
-    
     @Override
     public String toString() {
         String out = "";
-        for(int eventKey : hashTable.keySet()) {
-        	Event event = hashTable.get(eventKey);
+        for(int eventKey : eventTable.keySet()) {
+        	Event event = eventTable.get(eventKey);
         	out += event.toString();
         }
         return out;

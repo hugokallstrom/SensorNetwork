@@ -1,4 +1,3 @@
-import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -25,8 +24,8 @@ public class NodeTest {
         neighbours.add(neighbour);
         ArrayList<Node> neighbours2 = new ArrayList<Node>();
         neighbours2.add(node);
-        node.setNeighbours(neighbours);
-        neighbour.setNeighbours(neighbours2);
+        node.setNeighbors(neighbours);
+        neighbour.setNeighbors(neighbours2);
 
         event = new Event(123, 1, node.getMyPosition());
         node.receiveEvent(event);
