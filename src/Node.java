@@ -2,7 +2,7 @@ import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * @author Hugo KÃ¤llstrÃ¶m
+ * @author Hugo Källström
  * Represents a node in the sensor network.
  * The node can detect events and send out queries for specific events,
  * it can also receive messages in the form of agents and queries.
@@ -63,17 +63,8 @@ public class Node {
         timer = new QueryTimer(eventId);
     }
 
-    /**
-     * Checks if a random generated integer equals zero.
-     * The bigger the supplied value, the smaller the chance
-     * to return true.
-     * @param chance the value to generate a random integer from.
-     * @return if the generated value equals zero, return true.
-     */
-    private boolean calculateChance(int chance) {
-        return new Random().nextInt(chance) == 0;
-    }
-
+    
+    
     public Message getMessageInQueue() {
         if(!messageQueue.isEmpty()) {
             return messageQueue.poll();
@@ -86,7 +77,7 @@ public class Node {
      * If there are messages in the message queue, retrieve
      * the first message and depending on the type of
      * message, either sync events with an agent or try to answer
-     * a query. The message is then sent to a suitable neighbour.
+     * a query. The message is then sent to a suitable neighbor.
      */
     public Node handleMessage(Message message) {
         this.message = message;
@@ -113,7 +104,7 @@ public class Node {
     }
 
     /**
-     * Selects a neighbour based on the messages path taken.
+     * Selects a neighbor based on the messages path taken.
      * @param pathTaken the path the message has taken through the network.
      * @return a suitable node, preferably one which has not been visited before.
      */
@@ -133,9 +124,9 @@ public class Node {
     }
 
     /**
-     * Returns a neighbour based on a position.
-     * @param nodePosition the position of the neighbour.
-     * @return the neighbour which has the position.
+     * Returns a neighbor based on a position.
+     * @param nodePosition the position of the neighbor.
+     * @return the neighbor which has the position.
      */
     private Node getNeighbourFromPos(Position nodePosition) {
         for(Node neighbour : neighbours) {
@@ -147,7 +138,7 @@ public class Node {
     }
 
     /**
-     * Sends a message to a node (neighbour) if it is available.
+     * Sends a message to a node (neighbor) if it is available.
      * @param neighbour the node which receives the message.
      */
     public void sendMessageToNode(Node neighbour) {
@@ -172,8 +163,8 @@ public class Node {
     }
 
     /**
-     * Sets the nodes neighbours.
-     * @param neighbours the nodes neighbours.
+     * Sets the nodes neighbors.
+     * @param neighbours the nodes neighbors.
      */
     public void setNeighbours(ArrayList<Node> neighbours) {
         this.neighbours = neighbours;

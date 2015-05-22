@@ -16,7 +16,12 @@ public class Agent implements Message {
 	private int steps;
 	private Node currentNode;
 	
-
+	
+	/**
+	 * Creates a new agent and put the given event in 
+	 * his routingtable.
+	 * @param event
+	 */
 
     public Agent(Event event) {
 		steps = 0;
