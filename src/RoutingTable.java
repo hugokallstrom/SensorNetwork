@@ -66,6 +66,7 @@ public class RoutingTable {
             }
         }
     }
+
     /**
      * Increment the distance to an event as a messages moves.
      */
@@ -91,7 +92,6 @@ public class RoutingTable {
      */
     public Event getEvent(int requestedEventId) {
     	return hashTable.get(requestedEventId);
-        
     }
 
     /**

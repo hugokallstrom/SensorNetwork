@@ -15,7 +15,6 @@ public class Node {
     private Queue<Message> messageQueue;
     private boolean availability;
     private boolean isSender;
-    private int agentChance = Constants.agentChance;
     private QueryTimer timer;
     private Message message;
 
@@ -40,7 +39,6 @@ public class Node {
      */
     public void receiveEvent(Event event) {
         routingTable.addEvent(event);
-        createAgent(event);
     }
 
     /**
@@ -48,12 +46,10 @@ public class Node {
      * and adds it to the message queue.
      * @param event the received event.
      */
-    private void createAgent(Event event) {
-        if(calculateChance(agentChance)) {
-            Message agent = new Agent(event);
-            agent.addToPath(this);
-            messageQueue.add(agent);
-        }
+    public void createAgent(Event event) {
+        Message agent = new Agent(event);
+        agent.addToPath(this);
+        messageQueue.add(agent);
     }
 
     /**
@@ -81,8 +77,9 @@ public class Node {
     public Message getMessageInQueue() {
         if(!messageQueue.isEmpty()) {
             return messageQueue.poll();
+        } else {
+            return null;
         }
-        return null;
     }
     
     /**
@@ -235,14 +232,6 @@ public class Node {
      */
     public Queue<Message> getQueue() {
         return messageQueue;
-    }
-
-    /**
-     * Set the chance to create an agent.
-     * @param agentChance the chance to create an agent.
-     */
-    public void setAgentChance(int agentChance) {
-        this.agentChance = agentChance;
     }
 
 }

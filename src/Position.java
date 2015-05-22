@@ -64,4 +64,9 @@ public class Position {
             return false;
         }
     }
+
+    @Override
+    public String toString() {
+        return "Position: " + String.valueOf(x) + " " + String.valueOf(y)+"\n";
+    }
 }

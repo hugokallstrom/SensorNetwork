@@ -27,8 +27,7 @@ public class NodeTest {
         neighbours2.add(node);
         node.setNeighbours(neighbours);
         neighbour.setNeighbours(neighbours2);
-        node.setAgentChance(1);
-        neighbour.setAgentChance(1);
+
         event = new Event(123, 1, node.getMyPosition());
         node.receiveEvent(event);
         routingTable = node.getRoutingTable();

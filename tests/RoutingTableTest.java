@@ -126,7 +126,7 @@ public class RoutingTableTest {
 		Position p = new Position(1,2);
 		Node previus = new Node(p);
 		
-		rout.changeEventPosition(previus, rout);
+		//rout.changeEventPosition(previus, rout);
 		
 		assertEquals(rout.getEvent(1).getPosition(),p);
 	}

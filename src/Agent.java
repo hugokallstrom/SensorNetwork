@@ -14,8 +14,11 @@ public class Agent implements Message {
 	private RoutingTable routingTable;
 	private int timeToLive;
 	private int steps;
+	private Node currentNode;
 	
-	public Agent(Event event) {
+
+
+    public Agent(Event event) {
 		steps = 0;
 		timeToLive = Constants.timeToLiveAgent;
 		pathTaken = new Stack<Node>();
@@ -46,6 +49,7 @@ public class Agent implements Message {
             routingTable.incrementEventDistances();
         }
         
+        currentNode = node;
         pathTaken.push(node);
         steps++;
     }
@@ -56,10 +60,11 @@ public class Agent implements Message {
      * they swap.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
-        routingTable.syncEvents(nodeRoutingTable, pathTaken.peek());
-        routingTable.findShortestPath(nodeRoutingTable, pathTaken.peek());
-        routingTable.deepCopyHashtable();
-        
+
+        routingTable.syncEvents(nodeRoutingTable, currentNode);
+        routingTable.findShortestPath(nodeRoutingTable, currentNode);        
+
         return null;
 	}
+
 }

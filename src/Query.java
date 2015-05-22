@@ -89,8 +89,14 @@ public class Query implements Message {
             if(event != null) {
                 if (event.getDistance() == 0) {
                     foundFinalNode = true;
+                  /*  System.out.println("Sending back event " + requestedEventId + " at " + currentNode.getMyPosition()
+                            + ", next node: " + event.getPosition()
+                            + ", Path taken: " + printPathtaken());*/
                     return pathTaken.pop().getMyPosition();
                 }
+               /* System.out.println("Found event " + requestedEventId + " at " + currentNode.getMyPosition()
+                        + ", next node: " + event.getPosition()
+                        + ", Path taken: " + printPathtaken() + " Distance: " + event.getDistance());*/
                 return event.getPosition();
             }
         } else {
@@ -119,6 +125,11 @@ public class Query implements Message {
                     " Occurred at time step: " + event.getTimeOfEvent() + "." +
                     " With ID: " + event.getEventId() + "\n");*/
             steps = timeToLive;
+            if(Constants.numberOfReplies.containsKey(event.getEventId())) {
+                Constants.numberOfReplies.put(event.getEventId(), 2);
+            } else {
+                Constants.numberOfReplies.put(event.getEventId(), 1);
+            }
             return true;
         }
         return false;
