@@ -5,7 +5,10 @@ import org.junit.Test;
 /**
  * JUnit test for class Event.
  *
+ * File:        EventTest.java
  * @author      Charlotte Ristiniemi
+ * Contact:     charlotte.ristiniemi@hotmail.com
+ * Date:        2015-05-22
  */
 
 public class EventTest {
@@ -14,7 +17,8 @@ public class EventTest {
 	Position p;
 
 	/**
-	 * Initializing a new event with a given position to work with in every test.
+	 * Initializing a new event with a given position to work with in every 
+	 * test.
 	 */
 	@Before
 	public void init() {

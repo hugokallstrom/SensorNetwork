@@ -25,7 +25,7 @@ public class Query implements Message {
 
     /**
      * Constructor for Query. Sets variables and creates a stack for path taken
-     * and a hashtable for the visited nodes
+     * and a hash map for the visited nodes
      *
      * @param requestedEventId the requested event.
      */
@@ -54,8 +54,8 @@ public class Query implements Message {
 	}
 
     /**
-     * Adds a node into hashtable. Also increases Query's steps with one if Query
-     * hasn't found the path to the event. If Query's request is replied,
+     * Adds a node into hash map. Also increases Query's steps with one if 
+     * Query hasn't found the path to the event. If Query's request is replied,
      * or if the requested event is found, steps will be set to 0.
      */
 	public void addToPath(Node node) {
@@ -71,16 +71,17 @@ public class Query implements Message {
 	}
 
     /**
-     * Method handleEvents looks for a requested event ID in node's routingTable.
-     * If the query didn't find the node that has the event, look at the node's
-     * RoutingTable for the requested event. If an event is returned, a path
-     * was found to the event. If the distance is 0, the final node was found and
-     * handleEvents will return the previous node in pathTaken. If the distance
-     * was greater than 0, handleEvents will return next position to go to.
+     * Method handleEvents looks for a requested event ID in node's 
+     * routingTable. If the query didn't find the node that has the event, 
+     * look at the node's RoutingTable for the requested event. If an event is 
+     * returned, a path was found to the event. If the distance is 0, the final
+     * node was found and handleEvents will return the previous node in 
+     * pathTaken. If the distance was greater than 0, handleEvents will return
+     *  next position to go to.
      *
-     * If final node was found, method Replied will be checked, if true, handleEvents
-     * will return null. If Replied returned false, handleMessage will return
-     * the previous node in pathTaken.
+     * If final node was found, method Replied will be checked, if true,
+     * handleEvents will return null. If Replied returned false, 
+     * handleMessage will return the previous node in pathTaken.
      *
      * @param routingTable the nodes routing table.
      * @return Position

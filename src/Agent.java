@@ -58,9 +58,9 @@ public class Agent implements Message {
     }
     
     /**
-     * Iterate agents routing table and nodes routing table and swaps
+     * Checks agents routing table and nodes routing table and swaps
      * events. If node or agent knows a shorter path to an event
-     * they swap.
+     * they they save the shorter path.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
 		

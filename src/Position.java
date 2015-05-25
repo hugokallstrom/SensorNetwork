@@ -2,8 +2,8 @@
  * Created by hugo on 5/11/15.
  */
 /**
- * @author Viktor Lindbad
  *	Position refers a position of the nodes in the network
+ *  @author Viktor Lindbad
  */
 
 public class Position {

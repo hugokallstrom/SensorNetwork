@@ -147,7 +147,7 @@ public class Node {
     }
 
     /**
-     * Sends a message to a node (neighbour) if it is available.
+     * Sends a message to a node (neighbor) if it is available.
      * @param neighbour the node which receives the message.
      */
     public void sendMessageToNode(Node neighbour) {

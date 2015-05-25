@@ -9,7 +9,7 @@ import java.util.Random;
  * and for every node there is a chance to create an event
  * and send it to the node. If the node is a sender, a query
  * can be sent periodically.
- * @author Hugo KÃ¤llstrÃ¶m
+ * @author Hugo Källström
  */
 public class SensorSimulator {
 

@@ -44,7 +44,8 @@ public class QueryTest {
 	}
 
 	/**
-	 * In the beginning canMove method should always be true. Checks if return value is true.
+	 * In the beginning canMove method should always be true. Checks if return
+	 * value is true.
 	 */
 	@Test
 	public void testCanMove() {
@@ -65,9 +66,9 @@ public class QueryTest {
 	}
 
 	/**
-	 * Adds one node to stack, then uses getPathTaken to return the stack and then compare
-	 * the created node to what was in the top of the stack to see that they're equal.
-	 * Tests both addToPath and getPathTaken.
+	 * Adds one node to stack, then uses getPathTaken to return the stack and 
+	 * then compare the created node to what was in the top of the stack to 
+	 * see that they're equal. Tests both addToPath and getPathTaken.
 	 */
 	@Test
 	public void testAddToPath() {
@@ -78,8 +79,8 @@ public class QueryTest {
 	}
 
 	/**
-	 * When a Query is replied with distance 0, handleEvents should print information and
-	 * return same position as the query is standing on.
+	 * When a Query is replied with distance 0, handleEvents should print 
+	 * information and return same position as the query is standing on.
 	 */
 	@Test
 	public void testHandleEvents() {
@@ -94,8 +95,8 @@ public class QueryTest {
 	}
 
 	/**
-	 * When a Query found the event ID in the routingTable but distance is greater than
-	 * 0, it should return the next position to go to.
+	 * When a Query found the event ID in the routingTable but distance is 
+	 * greater than 0, it should return the next position to go to.
 	 */
 	@Test
 	public void testHandleEventsNextPos() {
@@ -119,9 +120,10 @@ public class QueryTest {
 	}
 
 	/**
-	 * Two nodes' is created. goalevent gets the event and startpos get the route
-	 * to the event and the query. Message is sent between the nodes' and when
-	 * replied, information will be printed by method printEventInfo().
+	 * Two nodes' is created. goalNode gets the event and startNode get 
+	 * the route to the event and the query. Message is sent between the 
+	 * node's and when replied, information will be printed by method 
+	 * printEventInfo().
 	 */
 	@Test
 	public void testQueryReplied(){

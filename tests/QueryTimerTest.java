@@ -5,7 +5,7 @@ import org.junit.Test;
 /**
  * JUnit test for class QueryTimer.
  *
- * @author      Charlotte Ristiniemi
+ * @author Charlotte Ristiniemi
  */
 public class QueryTimerTest {
 
@@ -48,7 +48,7 @@ public class QueryTimerTest {
     }
 
     /**
-     * checkQuerySteps returns false if node shouldn't resend the Query.
+     * checkQuerySteps returns false if node shouldn't resends the Query.
      * If Query was send one time and fulfilled its time to live,
      * checkQuerySteps should return true.
      */
