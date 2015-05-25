@@ -4,7 +4,7 @@
  * the root, position working as a direction to the root of the event and
  * the time showing when the event was created.
  *
- * @author      Charlotte Ristiniemi
+ * @author Charlotte Ristiniemi
  */
 
 public class Event {

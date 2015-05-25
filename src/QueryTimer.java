@@ -1,6 +1,6 @@
 /**
- * @author Viktor Lindblad
  * Keeps track of the time since a node last sent a query.
+ * @author Viktor Lindblad
  */
 public class QueryTimer {
 

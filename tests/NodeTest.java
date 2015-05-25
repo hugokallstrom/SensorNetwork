@@ -79,7 +79,8 @@ public class NodeTest {
     @Test
     public void testCreateQuery() throws Exception {
         node.createQuery(event.getEventId());
-        LinkedBlockingQueue messageQueue = (LinkedBlockingQueue) node.getQueue();
+        LinkedBlockingQueue messageQueue = (LinkedBlockingQueue) 
+        											node.getQueue();
         assertEquals(2, messageQueue.size());
     }
 
@@ -142,7 +143,7 @@ public class NodeTest {
     }
 
     /**
-     * Tests if a node can resend a query only once.
+     * Tests if a node can resends a query only once.
      * @throws Exception
      */
     @Test

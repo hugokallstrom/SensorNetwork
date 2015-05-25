@@ -5,7 +5,7 @@ import java.util.concurrent.LinkedBlockingQueue;
  * Represents a node in the sensor network.
  * The node can detect events and send out queries for specific events,
  * it can also receive messages in the form of agents and queries.
- * @author Hugo KÃ¤llstrÃ¶m
+ * @author Hugo Källström
  */
 public class Node {
 

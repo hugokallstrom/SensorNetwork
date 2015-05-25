@@ -5,10 +5,7 @@ import org.junit.Test;
 /**
  * JUnit test for class Event.
  *
- * File:        EventTest.java
- * @author      Charlotte Ristiniemi
- * Contact:     charlotte.ristiniemi@hotmail.com
- * Date:        2015-05-22
+ * @author Charlotte Ristiniemi
  */
 
 public class EventTest {
@@ -72,8 +69,8 @@ public class EventTest {
 	}
 
 	/**
-	 * Test for second constructor. A new event is made with new Id, time and position.
-	 * Then checked if right.
+	 * Test for second constructor. A new event is made with new Id, time and 
+	 * position. Then checked if right.
 	 */
 	@Test
 	public void testNewEvent(){
@@ -88,9 +85,9 @@ public class EventTest {
 	}
 
 	/**
-	 * Test to set a new position in Event. First position is x=10 y=20 and second position is x=40 y=50.
-	 * First position is set in constructor and checked if right, then second gets
-	 * set with method and checked if right.
+	 * Test to set a new position in Event. First position is x=10 y=20 and 
+	 * second position is x=40 y=50. First position is set in constructor and 
+	 * checked if right, then second gets set with method and checked if right.
 	 */
 	@Test
 	public void testSetPosition(){
@@ -103,7 +100,8 @@ public class EventTest {
 	}
 
 	/**
-	 * Test to set a new distance in Event. Distance is set to 0 in constructor.
+	 * Test to set a new distance in Event. Distance is set to 0 in 
+	 * constructor.
 	 * Distance 5 is then set into Event and then checked if right.
 	 */
 	@Test
@@ -125,8 +123,8 @@ public class EventTest {
 
 
 	/**
-	 * Test to set a new time of event in Event. Time of event is set to 60 in constructor.
-	 * Time 60 is then set into Event and checked if right.
+	 * Test to set a new time of event in Event. Time of event is set to 60 in 
+	 * constructor. Time 60 is then set into Event and checked if right.
 	 */
 	@Test
 	public void testSetTimeOfEvent(){

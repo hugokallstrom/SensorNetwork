@@ -6,7 +6,7 @@ import org.junit.Test;
 /**
  * JUnit tests for class Position.
  *
- * @author      Charlotte Ristiniemi
+ * @author Charlotte Ristiniemi
  */
 
 

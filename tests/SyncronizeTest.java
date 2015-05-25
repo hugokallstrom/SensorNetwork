@@ -57,7 +57,8 @@ public class SyncronizeTest {
     }
 
     /**
-     * Tests if the agent updates the position and distance in the event correctly.
+     * Tests if the agent updates the position and distance in the event 
+     * correctly.
      */
     @Test
     public void testPositionAndDistance() {
@@ -66,7 +67,8 @@ public class SyncronizeTest {
         handleAndSendMessage(node3, node4);
         Message message = node4.getMessageInQueue();
         node4.handleMessage(message);
-        assertEquals(node4.getRoutingTable().getEvent(100).getPosition(), node3.getMyPosition());
+        assertEquals(node4.getRoutingTable().getEvent(100).getPosition(), 
+        										node3.getMyPosition());
         assertEquals(node4.getRoutingTable().getEvent(100).getDistance(), 3);
     }
 
@@ -89,7 +91,8 @@ public class SyncronizeTest {
         Message message = node4.getMessageInQueue();
         node4.handleMessage(message);
 
-        assertEquals(node4.getRoutingTable().getEvent(100).getPosition(), node1.getMyPosition());
+        assertEquals(node4.getRoutingTable().getEvent(100).getPosition(), 
+        											node1.getMyPosition());
         assertEquals(node4.getRoutingTable().getEvent(100).getDistance(), 1);
     }
 
