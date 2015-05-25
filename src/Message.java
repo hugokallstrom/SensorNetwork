@@ -6,6 +6,7 @@ import java.util.*;
  * @author      ViktorLindblad
  */
 
+
 public interface Message {
 
 	public boolean canMove();

@@ -118,7 +118,7 @@ public class Query implements Message {
      * @return boolean - true if replied, false else
      */
     public boolean replied() {
-        if(pathTaken.size() == 0 && event != null) {
+        if(pathTaken.size() == 1 && event != null) {
             steps = timeToLive;
             printEventInfo();
             if(Constants.numberOfReplies.containsKey(event.getEventId())) {
