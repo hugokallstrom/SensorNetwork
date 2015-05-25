@@ -75,6 +75,7 @@ public class EventTest {
 	public void testNewEvent(){
 		Position p1 = new Position(2,3);
 		Event e1 = new Event(123,456,p1);
+		
 		Event event = new Event(e1);
 		assertNotNull(event);
 		assertEquals(event.getEventId(),123);

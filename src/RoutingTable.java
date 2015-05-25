@@ -21,12 +21,14 @@ public class RoutingTable {
      * @param nodeRoutingTable
      */
 	public void syncEvents(RoutingTable nodeRoutingTable, Node currentNode) {
-        HashMap<Integer, Event> nodeEventTable = nodeRoutingTable.getEventTable();
+        HashMap<Integer, Event> nodeEventTable = 
+        									nodeRoutingTable.getEventTable();
 
 		for(int agentKey : eventTable.keySet()) {
             if(!nodeEventTable.containsKey(agentKey)) {
                 Event copyAgentEvent = new Event(eventTable.get(agentKey));
-                eventTable.get(agentKey).setPosition(currentNode.getMyPosition());
+                eventTable.get(agentKey).setPosition
+                							(currentNode.getMyPosition());
                 nodeRoutingTable.getEventTable().put(agentKey, copyAgentEvent);
             }
         }
@@ -45,16 +47,24 @@ public class RoutingTable {
 	 * and saves it over the longer path.
      * @param nodeRoutingTable
      */
-    public void findShortestPath(RoutingTable nodeRoutingTable, Node currentNode) {
-        for(int agentKey : eventTable.keySet()) {
-            Event agentEvent = eventTable.get(agentKey);
+    public void findShortestPath(RoutingTable nodeRoutingTable, 
+    													Node currentNode) {
+       
+    	for(int agentKey : eventTable.keySet()) {
+            
+    		Event agentEvent = eventTable.get(agentKey);
             Event nodeEvent = nodeRoutingTable.getEventTable().get(agentKey);
+            
             if(nodeRoutingTable.getEventTable().containsKey(agentKey)) {
 
                 if(agentEvent.getDistance() < nodeEvent.getDistance()) {
-                    Event copyAgentEvent = new Event(agentEvent);
-                    eventTable.get(agentKey).setPosition(currentNode.getMyPosition());
-                    nodeRoutingTable.getEventTable().put(agentKey, copyAgentEvent);
+                    
+                	Event copyAgentEvent = new Event(agentEvent);
+                    eventTable.get(agentKey).setPosition(currentNode.
+                    										getMyPosition());
+                    
+                    nodeRoutingTable.getEventTable().put(agentKey, 
+                    										copyAgentEvent);
 
                 } else if(agentEvent.getDistance() > nodeEvent.getDistance()) {
                     Event copyNodeEvent = new Event(nodeEvent);
