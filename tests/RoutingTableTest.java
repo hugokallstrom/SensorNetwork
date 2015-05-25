@@ -103,7 +103,7 @@ public class RoutingTableTest {
 		RoutingTable rt = new RoutingTable();
 		Position pos = new Position(3,3);
 		Event e = new Event(1,100,pos);
-		
+		Node node = new Node(pos);
 		Position po = new Position(3,5);
 		Event testEvent = new Event(5,4,po);
 		
@@ -111,26 +111,13 @@ public class RoutingTableTest {
 		e.setDistance(5);
 		rt.addEvent(e);
 		
-	//	rout.findShortestPath(rt, previousNode);
+		rout.findShortestPath(rt, node);
 		
 		System.out.println(rt.getEvent(1).getDistance());
 		
 		assertEquals(rt.getEvent(1).getDistance(),2);
 	}
 
-	/**
-	 * Test to see if an event changes it previous position in routingtable.
-	 */
-	@Test
-	public void testChangeEventPosition(){
-		Position p = new Position(1,2);
-		Node previus = new Node(p);
-		
-		//rout.changeEventPosition(previus, rout);
-		
-		assertEquals(rout.getEvent(1).getPosition(),p);
-	}
-	
 	/**
 	 * Testing to increment distance of events in routingtable.
 	 */
@@ -150,10 +137,11 @@ public class RoutingTableTest {
 	public void testsyncEvents(){
 		
 		RoutingTable testrout = new RoutingTable();
+		Node node = new Node(p);
 		
 		assertTrue(testrout.getEventTable().isEmpty());
 		
-		//rout.syncEvents(testrout, pathTaken.peek());
+		rout.syncEvents(testrout, node);
 		
 		assertFalse(testrout.getEventTable().isEmpty());
 	}
@@ -167,6 +155,7 @@ public class RoutingTableTest {
 		RoutingTable testrout = new RoutingTable();
 		
 		Position pos = new Position(3,3);
+		Node node = new Node(pos);
 		Event e = new Event(15,100,pos);
 		Position p = new Position(5,5);
 		Event ev = new Event(22,100,p);
@@ -174,7 +163,7 @@ public class RoutingTableTest {
 		testrout.addEvent(ev);
 		testrout.addEvent(e);
 		
-		//rout.syncEvents(testrout, pathTaken.peek());
+		rout.syncEvents(testrout, node);
 		
 		assertEquals(rout.getEventTable().size(),3);
 	}

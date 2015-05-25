@@ -18,7 +18,7 @@ public class SensorSimulator {
 
     /**
      * Initialize the node matrix and
-     * set neighbours to all nodes.
+     * set neighbors to all nodes.
      * @param nrOfNodes total number of nodes in the matrix.
      */
     public void initNodes(int nrOfNodes) {
@@ -36,9 +36,9 @@ public class SensorSimulator {
     }
 
     /**
-     * Finds the neighbours based on a position.
+     * Finds the neighbors based on a position.
      * @param myPosition the position
-     * @return an array list of nodes which is neighbours to the
+     * @return an array list of nodes which is neighbors to the
      * position.
      */
     private ArrayList<Node> findNeighbours(Position myPosition) {

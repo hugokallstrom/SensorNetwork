@@ -1,23 +1,23 @@
 import java.util.*;
 
-/**
- * @author Viktor Lindblad
- * Routingtable uses by node and messages to remember information about
+/** 
+ * Routing table uses by node and messages to remember information about
  * different events.
+ * @author Viktor Lindblad
  */
 public class RoutingTable {
 
 	private HashMap<Integer, Event> eventTable;
 
 	/**
-	 * Creates a new routingTable and initiates a empty hashtable.
+	 * Creates a new routingTable and initiates a empty hash table.
 	 */
 	public RoutingTable() {
 		eventTable = new	HashMap<Integer, Event>();
 	}
 	
 	/**
-	 * Sync two different routingtables to share information about events.
+	 * Sync two different routing tables to share information about events.
      * @param nodeRoutingTable
      */
 	public void syncEvents(RoutingTable nodeRoutingTable, Node currentNode) {
@@ -41,7 +41,7 @@ public class RoutingTable {
 	}
 	
 	/**
-	 * See which routingtable that has the shortest path to an event 
+	 * See which routing table that has the shortest path to an event 
 	 * and saves it over the longer path.
      * @param nodeRoutingTable
      */
@@ -76,7 +76,7 @@ public class RoutingTable {
     }
 
     /**
-     * Adds an event to the routingtable which saves it into the hashtable.
+     * Adds an event to the routing table which saves it into the hash table.
      * @param event
      */
     public void addEvent(Event event) {
@@ -93,16 +93,16 @@ public class RoutingTable {
     }
 
     /**
-     * Returns the objects hashtable. The different objects that uses 
-     * the hashtable is node and messages.
-     * @return Hashtable
+     * Returns the objects hash table. The different objects that uses 
+     * the hash table is node and messages.
+     * @return Hash table
      */
     public HashMap<Integer,Event> getEventTable(){
         return eventTable;
     }
 
     /**
-     * Sets the objects hashtable to the given hashtable.
+     * Sets the objects hash table to the given hash table.
      * @param hashTable
      */
     public void setEventTable(HashMap<Integer, Event> hashTable) {

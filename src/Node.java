@@ -2,10 +2,10 @@ import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * @author Hugo Källström
  * Represents a node in the sensor network.
  * The node can detect events and send out queries for specific events,
  * it can also receive messages in the form of agents and queries.
+ * @author Hugo Källström
  */
 public class Node {
 
@@ -114,7 +114,8 @@ public class Node {
     /**
      * Selects a neighbor based on the messages path taken.
      * @param pathTaken the path the message has taken through the network.
-     * @return a suitable node, preferably one which has not been visited before.
+     * @return a suitable node, preferably one which has not been visited
+     * before.
      */
     private Node selectNextNeighbour(Stack<Node> pathTaken) {
         Collections.shuffle(neighbors);
@@ -232,6 +233,5 @@ public class Node {
     public Queue getQueue() {
         return messageQueue;
     }
-
 }
 

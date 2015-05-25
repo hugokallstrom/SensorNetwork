@@ -1,6 +1,6 @@
 /**
- * Keeps track of the time since a node last sent a query.
  * @author Viktor Lindblad
+ * Keeps track of the time since a node last sent a query.
  */
 public class QueryTimer {
 
@@ -8,8 +8,8 @@ public class QueryTimer {
 	private int querySteps;
 
     /**
-     * Creates a new QueryTimer.
-     * @param eventId eventId in the query.
+     * Creates a new QueryTimer, with same event id as the query has.
+     * @param eventId
      */
 	public QueryTimer(int eventId){
 		this.eventId = eventId;

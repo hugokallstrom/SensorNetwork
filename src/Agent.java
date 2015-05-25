@@ -18,7 +18,7 @@ public class Agent implements Message {
 	
 	/**
 	 * Creates a new agent and put the given event in 
-	 * his routingtable.
+	 * his routing table.
 	 * @param event the event which spawned the agent.
 	 */
     public Agent(Event event) {
@@ -63,8 +63,10 @@ public class Agent implements Message {
      * they swap.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
+		
         routingTable.syncEvents(nodeRoutingTable, currentNode);
         routingTable.findShortestPath(nodeRoutingTable, currentNode);
+        
         return null;
 	}
 
