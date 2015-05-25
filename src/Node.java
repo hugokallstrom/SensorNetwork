@@ -233,6 +233,5 @@ public class Node {
     public Queue getQueue() {
         return messageQueue;
     }
-
 }
 

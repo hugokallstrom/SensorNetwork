@@ -22,14 +22,14 @@ public class AgentTest {
 	 * Runs before every test.
 	 */
 	@Before
-	public void startingTest(){
+	public void startingTest() {
 	
 		position = new Position(3,3);
 		event = new Event(1,2,position);
+		event.setDistance(5);
 		agent = new Agent(event);
+		
 		node = new Node(position);
-		rout = new RoutingTable();
-		rout.addEvent(event);
 		
 	}
 	
@@ -37,7 +37,7 @@ public class AgentTest {
 	 * Confirms that agent is not null.
 	 */
 	@Test
-	public void AgentNotNull(){
+	public void AgentNotNull() {
 		assertNotNull(agent);
 	}
 	
@@ -46,7 +46,7 @@ public class AgentTest {
 	 * with a given node and a different stack.  
 	 */
 	@Test
-	public void TestAgentAddToPath(){
+	public void TestAgentAddToPath() {
 		
 		Stack<Node> stack;
 		Stack<Node>	newstack = new Stack<Node>();
@@ -63,7 +63,7 @@ public class AgentTest {
 	 * Testing if agent can move on a condition that should be false.
 	 */
 	@Test
-	public void agentTimeToLive(){
+	public void agentTimeToLive() {
 		
 		assertTrue(agent.canMove());
 		for(int i=0; i<100; i++ ){
@@ -77,31 +77,34 @@ public class AgentTest {
 	 * Testing if agent can move on a condition that should be true.
 	 */
 	@Test
-	public void testMoveAgent(){
-
-		Constants.timeToLiveAgent=10;
+	public void testMoveAgent() {
 		agent = new Agent(event);
 		assertTrue(agent.canMove());
 	}
 
 	/**
-	 * Testing if agents handle events contains the same event,
-	 * as a given event and routing table.
-	 *  
+	 * Testing if agents handle events give the node the event agent has.
 	 */
 	@Test
-	public void TesthandleEvents(){
+	public void TesthandleEvents() {
+		
+		Position p = new Position(2,4);
+		Node node = new Node(p);
+		rout=node.getRoutingTable();
+		
+		agent.addToPath(node);
 		
 		agent.handleEvents(rout);
 		
-		Event e = agent.getEvent(1);
 		
-		assertEquals(e.getEventId(),event.getEventId());
+		Event e = node.getRoutingTable().getEvent(1);
+		
+		assertEquals(e.getEventId(),1);
 	}
 	
 	/**
-	 * Test if distance is changed when running handle events, with a 
-	 * given event with given distance.
+	 * Test if distance is changed when running handle events, with two 
+	 * given events with same id and different distance.
 	 */
 	@Test
 	public void TesthandleEventDistance() {
@@ -110,13 +113,14 @@ public class AgentTest {
 		Event ev = new Event(1,4,p);
 		Node node = new Node(p);
 		
-		event.setDistance(3);
+		ev.setDistance(3);
+		node.getRoutingTable().addEvent(ev);
 		
-		ev.setDistance(5);
+		rout=node.getRoutingTable();
 		
-		rout.addEvent(ev);
+		agent.addToPath(node);
 		
-		agent.handleEvents(node.getRoutingTable());	
+		agent.handleEvents(rout);
 		
 		Event e = node.getRoutingTable().getEvent(1);
 		
