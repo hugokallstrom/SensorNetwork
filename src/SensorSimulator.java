@@ -18,7 +18,7 @@ public class SensorSimulator {
 
     /**
      * Initialize the node matrix and
-     * set neighbours to all nodes.
+     * set neighbors to all nodes.
      * @param nrOfNodes total number of nodes in the matrix.
      */
     public void initNodes(int nrOfNodes) {
@@ -31,14 +31,14 @@ public class SensorSimulator {
             }
         }
         for(Node node : nodes) {
-            node.setNeighbours(findNeighbours(node.getMyPosition()));
+            node.setNeighbors(findNeighbours(node.getMyPosition()));
         }
     }
 
     /**
-     * Finds the neighbours based on a position.
+     * Finds the neighbors based on a position.
      * @param myPosition the position
-     * @return an array list of nodes which is neighbours to the
+     * @return an array list of nodes which is neighbors to the
      * position.
      */
     private ArrayList<Node> findNeighbours(Position myPosition) {
@@ -53,20 +53,6 @@ public class SensorSimulator {
     }
 
     /**
-     * Starts a new simulation and runs it for fixed number of time steps.
-     * @param steps number of time steps to run.
-     * @throws IOException
-     */
-    public void startSimulation(int steps)  {
-        for(int timeStep = 0; timeStep < steps; timeStep++) {
-            executeTimeStep(timeStep);
-            setNodesAvailable();
-            //System.in.read();
-	System.out.println("--------------------------------" + timeStep + "------------------------------------");
-        }
-    }
-
-    /**
      * Sets a number of nodes senders, which means the nodes
      * can create queries for events.
      */
@@ -74,6 +60,18 @@ public class SensorSimulator {
         for(int i = 0; i < Constants.nrOfQueryNodes; i++) {
             int random = generateRandom(Constants.nrOfNodes);
             nodes.get(random).setSender(true);
+        }
+    }
+
+    /**
+     * Starts a new simulation and runs it for fixed number of time steps.
+     * @param steps number of time steps to run.
+     * @throws IOException
+     */
+    public void startSimulation(int steps)  {
+        for(int timeStep = 0; timeStep < steps; timeStep++) {
+            executeTimeStep(timeStep);
+            setAllNodesAvailable();
         }
     }
 
@@ -95,10 +93,14 @@ public class SensorSimulator {
             }
             sendQuery(node, timeStep);
         }
-
     }
 
-            
+    /**
+     * Creates a new event and agent based on a predefined chance.
+     * Sends the event and agent to the node.
+     * @param node node to receive event.
+     * @param timeStep the current time step.
+     */
     private void createEvent(Node node, int timeStep) {
         if(calculateChance(Constants.eventChance)) {
             Event event = new Event(generateRandom(Constants.eventIdMax), timeStep, node.getMyPosition());
@@ -108,44 +110,26 @@ public class SensorSimulator {
                 node.createAgent(event);
             }
         }
-
-    }
-
-
-
-    private void sendQuery(Node node, int timeStep) {
-        if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {
-            Constants.queriesSent++;
-            sendQueryToNode(node);
-        }
-    }
-
-    /**
-     * Checks if a random generated integer equals zero.
-     * The bigger the supplied value, the smaller the chance
-     * to return true.
-     * @param chance the value to generate a random integer from.
-     * @return if the generated value equals zero, return true.
-     */
-    private boolean calculateChance(int chance) {
-        return new Random().nextInt(chance) == 0;
     }
 
     /**
      * Sends a query for a random event id.
      * @param node the node to create the query.
      */
-    private void sendQueryToNode(Node node) {
-        Collections.shuffle(eventList);
-        Event event = eventList.get(0);
-        eventList.remove(0);
-        node.createQuery(event.getEventId());
+    private void sendQuery(Node node, int timeStep) {
+        if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {
+            Constants.queriesSent++;
+            Collections.shuffle(eventList);
+            Event event = eventList.get(0);
+            eventList.remove(0);
+            node.createQuery(event.getEventId());
+        }
     }
 
     /**
      * Sets all nodes to available.
      */
-    private void setNodesAvailable() {
+    private void setAllNodesAvailable() {
         for(Node node : nodes) {
             node.setAvailable();
         }
@@ -159,5 +143,16 @@ public class SensorSimulator {
     private int generateRandom(int maxVal) {
         Random rand = new Random();
         return rand.nextInt(maxVal);
+    }
+
+    /**
+     * Checks if a random generated integer equals zero.
+     * The bigger the supplied value, the smaller the chance
+     * to return true.
+     * @param chance the value to generate a random integer from.
+     * @return if the generated value equals zero, return true.
+     */
+    private boolean calculateChance(int chance) {
+        return new Random().nextInt(chance) == 0;
     }
 }

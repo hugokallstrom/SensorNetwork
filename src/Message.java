@@ -1,7 +1,13 @@
-/**
- * Created by hugo on 5/11/15.
- */
 import java.util.*;
+
+/**
+ * Message Interface that initialises methods that will be used by Agent and Query.
+ *
+ * File:        Message.java
+ * @author      ViktorLindblad
+ * Date:        2015-05-22
+ */
+
 public interface Message {
 
 	public boolean canMove();

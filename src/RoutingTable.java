@@ -1,81 +1,66 @@
-/**
- * Created by hugo on 5/11/15.
- */
 import java.util.*;
 
-/**
- * Routingtable uses by node and messages to remember information about
+/** 
+ * Routing table uses by node and messages to remember information about
  * different events.
  * @author Viktor Lindblad
  */
-
 public class RoutingTable {
 
-	private HashMap<Integer, Event> hashTable;
+	private HashMap<Integer, Event> eventTable;
 
 	/**
-	 * Creates a new routingTable and initiates a empty hashtable.
+	 * Creates a new routingTable and initiates a empty hash table.
 	 */
 	public RoutingTable() {
-		hashTable = new	HashMap<Integer, Event>();
+		eventTable = new	HashMap<Integer, Event>();
 	}
 	
 	/**
-	 * Sync two different routingtables to share information about events.
+	 * Sync two different routing tables to share information about events.
      * @param nodeRoutingTable
      */
 	public void syncEvents(RoutingTable nodeRoutingTable, Node currentNode) {
-        HashMap<Integer, Event> nodeHashTable = nodeRoutingTable.getEventTable();
-        
-		for(int agentKey : hashTable.keySet()) {
-            if(!nodeHashTable.containsKey(agentKey)) {
-            
-            	Event copyAgentEvent = new Event(hashTable.get(agentKey));
-                hashTable.get(agentKey).setPosition(currentNode.getMyPosition());
+        HashMap<Integer, Event> nodeEventTable = nodeRoutingTable.getEventTable();
+
+		for(int agentKey : eventTable.keySet()) {
+            if(!nodeEventTable.containsKey(agentKey)) {
+                Event copyAgentEvent = new Event(eventTable.get(agentKey));
+                eventTable.get(agentKey).setPosition(currentNode.getMyPosition());
                 nodeRoutingTable.getEventTable().put(agentKey, copyAgentEvent);
-            
             }
         }
 
-        for(int nodeKey : nodeHashTable.keySet()) {
-            
-        	if(!hashTable.containsKey(nodeKey)) {
-            
-        		Event copyNodeEvent = new Event(nodeHashTable.get(nodeKey));
+        for(int nodeKey : nodeEventTable.keySet()) {
+            if(!eventTable.containsKey(nodeKey)) {
+                Event copyNodeEvent = new Event(nodeEventTable.get(nodeKey));
                 copyNodeEvent.setPosition(currentNode.getMyPosition());
-                hashTable.put(nodeKey, copyNodeEvent);
-            
-        	}
+                eventTable.put(nodeKey, copyNodeEvent);
+            }
         }
 	}
 	
 	/**
-	 * See which routingtable that has the shortest path to an event 
+	 * See which routing table that has the shortest path to an event 
 	 * and saves it over the longer path.
      * @param nodeRoutingTable
      */
     public void findShortestPath(RoutingTable nodeRoutingTable, Node currentNode) {
-       
-    	for(int agentKey : hashTable.keySet()) {
-            
-    		Event agentEvent = hashTable.get(agentKey);
+        for(int agentKey : eventTable.keySet()) {
+            Event agentEvent = eventTable.get(agentKey);
             Event nodeEvent = nodeRoutingTable.getEventTable().get(agentKey);
-        
             if(nodeRoutingTable.getEventTable().containsKey(agentKey)) {
-            
-            	if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() < nodeEvent.getDistance()) {
-                
-            		Event copyAgentEvent = new Event(agentEvent);
-                    hashTable.get(agentKey).setPosition(currentNode.getMyPosition());
+
+                if(agentEvent.getDistance() < nodeEvent.getDistance()) {
+                    Event copyAgentEvent = new Event(agentEvent);
+                    eventTable.get(agentKey).setPosition(currentNode.getMyPosition());
                     nodeRoutingTable.getEventTable().put(agentKey, copyAgentEvent);
-                
-            	} else if(nodeEvent.getEventId() == agentEvent.getEventId() && agentEvent.getDistance() > nodeEvent.getDistance()) {
-                    
-            		Event copyNodeEvent = new Event(nodeEvent);
+
+                } else if(agentEvent.getDistance() > nodeEvent.getDistance()) {
+                    Event copyNodeEvent = new Event(nodeEvent);
                     copyNodeEvent.setPosition(currentNode.getMyPosition());
-                    hashTable.put(agentKey, copyNodeEvent);
-                
-            	}
+                    eventTable.put(agentKey, copyNodeEvent);
+                }
             }
         }
     }
@@ -84,18 +69,18 @@ public class RoutingTable {
      * Increment the distance to an event as a messages moves.
      */
     public void incrementEventDistances() {
-        for(int eventKey : hashTable.keySet()) {
-        	Event agentEvent = hashTable.get(eventKey);
+        for(int eventKey : eventTable.keySet()) {
+        	Event agentEvent = eventTable.get(eventKey);
         	agentEvent.incrementDistance();
         }
     }
 
     /**
-     * Adds an event to the routingtable which saves it into the hashtable.
+     * Adds an event to the routing table which saves it into the hash table.
      * @param event
      */
     public void addEvent(Event event) {
-        hashTable.put(event.getEventId(),event);
+        eventTable.put(event.getEventId(), event);
     }
 
     /**
@@ -104,43 +89,31 @@ public class RoutingTable {
      * @return Event.
      */
     public Event getEvent(int requestedEventId) {
-    	return hashTable.get(requestedEventId);
+    	return eventTable.get(requestedEventId);
     }
 
     /**
-     * Returns the objects hashtable. The different objects that uses 
-     * the hashtable is node and messages.
-     * @return Hashtable
+     * Returns the objects hash table. The different objects that uses 
+     * the hash table is node and messages.
+     * @return Hash table
      */
     public HashMap<Integer,Event> getEventTable(){
-        return hashTable;
+        return eventTable;
     }
 
     /**
-     * Sets the objects hashtable to the given hashtable.
+     * Sets the objects hash table to the given hash table.
      * @param hashTable
      */
     public void setEventTable(HashMap<Integer, Event> hashTable) {
-        this.hashTable = hashTable;
+        this.eventTable = hashTable;
     }
 
-    /**
-     * Copies the given hashtables objects into new objects.
-     */
-	public void deepCopyHashtable() {
-        HashMap<Integer, Event> copy = new HashMap<Integer, Event>(hashTable.size());
-		for(int originalKey : hashTable.keySet()) {
-	    	Event copyEvent = new Event(hashTable.get(originalKey));
-	    	copy.put(originalKey, copyEvent);
-	    }
-	    hashTable = copy;
-	}
-    
     @Override
     public String toString() {
         String out = "";
-        for(int eventKey : hashTable.keySet()) {
-        	Event event = hashTable.get(eventKey);
+        for(int eventKey : eventTable.keySet()) {
+        	Event event = eventTable.get(eventKey);
         	out += event.toString();
         }
         return out;

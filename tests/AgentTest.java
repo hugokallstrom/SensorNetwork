@@ -29,6 +29,8 @@ public class AgentTest {
 		agent = new Agent(event);
 		node = new Node(position);
 		rout = new RoutingTable();
+		rout.addEvent(event);
+		
 	}
 	
 	/**
@@ -67,6 +69,7 @@ public class AgentTest {
 		for(int i=0; i<100; i++ ){
 			agent.addToPath(node);
 		}
+		
 		assertFalse(agent.canMove());
 	}
 	
@@ -83,17 +86,15 @@ public class AgentTest {
 
 	/**
 	 * Testing if agents handle events contains the same event,
-	 * as a given event and routingtable.
+	 * as a given event and routing table.
 	 *  
 	 */
 	@Test
 	public void TesthandleEvents(){
 		
-		RoutingTable r = new RoutingTable();
+		agent.handleEvents(rout);
 		
-		agent.handleEvents(r);
-		
-		Event e = r.getEvent(1);
+		Event e = agent.getEvent(1);
 		
 		assertEquals(e.getEventId(),event.getEventId());
 	}
@@ -103,19 +104,22 @@ public class AgentTest {
 	 * given event with given distance.
 	 */
 	@Test
-	public void TesthandleEventDistance(){
+	public void TesthandleEventDistance() {
+		
 		Position p = new Position(2,4);
 		Event ev = new Event(1,4,p);
+		Node node = new Node(p);
+		
 		event.setDistance(3);
 		
 		ev.setDistance(5);
 		
 		rout.addEvent(ev);
 		
-		agent.handleEvents(rout);	
+		agent.handleEvents(node.getRoutingTable());	
 		
-		Event e = rout.getEvent(1);
+		Event e = node.getRoutingTable().getEvent(1);
 		
-		assertEquals(ev.getDistance(),3);
+		assertEquals(e.getDistance(),3);
 	}
 }

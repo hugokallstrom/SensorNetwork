@@ -2,15 +2,15 @@ import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * @author Hugo Källström
  * Represents a node in the sensor network.
  * The node can detect events and send out queries for specific events,
  * it can also receive messages in the form of agents and queries.
+ * @author Hugo KÃ¤llstrÃ¶m
  */
 public class Node {
 
     private Position myPosition;
-    private ArrayList<Node> neighbours;
+    private ArrayList<Node> neighbors;
     private RoutingTable routingTable;
     private Queue<Message> messageQueue;
     private boolean availability;
@@ -26,7 +26,7 @@ public class Node {
         myPosition = position;
         availability = true;
         isSender = false;
-        neighbours = new ArrayList<Node>();
+        neighbors = new ArrayList<Node>();
         routingTable = new RoutingTable();
         messageQueue = new LinkedBlockingQueue<Message>();
         timer = null;
@@ -42,7 +42,7 @@ public class Node {
     }
 
     /**
-     * Creates a new agent based on a predefined chance,
+     * Creates a new agent
      * and adds it to the message queue.
      * @param event the received event.
      */
@@ -63,8 +63,10 @@ public class Node {
         timer = new QueryTimer(eventId);
     }
 
-    
-    
+    /**
+     * Returns a message in the queue.
+     * @return the message in the queue.
+     */
     public Message getMessageInQueue() {
         if(!messageQueue.isEmpty()) {
             return messageQueue.poll();
@@ -72,7 +74,21 @@ public class Node {
             return null;
         }
     }
-    
+
+    /**
+     * Increments the query timer and checks if
+     * the node should send a new query.
+     */
+    public void checkTimer() {
+        if(timer != null) {
+            timer.countQuerySteps();
+            if(timer.checkQuerySteps()) {
+                createQuery(timer.getEventId());
+                timer = null;
+            }
+        }
+    }
+
     /**
      * If there are messages in the message queue, retrieve
      * the first message and depending on the type of
@@ -83,44 +99,37 @@ public class Node {
         this.message = message;
         
         Position nodePosition = message.handleEvents(routingTable);
-        Node neighbour = getNeighbourFromPos(nodePosition);
-        
+        Node neighbour;
         if(nodePosition == null || nodePosition.equals(myPosition)) {
             neighbour = selectNextNeighbour(message.getPathTaken());
-        } else if(neighbour.getMyPosition().equals(myPosition)) {
+        } else {
+            neighbour = getNeighbourFromPos(nodePosition);
+            if(neighbour.getMyPosition().equals(myPosition)) {
                 neighbour = selectNextNeighbour(message.getPathTaken());
-            }   
-        return neighbour;
-    }
-
-    public void checkTimer() {
-        if(timer != null) {
-            timer.countQuerySteps();
-            if(timer.checkQuerySteps()) {
-                createQuery(timer.getEventId());
-                timer=null;
             }
         }
+        return neighbour;
     }
 
     /**
      * Selects a neighbor based on the messages path taken.
      * @param pathTaken the path the message has taken through the network.
-     * @return a suitable node, preferably one which has not been visited before.
+     * @return a suitable node, preferably one which has not been visited
+     * before.
      */
     private Node selectNextNeighbour(Stack<Node> pathTaken) {
-        Collections.shuffle(neighbours);
-        for(Node neighbour : neighbours) {
+        Collections.shuffle(neighbors);
+        for(Node neighbour : neighbors) {
             if(neighbour.isAvailable() && !pathTaken.contains(neighbour)) {
                 return neighbour;
             }
         }
-        for(Node neighbour : neighbours) {
+        for(Node neighbour : neighbors) {
             if(neighbour.isAvailable()) {
                 return neighbour;
             }
         }
-        return neighbours.get(new Random().nextInt(neighbours.size()));
+        return neighbors.get(new Random().nextInt(neighbors.size()));
     }
 
     /**
@@ -129,7 +138,7 @@ public class Node {
      * @return the neighbor which has the position.
      */
     private Node getNeighbourFromPos(Position nodePosition) {
-        for(Node neighbour : neighbours) {
+        for(Node neighbour : neighbors) {
             if(neighbour.getMyPosition().equals(nodePosition)) {
                 return neighbour;
             }
@@ -138,7 +147,7 @@ public class Node {
     }
 
     /**
-     * Sends a message to a node (neighbor) if it is available.
+     * Sends a message to a node (neighbour) if it is available.
      * @param neighbour the node which receives the message.
      */
     public void sendMessageToNode(Node neighbour) {
@@ -164,10 +173,10 @@ public class Node {
 
     /**
      * Sets the nodes neighbors.
-     * @param neighbours the nodes neighbors.
+     * @param neighbors the nodes neighbors.
      */
-    public void setNeighbours(ArrayList<Node> neighbours) {
-        this.neighbours = neighbours;
+    public void setNeighbors(ArrayList<Node> neighbors) {
+        this.neighbors = neighbors;
     }
 
     /**
@@ -221,7 +230,7 @@ public class Node {
      * Gets the nodes queue.
      * @return the nodes queue.
      */
-    public Queue<Message> getQueue() {
+    public Queue getQueue() {
         return messageQueue;
     }
 
