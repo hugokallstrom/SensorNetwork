@@ -16,6 +16,7 @@ public class NodeTest {
 
     @Before
     public void setUp() throws Exception {
+    	
         Position pos1 = new Position(1,0);
         Position pos2 = new Position(1,1);
         node = new Node(pos1);

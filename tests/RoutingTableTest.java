@@ -1,15 +1,12 @@
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
-import java.util.Hashtable;
-
 import org.junit.Test;
 import org.junit.Before;
 
 /**
- * @author Viktor Lindblad
  * Unit tests for RoutingTables methods.
- *
+ * @author Viktor Lindblad
  */
 
 public class RoutingTableTest {
@@ -77,7 +74,7 @@ public class RoutingTableTest {
 	}
 	
 	/**
-	 * Test set a new hashtable to routingtables hashtable.
+	 * Test set a new hash map to routing tables hash map.
 	 * Uses getEventTable to confirm.
 	 */
 	@Test
@@ -93,9 +90,9 @@ public class RoutingTableTest {
 	}
 	
 	/**
-	 * Test to see if a event in a routingtable 
+	 * Test to see if a event in a routing table 
 	 * with a known shorter way gives the information
-	 * to another routingtable.
+	 * to another routing table.
 	 */
 	@Test
 	public void testShortestPath(){
@@ -112,14 +109,12 @@ public class RoutingTableTest {
 		rt.addEvent(e);
 		
 		rout.findShortestPath(rt, node);
-		
-		System.out.println(rt.getEvent(1).getDistance());
-		
+				
 		assertEquals(rt.getEvent(1).getDistance(),2);
 	}
 
 	/**
-	 * Testing to increment distance of events in routingtable.
+	 * Testing to increment distance of events in routing table.
 	 */
 	@Test
 	public void testIncrementDistance(){
@@ -130,8 +125,8 @@ public class RoutingTableTest {
 	}
 	
 	/**
-	 * Testing, sync two different hashtables. To change information 
-	 * with each other with one empty hashtable.
+	 * Testing, sync two different hash map. To change information 
+	 * with each other with one empty hash map.
 	 */
 	@Test
 	public void testsyncEvents(){
@@ -147,8 +142,8 @@ public class RoutingTableTest {
 	}
 	
 	/**
-	 * Testing, sync two different hashtables. To change information
-	 * with each other with more than one event in both hashtable
+	 * Testing, sync two different hash map. To change information
+	 * with each other with more than one event in both hash map.
 	 */
 	@Test
 	public void testSyncEventsMooreEvents() {
@@ -166,43 +161,6 @@ public class RoutingTableTest {
 		rout.syncEvents(testrout, node);
 		
 		assertEquals(rout.getEventTable().size(),3);
-	}
-
-	@Test
-	public void testAdvancedAddToPathMessage(){
-		Position pos = new Position(3,3);
-
-		Node node1 = new Node(pos);//Event is on this position
-		
-		Event e = new Event(1,100,pos);
-		Constants.agentChance=1;
-		
-		node1.receiveEvent(e);
-		Position p = new Position(3,4);
-		Position po = new Position(4,3);
-		Position posi = new Position(4,4);
-		
-		Node node2 = new Node(p);
-		Node node3 = new Node(po);
-		Node node4 = new Node(posi);
-		
-		int i=0;
-		
-		while(i!=4){
-/*
-		node1.handleMessage();
-		node2.handleMessage();
-		node3.handleMessage();
-		node4.handleMessage();
-
-		node1.getRoutingTable().printInfo(node1);
-		node2.getRoutingTable().printInfo(node2);
-		node3.getRoutingTable().printInfo(node3);
-		node4.getRoutingTable().printInfo(node4);
-	*/
-		i++;
-		}
-		
 	}
 
 }

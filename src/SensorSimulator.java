@@ -103,7 +103,8 @@ public class SensorSimulator {
      */
     private void createEvent(Node node, int timeStep) {
         if(calculateChance(Constants.eventChance)) {
-            Event event = new Event(generateRandom(Constants.eventIdMax), timeStep, node.getMyPosition());
+            Event event = new Event(generateRandom(Constants.eventIdMax), 
+            								timeStep, node.getMyPosition());
             eventList.add(new Event(event));
             node.receiveEvent(event);
             if(calculateChance(Constants.agentChance)) {
@@ -117,7 +118,8 @@ public class SensorSimulator {
      * @param node the node to create the query.
      */
     private void sendQuery(Node node, int timeStep) {
-        if(node.isSender() && timeStep % Constants.queryInterval == 0 && !eventList.isEmpty()) {
+        if(node.isSender() && timeStep % Constants.queryInterval == 0 &&
+        											!eventList.isEmpty()) {
             Constants.queriesSent++;
             Collections.shuffle(eventList);
             Event event = eventList.get(0);

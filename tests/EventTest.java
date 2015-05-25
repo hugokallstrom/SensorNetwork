@@ -78,11 +78,12 @@ public class EventTest {
 	public void testNewEvent(){
 		Position p1 = new Position(2,3);
 		Event e1 = new Event(123,456,p1);
+		
 		Event event = new Event(e1);
-		assertNotNull(e1);
-		assertEquals(e1.getEventId(),123);
-		assertEquals(e1.getTimeOfEvent(),456);
-		assertEquals(e1.getPosition(),p1);
+		assertNotNull(event);
+		assertEquals(event.getEventId(),123);
+		assertEquals(event.getTimeOfEvent(),456);
+		assertEquals(event.getPosition(),p1);
 	}
 
 	/**
