@@ -1,6 +1,3 @@
-/**
- * Created by hugo on 5/11/15.
- */
 import java.util.*;
 
 /**
@@ -8,11 +5,10 @@ import java.util.*;
  * event ID. When the event is found, the Query will go the same way back to
  * the origin of the request and then print the event ID, the time that the
  * event was detected and its origin. Query will live for 45 time steps.
- * If it did not find the event, it will try to send the request one more time
- * then stop searching.
+ * If it did not find the path to an event,
+ * it will try to send the request one more time then stop searching.
  *
- * @author charlotteristiniemi
- *
+ * @author Charlotte Ristiniemi
  */
 public class Query implements Message {
 
@@ -26,7 +22,7 @@ public class Query implements Message {
 
     /**
      * Constructor for Query. Sets variables and creates a stack for path taken
-     * and a hashtable for the visited nodes
+     * and a hashtable for the visited nodes.
      *
      * @param requestedEventId the requested event.
      */
@@ -55,9 +51,9 @@ public class Query implements Message {
 	}
 
     /**
-     * Adds a node into hash table and a position into hash table. Also increases
-     * Query's steps with one. If Query's request is replied, steps will be set
-     * to 0.
+     * Adds a node into hashtable. Also increases Query's steps with one if Query
+     * hasn't found the path to the event. If Query's request is replied,
+     * or if the requested event is found, steps will be set to 0.
      */
 	public void addToPath(Node node) {
         if(foundFinalNode) {
@@ -71,18 +67,24 @@ public class Query implements Message {
         }
 	}
 
+
     /**
      * Method handleEvents looks for a requested event ID in node's routingTable.
-     * If the event value is null, the node doesn't know the way to the event so method returns null.
-     * If event isn't null, the node knows the way to the event and checks if replied is done,
-     * then returns the position to the neighbour who knows the way to the event.
-     * If the node has found the node who has the event, the method returns the position
-     * to the previous node in path taken.
+     * If the query didn't find the node that has the event, look at the node's
+     * RoutingTable for the requested event. If an event is returned, a path
+     * was found to the event. If the distance is 0, the final node was found and
+     * handleEvents will return the previous node in pathTaken. If the distance
+     * was greater than 0, handleEvents will return next position to go to.
+     *
+     * If final node was found, method Replied will be checked, if true, handleEvents
+     * will return null. If Replied returned false, handleMessage will return
+     * the previous node in pathTaken.
      *
      * @param routingTable the nodes routing table.
      * @return Position
      */
 	public Position handleEvents(RoutingTable routingTable) {
+
         if(!foundFinalNode) {
             event = routingTable.getEvent(requestedEventId);
             if(event != null) {
@@ -110,10 +112,12 @@ public class Query implements Message {
      * It will print information about the event (event ID, time of the event and
      * the position of the event). If false, Query hasn't found its requested event.
      *
-     * @return boolean - true if replied, false else
+     * @return boolean - true if replied, false else.
      */
+
+    /////////////////////////
     public boolean replied() {
-        if(pathTaken.size() == 0 && event != null) {
+        if(pathTaken.size() == 1 && event != null) {
             steps = timeToLive;
             printEventInfo();
             if(Constants.numberOfReplies.containsKey(event.getEventId())) {
@@ -131,8 +135,7 @@ public class Query implements Message {
      */
     private void printEventInfo() {
         System.out.println("Query replied. Id: " + event.getEventId() + "\n"
-                           + " Occurred at time step: " + event.getTimeOfEvent() + "\n"
-                           + " At position: " + event.getPosition());
+                           + "Occurred at time step: " + event.getTimeOfEvent() + "\n"
+                           + "At position: " + event.getPosition());
     }
 }
-

@@ -4,10 +4,7 @@
  * the root, position working as a direction to the root of the event and
  * the time showing when the event was created.
  *
- * File:        Event.java
  * @author      Charlotte Ristiniemi
- * Contact:     charlotte.ristiniemi@hotmail.com
- * Date:        2015-05-22
  */
 
 public class Event {

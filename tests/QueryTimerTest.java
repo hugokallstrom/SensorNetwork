@@ -5,10 +5,7 @@ import org.junit.Test;
 /**
  * JUnit test for class QueryTimer.
  *
- * File:        QueryTimerTest.java
  * @author      Charlotte Ristiniemi
- * Contact:     charlotte.ristiniemi@hotmail.com
- * Date:        2015-05-22
  */
 public class QueryTimerTest {
 

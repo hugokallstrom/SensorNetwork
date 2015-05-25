@@ -6,10 +6,7 @@ import org.junit.Test;
 /**
  * JUnit tests for class Position.
  *
- * File:        Event.java
  * @author      Charlotte Ristiniemi
- * Contact:     charlotte.ristiniemi@hotmail.com
- * Date:        2015-05-22
  */
 
 
