@@ -1,6 +1,8 @@
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
+import java.util.Hashtable;
+
 import org.junit.Test;
 import org.junit.Before;
 

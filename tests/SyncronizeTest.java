@@ -7,7 +7,7 @@ import org.junit.Before;
 
 /**
  * Tests the agents synchronize methods.
- * @author Hugo Källström
+ * @author Hugo Kallstrom
  */
 public class SyncronizeTest {
 

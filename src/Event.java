@@ -33,7 +33,6 @@ public class Event {
 	 * @param newEvent
 	 */
     public Event(Event newEvent) {
-    	
         this.distance = newEvent.getDistance();
         this.eventId = newEvent.getEventId();
         this.position = newEvent.getPosition();

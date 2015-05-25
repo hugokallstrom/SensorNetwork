@@ -9,7 +9,7 @@ public class AgentTest {
 
 	/**
 	 * Unit testing agents methods.
-	 * @author ViktorLindblad
+	 * @author Viktor Lindblad
 	 * 
 	 */
 	private Agent agent;

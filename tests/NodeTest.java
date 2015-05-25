@@ -9,7 +9,7 @@ import static org.junit.Assert.*;
 
 /**
  * Tests for the class Node.
- * @author Hugo Källström
+ * @author Hugo Kallstrom
  */
 public class NodeTest {
 

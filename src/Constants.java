@@ -2,7 +2,7 @@ import java.util.HashMap;
 
 /**
  * Class handling constants.
- * @author Hugo Källström
+ * @author Hugo Kallstrom
  */
 public class Constants {
     public static int nrOfNodes = 2500;

@@ -1,5 +1,6 @@
 /**
  * Main class running SensorSimulator.
+ * @author Hugo Kallstrom
  */
 public class Main {
 
