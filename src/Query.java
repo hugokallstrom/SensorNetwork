@@ -1,3 +1,6 @@
+/**
+ * Created by hugo on 5/11/15.
+ */
 import java.util.*;
 
 /**
@@ -22,7 +25,7 @@ public class Query implements Message {
 
     /**
      * Constructor for Query. Sets variables and creates a stack for path taken
-     * and a hashtable for the visited nodes.
+     * and a hashtable for the visited nodes
      *
      * @param requestedEventId the requested event.
      */
@@ -67,7 +70,6 @@ public class Query implements Message {
         }
 	}
 
-
     /**
      * Method handleEvents looks for a requested event ID in node's routingTable.
      * If the query didn't find the node that has the event, look at the node's
@@ -84,7 +86,6 @@ public class Query implements Message {
      * @return Position
      */
 	public Position handleEvents(RoutingTable routingTable) {
-
         if(!foundFinalNode) {
             event = routingTable.getEvent(requestedEventId);
             if(event != null) {
@@ -106,16 +107,15 @@ public class Query implements Message {
     }
 
     /**
-     * Checks if Query-stack has one node and if boolean "hasFoundPath" is true.
-     * If both are true it means that Query has found the destination of the event
-     * and travelled all the way back from where the Query was created.
-     * It will print information about the event (event ID, time of the event and
-     * the position of the event). If false, Query hasn't found its requested event.
-     *
-     * @return boolean - true if replied, false else.
+     * Checks if Query-stack has one node and if boolean "hasFoundPath" is
+     * true. If both are true it means that Query has found the destination 
+     * of the event and traveled all the way back from where the Query was
+     * created. It will print information about the event (event ID, time of 
+     * the event and the position of the event). If false, Query hasn't found
+     * its requested event.
+     * 
+     * @return boolean - true if replied, false else
      */
-
-    /////////////////////////
     public boolean replied() {
         if(pathTaken.size() == 1 && event != null) {
             steps = timeToLive;
@@ -135,7 +135,8 @@ public class Query implements Message {
      */
     private void printEventInfo() {
         System.out.println("Query replied. Id: " + event.getEventId() + "\n"
-                           + "Occurred at time step: " + event.getTimeOfEvent() + "\n"
-                           + "At position: " + event.getPosition());
+                           + " Occurred at time step: "
+                           + event.getTimeOfEvent() + "\n"
+                           + " At position: " + event.getPosition());
     }
 }

@@ -6,7 +6,8 @@ import org.junit.Test;
 import org.junit.Before;
 
 /**
- * Created by hugo on 5/21/15.
+ * Tests the agents synchronize methods.
+ * @author Hugo Källström
  */
 public class SyncronizeTest {
 
@@ -17,6 +18,9 @@ public class SyncronizeTest {
     private Node node3;
     private Node node4;
 
+    /**
+     * Creates a 2x2 network and one event at node 0,0.
+     */
     @Before
     public void setUp() {
         Constants.agentChance = 1;
@@ -41,6 +45,9 @@ public class SyncronizeTest {
         node1.createAgent(event);
     }
 
+    /**
+     * Tests if the agent updates the receiving nodes routing table.
+     */
     @Test
     public void testReceiveAgent() {
         handleAndSendMessage(node1, node2);
@@ -49,8 +56,11 @@ public class SyncronizeTest {
         assertEquals(node2.getRoutingTable().getEvent(100).getDistance(), 1);
     }
 
+    /**
+     * Tests if the agent updates the position and distance in the event correctly.
+     */
     @Test
-    public void testPositionUpdate() {
+    public void testPositionAndDistance() {
         handleAndSendMessage(node1, node2);
         handleAndSendMessage(node2, node3);
         handleAndSendMessage(node3, node4);
@@ -60,6 +70,9 @@ public class SyncronizeTest {
         assertEquals(node4.getRoutingTable().getEvent(100).getDistance(), 3);
     }
 
+    /**
+     * Tests if the agent changes the path to a shorter one if detected.
+     */
     @Test
     public void testUpdatePath() {
         handleAndSendMessage(node1, node2);

@@ -6,7 +6,7 @@ import java.util.*;
  * Class that implements messages. Agent moves around spreading
  * information to nodes in the network, while agent hasn't moved
  * more than 50 steps.
- * @author ViktorLindblad
+ * @author Viktor Lindblad
  */
 public class Agent implements Message {
 
@@ -18,7 +18,7 @@ public class Agent implements Message {
 	
 	/**
 	 * Creates a new agent and put the given event in 
-	 * his routingtable.
+	 * his routing table.
 	 * @param event the event which spawned the agent.
 	 */
     public Agent(Event event) {
@@ -63,8 +63,10 @@ public class Agent implements Message {
      * they swap.
      */
 	public Position handleEvents(RoutingTable nodeRoutingTable) {
+		
         routingTable.syncEvents(nodeRoutingTable, currentNode);
         routingTable.findShortestPath(nodeRoutingTable, currentNode);
+        
         return null;
 	}
 

@@ -10,7 +10,10 @@ public class Main {
         sensorSimulator.setQueryNodes();
         sensorSimulator.startSimulation(Constants.steps);
 
-        System.out.println("Simulation done, queries sent: " + Constants.queriesSent);
-        System.out.println("Queries replied: " + Constants.numberOfReplies.size());
+        System.out.println("Simulation done, queries sent: " 
+        								+ Constants.queriesSent);
+        
+        System.out.println("Queries replied: " 
+        								+ Constants.numberOfReplies.size());
     }
 }

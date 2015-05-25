@@ -1,8 +1,8 @@
 import java.util.HashMap;
 
 /**
- * @author Hugo Källström
  * Class handling constants.
+ * @author Hugo Källström
  */
 public class Constants {
     public static int nrOfNodes = 2500;
@@ -14,7 +14,8 @@ public class Constants {
     public static int timeToLiveQuery = 45;
     public static int nrOfQueryNodes = 4;
     public static int eventIdMax = 20000000;
-    public static HashMap<Integer, Integer> numberOfReplies = new HashMap<Integer, Integer>();
+    public static HashMap<Integer, Integer> numberOfReplies =
+    		new HashMap<Integer, Integer>();
     public static int queriesSent = 0;
 
 }
